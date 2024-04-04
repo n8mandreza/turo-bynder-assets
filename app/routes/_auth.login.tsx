@@ -13,7 +13,7 @@ export default function Login() {
         isClient && (
             <AuthProvider authConfig={authConfig}>
                 <div className="flex items-center justify-center w-screen h-screen">
-                    <button className="surface-01 border stroke-01 rounded-lg" onClick={() => login()}>Login</button>
+                    <button className="surface-01 border stroke-01 rounded-lg px-3 py-2" onClick={() => login()}>Login</button>
                 </div>
             </AuthProvider>
         )

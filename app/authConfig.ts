@@ -7,6 +7,7 @@ export const authConfig: TAuthConfig = {
     redirectUri: 'https://turo-bynder-assets.vercel.app/success/',
     scope: 'offline asset:read collection:read',
     state: 'state',
+    autoLogin: false,
     extraAuthParameters: {
       response_type: 'code'
     },

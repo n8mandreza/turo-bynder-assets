@@ -149,7 +149,6 @@ export default {
     }),
     extend: {},
   },
-  plugins: [],
-  darkMode: ['class', '.figma-dark']
+  plugins: []
 } satisfies Config
 
