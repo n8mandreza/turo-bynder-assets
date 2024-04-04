@@ -5,6 +5,7 @@ import Login from "~/components/Login";
 
 export default function LoginRoute() {
     const [isClient, setIsClient] = useState(false);
+    const { tokenData, token, login, logOut, idToken, error }: IAuthContext = useContext(AuthContext)
 
     // Set isClient to true when component mounts
     useEffect(() => setIsClient(true), []);
@@ -12,7 +13,7 @@ export default function LoginRoute() {
     return (
         isClient && (
             <AuthProvider authConfig={authConfig}>
-                <Login/>
+                <Login handleLogin={() => login('state')}/>
             </AuthProvider>
         )
     )
