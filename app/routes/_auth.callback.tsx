@@ -3,7 +3,7 @@ import { AuthContext, AuthProvider, IAuthContext } from "react-oauth2-code-pkce"
 import { authConfig } from "~/authConfig"
 import Login from "~/components/Login";
 
-export default function LoginRoute() {
+export default function CallbackRoute() {
     const [isClient, setIsClient] = useState(false);
 
     // Set isClient to true when component mounts

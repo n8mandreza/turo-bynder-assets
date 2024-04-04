@@ -4,9 +4,9 @@ export const authConfig: TAuthConfig = {
     clientId: 'caf02bf3-e0ce-4370-b9ff-81d538cabb32',
     authorizationEndpoint: 'https://assets.turo.com/v6/authentication/oauth2/auth',
     tokenEndpoint: 'https://assets.turo.com/v6/authentication/oauth2/token',
-    redirectUri: 'https://turo-bynder-assets.vercel.app/success/',
+    redirectUri: 'https://turo-bynder-assets.vercel.app/callback',
     scope: 'offline asset:read collection:read',
-    state: 'state',
+    // state: 'state', moved to login() call
     autoLogin: false,
     extraAuthParameters: {
       response_type: 'code'

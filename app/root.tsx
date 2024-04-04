@@ -53,9 +53,9 @@ export default function App() {
     window.addEventListener('message', handleAccessToken);
 
     // Navigate to _auth.login if accessToken is null
-    if (accessToken === null) {
-      navigate('/login')
-    }
+    // if (accessToken === null) {
+    //   navigate('/login')
+    // }
 
     return () => {
       window.removeEventListener('message', handleAccessToken)

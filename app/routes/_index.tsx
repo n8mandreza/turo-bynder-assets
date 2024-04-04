@@ -11,7 +11,7 @@ export const meta: MetaFunction = () => {
 export default function Index() {
 
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
+    <div className="w-screen h-screen flex justify-center items-center">
       <h1>Turo Bynder Figma Plugin</h1>
     </div>
   );
