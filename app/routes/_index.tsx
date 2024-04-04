@@ -12,7 +12,7 @@ export const meta: MetaFunction = () => {
 export default function Index() {
 
   return (
-    <div className="w-screen h-screen flex justify-center items-center">
+    <div className="w-screen h-screen flex flex-col gap-4 justify-center items-center">
       <h1>Turo Bynder Figma Plugin</h1>
       <Link to="/login">Go to log in</Link>
     </div>
