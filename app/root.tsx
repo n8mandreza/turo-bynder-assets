@@ -36,6 +36,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   const [accessToken, setAccessToken] = useState(null)
+  const [isClient, setIsClient] = useState(false);
   const navigate = useNavigate()
 
   const handleAccessToken = (event: MessageEvent) => {
@@ -61,7 +62,15 @@ export default function App() {
     }
   }, [accessToken])
 
+  useEffect(() => setIsClient(true), []);
+
   return (
-    <Outlet />
+    isClient ? (
+      <AuthProvider authConfig={authConfig}>
+        <Outlet />
+      </AuthProvider>
+    ) : (
+      <Outlet />
+    )
   )
 }
