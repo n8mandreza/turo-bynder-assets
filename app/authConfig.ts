@@ -12,7 +12,7 @@ export const authConfig: TAuthConfig = {
       response_type: 'code'
     },
     extraTokenParameters: {
-      clientSecret: '21b1f3b4-fa51-4fbf-8048-8545a0998d9f',
+      client_secret: '21b1f3b4-fa51-4fbf-8048-8545a0998d9f',
       grant_type: 'authorization_code'
     },
     onRefreshTokenExpire: (event: TRefreshTokenExpiredEvent) => window.confirm('Session expired. Refresh page to continue.') && event.login(),
