@@ -4,15 +4,28 @@ import { authConfig } from "~/authConfig"
 import Login from "~/components/Login";
 
 export default function CallbackRoute() {
+    const [authCode, setAuthCode] = useState('')
     const [isClient, setIsClient] = useState(false);
+    const { tokenData, token, login, logOut, idToken, error }: IAuthContext = useContext(AuthContext)
 
     // Set isClient to true when component mounts
     useEffect(() => setIsClient(true), []);
 
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search)
+        const paramValue = urlParams.get('code')
+        if (paramValue) {
+          setAuthCode(paramValue)
+        }
+      }, [authCode])
+
     return (
         isClient && (
             <AuthProvider authConfig={authConfig}>
-                <Login/>
+                <div>
+                    <h4>Authorization code:</h4>
+                    <code className="break-words max-w-prose">{authCode}</code>
+                </div>
             </AuthProvider>
         )
     )
