@@ -4,7 +4,17 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useNavigate
 } from "@remix-run/react";
+import type { LinksFunction } from "@remix-run/node";
+import stylesheet from "~/styles/tailwind.css?url";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext, AuthProvider, IAuthContext } from 'react-oauth2-code-pkce'
+import { authConfig } from "./authConfig";
+
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: stylesheet },
+];
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -15,7 +25,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg text font-sans">
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -25,5 +35,33 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  const [accessToken, setAccessToken] = useState(null)
+  const navigate = useNavigate()
+
+  const handleAccessToken = (event: MessageEvent) => {
+    if (event?.data?.pluginMessage?.message === 'GET_EXISTING_ACCESS_TOKEN') {
+      const token = event?.data?.pluginMessage?.accessToken;
+      // Check if that token works
+      // and save it to use with network requests
+      setAccessToken(token)
+      console.log(accessToken)
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('message', handleAccessToken);
+
+    // Navigate to _auth.login if accessToken is null
+    if (accessToken === null) {
+      navigate('/login')
+    }
+
+    return () => {
+      window.removeEventListener('message', handleAccessToken)
+    }
+  }, [accessToken])
+
+  return (
+    <Outlet />
+  )
 }
