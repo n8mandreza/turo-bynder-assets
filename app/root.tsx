@@ -54,7 +54,7 @@ export default function App() {
 
   // Navigate to _auth.login if accessToken is null
   useEffect(() => {
-    if (token === null || undefined || '') {
+    if (!token) {
       navigate('/login')
     }
   }, [])
