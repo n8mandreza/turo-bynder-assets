@@ -53,11 +53,11 @@ export default function App() {
   useEffect(() => setIsClient(true), []);
 
   // Navigate to _auth.login if accessToken is null
-  useEffect(() => {
-    if (!token) {
-      navigate('/login')
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (!token) {
+  //     navigate('/login')
+  //   }
+  // }, [])
 
   useEffect(() => {
     window.addEventListener('message', handleAccessToken);
