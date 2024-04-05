@@ -6,7 +6,7 @@ import Login from "~/components/Login";
 export default function CallbackRoute() {
     const [authCode, setAuthCode] = useState('')
     const [isClient, setIsClient] = useState(false);
-    const { tokenData, token, login, logOut, idToken, error }: IAuthContext = useContext(AuthContext)
+    const { tokenData, token, login, logOut, idToken, error, loginInProgress }: IAuthContext = useContext(AuthContext)
 
     // Set isClient to true when component mounts
     useEffect(() => setIsClient(true), []);
@@ -15,10 +15,12 @@ export default function CallbackRoute() {
         const urlParams = new URLSearchParams(window.location.search)
         const paramValue = urlParams.get('code')
         if (paramValue) {
-          setAuthCode(paramValue)
+            setAuthCode(paramValue)
         }
-      }, [authCode])
+    }, [authCode])
 
+    if (loginInProgress) return null
+    
     return (
         isClient && (
             <AuthProvider authConfig={authConfig}>
