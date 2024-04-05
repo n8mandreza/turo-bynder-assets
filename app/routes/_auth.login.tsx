@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react"
 import { AuthContext, AuthProvider, IAuthContext } from "react-oauth2-code-pkce"
 import { authConfig } from "~/authConfig"
 import Button from "~/components/Button";
-import Login from "~/components/Login";
 
 function LoginInfo() {
     const { tokenData, token, idTokenData, login, logOut, error, loginInProgress, idToken } = useContext(AuthContext)
