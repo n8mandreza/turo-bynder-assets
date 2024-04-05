@@ -2,6 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "react-oauth2-code-pkce";
+import Button from "~/components/Button";
 import TextInput from "~/components/TextInput";
 
 export const meta: MetaFunction = () => {
@@ -22,6 +23,7 @@ export default function Index() {
   const [isClient, setIsClient] = useState(false);
 
   const [query, setQuery] = useState('')
+  const [results, setResults] = useState(null)
   const [resultsPage, setResultsPage] = useState(1)
   const [resultsCount, setResultsCount] = useState(0)
 
@@ -30,8 +32,8 @@ export default function Index() {
     setQuery(event.currentTarget.value)
   }
 
-  async function fetchAssets(page: number) {
-    const assetsEndpoint = `https://assets.turo.com/api/v4/media?page=${page}&total=1`
+  async function fetchAssets(query: string, page: number) {
+    const assetsEndpoint = `https://assets.turo.com/api/v4/media?keyword=${query}&page=${page}&total=1`
 
     return await fetch(assetsEndpoint)
       .then(async (response) => {
@@ -49,12 +51,26 @@ export default function Index() {
       })
   }
 
+  function handleSearch(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    let newPage = 1
+    setResultsPage(newPage)
+    fetchAssets(query, newPage)
+      .then(results => {
+        setResults(results)
+      })
+  }
+
   return (
     <div className="w-screen h-screen flex flex-col gap-4 justify-center items-center">
       <h1>Turo Bynder Figma Plugin</h1>
       { token ? (
         <div className="flex flex-col gap-3 max-w-prose justify-start items-start">
-          <TextInput id="query" label="Search" showLabel={false} placeholder="Search" onInput={() => handleInputChange} />
+          <form className="flex gap-3" onSubmit={handleSearch}>
+            <TextInput id="query" label="Search" showLabel={false} placeholder="Search" onInput={() => handleInputChange} />
+            
+            <Button label="Search" size="compact" isFormSubmit={true} />
+          </form>
           <p>{resultsCount} results</p>
         </div>
       ) : (
