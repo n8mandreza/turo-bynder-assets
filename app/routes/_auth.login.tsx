@@ -26,9 +26,16 @@ function LoginInfo() {
                             {JSON.stringify(tokenData, null, 2)}
                         </code>
                     </div>
+
+                    <div className="flex flex-col gap-3">
+                        <h4>Login information from ID Token</h4>
+                        <code className="break-words max-w-prose">
+                            {JSON.stringify(idTokenData, null, 2)}
+                        </code>
+                    </div>
                 </div>
             ) : (
-                <div className="fled flex-col gap-4">
+                <div className="fled flex-col gap-4 items-center">
                     <p>You are not logged in</p>
                     <button className="surface-01 border stroke-01 rounded-lg px-3 py-2" onClick={() => login('state')}>Login</button>
                 </div>
