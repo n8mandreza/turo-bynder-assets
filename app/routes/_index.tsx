@@ -33,7 +33,7 @@ export default function Index() {
   }
 
   async function fetchAssets(query: string, page: number) {
-    const assetsEndpoint = `https://assets.turo.com/api/v4/media?keyword=${query}&page=${page}&total=1`
+    const assetsEndpoint = `https://assets.turo.com/api/v4/media/?keyword=${query}&page=${page}&total=1`
 
     return await fetch(assetsEndpoint)
       .then(async (response) => {
