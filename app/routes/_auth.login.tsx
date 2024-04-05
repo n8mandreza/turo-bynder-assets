@@ -20,14 +20,12 @@ function LoginInfo() {
                         <code className="break-words max-w-prose">{token}</code>
                     </div>
 
-                    {authConfig.decodeToken && (
-                        <div className="flex flex-col gap-3">
-                            <h4>Login information from Access Token</h4>
-                            <code className="break-words max-w-prose">
-                                {JSON.stringify(tokenData, null, 2)}
-                            </code>
-                        </div>
-                    )}
+                    <div className="flex flex-col gap-3">
+                        <h4>Login information from Access Token</h4>
+                        <code className="break-words max-w-prose">
+                            {JSON.stringify(tokenData, null, 2)}
+                        </code>
+                    </div>
                 </div>
             ) : (
                 <div className="fled flex-col gap-4">
