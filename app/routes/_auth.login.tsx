@@ -35,7 +35,7 @@ function LoginInfo() {
                     </div>
                 </div>
             ) : (
-                <div className="fled flex-col gap-4 items-center">
+                <div className="flex flex-col gap-4 items-center">
                     <p>You are not logged in</p>
                     <Button label="Log in to Bynder" onClick={() => login('state')}/>
                 </div>
