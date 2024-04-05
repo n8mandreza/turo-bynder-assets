@@ -30,6 +30,7 @@ export default function Index() {
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault()
     setQuery(event.currentTarget.value)
+    console.log(query)
   }
 
   async function fetchAssets(query: string, page: number) {
