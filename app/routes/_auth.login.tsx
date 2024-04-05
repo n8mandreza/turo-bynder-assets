@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { AuthContext, AuthProvider, IAuthContext } from "react-oauth2-code-pkce"
 import { authConfig } from "~/authConfig"
+import Button from "~/components/Button";
 import Login from "~/components/Login";
 
 function LoginInfo() {
@@ -37,7 +38,7 @@ function LoginInfo() {
             ) : (
                 <div className="fled flex-col gap-4 items-center">
                     <p>You are not logged in</p>
-                    <button className="surface-01 border stroke-01 rounded-lg px-3 py-2" onClick={() => login('state')}>Login</button>
+                    <Button label="Log in to Bynder" onClick={() => login('state')}/>
                 </div>
             )}
         </>
