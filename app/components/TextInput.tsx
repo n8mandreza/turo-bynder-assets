@@ -3,7 +3,7 @@ interface TextInputProps {
     label: string
     showLabel?: boolean
     placeholder?: string
-    onInput?: () => void
+    onInput?: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export default function TextInput({id, label, showLabel, placeholder, onInput}: TextInputProps) {

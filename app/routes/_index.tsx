@@ -68,7 +68,7 @@ export default function Index() {
       { token ? (
         <div className="flex flex-col gap-3 max-w-prose justify-start items-start">
           <form className="flex gap-3" onSubmit={handleSearch}>
-            <TextInput id="query" label="Search" showLabel={false} placeholder="Search" onInput={() => handleInputChange} />
+            <TextInput id="query" label="Search" showLabel={false} placeholder="Search" onInput={handleInputChange} />
             
             <Button label="Search" size="compact" isFormSubmit={true} />
           </form>
