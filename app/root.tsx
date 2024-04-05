@@ -35,7 +35,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const [accessToken, setAccessToken] = useState(null)
+  const { token } = useContext(AuthContext)
   const [isClient, setIsClient] = useState(false);
   const navigate = useNavigate()
 
@@ -44,25 +44,26 @@ export default function App() {
       const token = event?.data?.pluginMessage?.accessToken;
       // Check if that token works
       // and save it to use with network requests
-      setAccessToken(token)
-      console.log(accessToken)
+      console.log(token)
     }
   };
+
+  // Set isClient to true when component mounts
+  // Ensures access to localStorage
+  useEffect(() => setIsClient(true), []);
 
   useEffect(() => {
     window.addEventListener('message', handleAccessToken);
 
     // Navigate to _auth.login if accessToken is null
-    // if (accessToken === null) {
-    //   navigate('/login')
-    // }
+    if (token === null) {
+      navigate('/login')
+    }
 
     return () => {
       window.removeEventListener('message', handleAccessToken)
     }
-  }, [accessToken])
-
-  useEffect(() => setIsClient(true), []);
+  }, [token])
 
   return (
     isClient ? (
