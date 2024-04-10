@@ -39,7 +39,7 @@ function LoginInfo() {
             ) : (
                 <div className="flex flex-col gap-4 items-center">
                     <p>You are not logged in</p>
-                    <Button label="Log in to Bynder" onClick={() => window.open(authConfig.authorizationEndpoint, '_blank')}/>
+                    <Button label="Log in to Bynder" onClick={() => window.open(authorizationEndpoint, '_blank')}/>
                 </div>
             )}
         </>
