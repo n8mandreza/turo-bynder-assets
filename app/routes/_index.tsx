@@ -75,7 +75,12 @@ export default function Index() {
           <p>{resultsCount} results</p>
         </div>
       ) : (
-        <h4>You are not logged in</h4>
+        <div className="flex flex-col gap-3">
+          <h4>You are not logged in</h4>
+          <Link to="/login">
+            <span className="hover:opacity-60">Go to login</span>
+          </Link>
+        </div>
       )}
     </div>
   );
