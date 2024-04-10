@@ -70,7 +70,28 @@ export default function CallbackRoute() {
 
     return (
         isClient && (
-            <div>Callback</div>
+            <div className="flex flex-col gap-4 bg-subtle rounded-xl p-4">
+            {/* <p className="w-full">
+              You have successfully logged into Bynder.
+            </p> */}
+    
+            {refreshToken ? (
+              <>
+                <h4>Refresh token</h4>
+                <code className="break-words max-w-prose">{refreshToken}</code>
+              </>
+            ) : (
+              <>
+                <h4>Authorization code</h4>
+                <code className="break-words max-w-prose">{authCode}</code>
+              </>
+            )}
+    
+            <h4>Token data from JWT</h4>
+            <code className="break-words max-w-prose">{JSON.stringify(tokenData, null, 2)}</code>
+    
+            {/* <p>You may now close this browser window and return to Figma.</p> */}
+          </div>
         )
     )
 }
