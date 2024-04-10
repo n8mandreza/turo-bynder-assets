@@ -6,7 +6,7 @@ export const authConfig: TAuthConfig = {
     tokenEndpoint: 'https://assets.turo.com/v6/authentication/oauth2/token',
     redirectUri: 'https://turo-bynder-assets.vercel.app/login',
     scope: 'offline asset:read collection:read',
-    // state: 'state', moved to login() call
+    state: 'state',
     autoLogin: false,
     clearURL: false,
     extraAuthParameters: {
