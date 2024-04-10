@@ -23,17 +23,17 @@ export default function CallbackRoute() {
             // Perform POST request to the API token endpoint here
             const requestParams = new URLSearchParams();
             requestParams.append('client_id', authConfig.clientId);
-            requestParams.append('client_secret', String(authConfig.extraTokenParameters?.clientSecret) || '');
+            requestParams.append('client_secret', String(authConfig.extraTokenParameters?.client_secret) || '');
             requestParams.append('redirect_uri', authConfig.redirectUri);
             if (refreshToken) {
-            requestParams.append('grant_type', 'refresh_token');
-            requestParams.append('refresh_token', refreshToken)
+                requestParams.append('grant_type', 'refresh_token');
+                requestParams.append('refresh_token', refreshToken)
             } else {
-            requestParams.append('grant_type', 'authorization_code');
-            requestParams.append('code', urlCode);
+                requestParams.append('grant_type', String(authConfig.extraTokenParameters?.grant_type));
+                requestParams.append('code', urlCode);
             }
             if (authConfig.scope) {
-            requestParams.append('scope', authConfig.scope);
+                requestParams.append('scope', authConfig.scope);
             }
     
             fetch(authConfig.tokenEndpoint, {
