@@ -29,12 +29,14 @@ export default function CallbackRoute() {
                 requestParams.append('grant_type', 'refresh_token');
                 requestParams.append('refresh_token', refreshToken)
             } else {
-                requestParams.append('grant_type', String(authConfig.extraTokenParameters?.grant_type));
+                requestParams.append('grant_type', 'authorization_code');
                 requestParams.append('code', urlCode);
             }
             if (authConfig.scope) {
                 requestParams.append('scope', authConfig.scope);
             }
+
+            console.log(requestParams.toString())
     
             fetch(authConfig.tokenEndpoint, {
             method: 'POST',

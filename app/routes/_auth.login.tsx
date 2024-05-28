@@ -4,7 +4,7 @@ import { authConfig } from "~/authConfig"
 import Button from "~/components/Button";
 
 function LoginInfo() {
-    const { tokenData, token, idTokenData, login, logOut, error, loginInProgress, idToken } = useContext(AuthContext)
+    const { tokenData, token, idTokenData, error, loginInProgress } = useContext(AuthContext)
 
     const authorizationEndpoint = `${authConfig.authorizationEndpoint}?client_id=${authConfig.clientId}&scope=${authConfig.scope}&redirect_uri=${authConfig.redirectUri}&response_type=code&state=${authConfig.state}`
 
