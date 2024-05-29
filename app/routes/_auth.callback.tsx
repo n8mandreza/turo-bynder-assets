@@ -17,7 +17,7 @@ export default function CallbackRoute() {
     const urlParams = new URLSearchParams(window.location.search)
     const urlCode = urlParams.get('code')
 
-    if (urlCode && !authCode && isClient) {
+    if (urlCode && !authCode) {
       setAuthCode(urlCode)
 
       // Perform POST request to the API token endpoint here
