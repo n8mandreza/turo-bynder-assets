@@ -15,10 +15,10 @@ export default function CallbackRoute() {
   } = useAuthData();
 
   // Function to handle access token when received
-  const handleAccessToken = (accessTokenData: string | null) => {
+  const handleAccessToken = (accessTokenData: string | null, refreshTokenData: string | null) => {
     // Separate the access & refresh tokens here if needed
     const accessToken = accessTokenData ?? ''
-    const refreshToken = ''
+    const refreshToken = refreshTokenData ?? ''
     // Save token data to context
     setAccessToken(accessToken);
     setRefreshToken(refreshToken);
@@ -28,6 +28,8 @@ export default function CallbackRoute() {
     const urlParams = new URLSearchParams(window.location.search)
     const urlCode = urlParams.get('code')
 
+    // Check if there's a code in the URL and if authCode is empty 
+    // before setting the value & requesting the accessToken
     if (urlCode && !authCode) {
       setAuthCode(urlCode)
 
@@ -60,13 +62,13 @@ export default function CallbackRoute() {
       .then(data => {
           // Handle the response data (save to AuthContext)
           console.log('Token response:', data);
-          handleAccessToken(data);
+          handleAccessToken(data.accessToken, data.refreshToken);
           // Send access token to the plugin
           window.parent.postMessage(
           {
               pluginMessage: {
                 message: 'SAVE_ACCESS_TOKEN',
-                accessToken,
+                accessToken: data.accessToken,
               },
           }, '*');
       })
@@ -75,7 +77,7 @@ export default function CallbackRoute() {
           console.error('Error:', error);
       });
     }
-  }, [authCode, refreshToken])
+  }, [authCode, refreshToken, setAccessToken, setRefreshToken])
 
   return (
     <div className="flex flex-col gap-4 bg-subtle rounded-xl p-4">
