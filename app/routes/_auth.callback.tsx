@@ -1,10 +1,9 @@
-import { createContext, useContext, useEffect, useState } from "react"
-import AuthContext, { useAuthData } from "~/AuthContext";
+import { useEffect, useState } from "react"
+import { useAuthData } from "~/AuthContext";
 import { authConfig } from "~/authConfig"
 import Button from "~/components/Button";
 
 export default function CallbackRoute() {
-  const [isClient, setIsClient] = useState<boolean>(false);
   const [authCode, setAuthCode] = useState<string>('')
 
   // Retrieve data from context and setters to manage authentication data
@@ -14,9 +13,6 @@ export default function CallbackRoute() {
     refreshToken, 
     setRefreshToken 
   } = useAuthData();
-
-  // Set isClient to true when component mounts
-  useEffect(() => setIsClient(true), []);
 
   // Function to handle access token when received
   const handleAccessToken = (accessTokenData: string | null) => {
@@ -82,29 +78,27 @@ export default function CallbackRoute() {
   }, [authCode, refreshToken])
 
   return (
-    isClient && (
-      <div className="flex flex-col gap-4 bg-subtle rounded-xl p-4">
-        <p className="w-full text-center">
-          You have successfully logged into Bynder.
-        </p>
+    <div className="flex flex-col gap-4 bg-subtle rounded-xl p-4">
+      <p className="w-full text-center">
+        You have successfully logged into Bynder.
+      </p>
 
-        {refreshToken ? (
-          <>
-            <h4>Refresh token</h4>
-            <code className="break-words max-w-prose">{refreshToken}</code>
-          </>
-        ) : (
-          <>
-            <h4>Authorization code</h4>
-            <code className="break-words max-w-prose">{authCode}</code>
-          </>
-        )}
+      {refreshToken ? (
+        <>
+          <h4>Refresh token</h4>
+          <code className="break-words max-w-prose">{refreshToken}</code>
+        </>
+      ) : (
+        <>
+          <h4>Authorization code</h4>
+          <code className="break-words max-w-prose">{authCode}</code>
+        </>
+      )}
 
-        <h4>Token data from JWT</h4>
-        <code className="break-words max-w-prose">{JSON.stringify(accessToken, null, 2)}</code>
+      <h4>Token data from JWT</h4>
+      <code className="break-words max-w-prose">{JSON.stringify(accessToken, null, 2)}</code>
 
-        <p className="w-full text-center">You may now close this browser window and return to Figma.</p>
-      </div>
-    )
+      <p className="w-full text-center">You may now close this browser window and return to Figma.</p>
+    </div>
   )
 }
