@@ -16,6 +16,7 @@ export default function LoginRoute() {
     // Redirect to the root once accessToken is available
     useEffect(() => {
         if (accessToken) {
+            console.log('Login route', accessToken)
             navigate("/")
         }
     }, [accessToken, navigate])
