@@ -83,10 +83,10 @@ export default function CallbackRoute() {
         You have successfully logged into Bynder.
       </p>
 
-      {refreshToken ? (
+      {accessToken ? (
         <>
-          <h4>Refresh token</h4>
-          <code className="break-words max-w-prose">{refreshToken}</code>
+          <h4>Access token</h4>
+          <code className="break-words max-w-prose">{JSON.stringify(accessToken, null, 2)}</code>
         </>
       ) : (
         <>
@@ -95,8 +95,12 @@ export default function CallbackRoute() {
         </>
       )}
 
-      <h4>Token data from JWT</h4>
-      <code className="break-words max-w-prose">{JSON.stringify(accessToken, null, 2)}</code>
+      {refreshToken ? (
+        <>
+          <h4>Refresh token</h4>
+          <code className="break-words max-w-prose">{refreshToken}</code>
+        </>
+      ) : null}
 
       <p className="w-full text-center">You may now close this browser window and return to Figma.</p>
     </div>
