@@ -19,7 +19,7 @@ export default function CollectionsRoute() {
       return await fetch(collectionsEndpoint)
         .then(async (response) => {
           const results = await response.json();
-          console.log(results); // Remove later
+          // console.log(results);
           setCollectionsCount(results.count);
           
           return results.map((result: ICollection) => {

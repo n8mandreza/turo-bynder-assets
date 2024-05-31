@@ -1,7 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "react-oauth2-code-pkce";
+import { useAuthData } from "~/AuthContext";
 import Button from "~/components/Button";
 import TextInput from "~/components/TextInput";
 
@@ -12,14 +12,14 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-interface IAsset {
+interface AssetType {
   name: string
   id: string
   thumbnails: any
 }
 
 export default function Index() {
-  const { token, tokenData } = useContext(AuthContext)
+  const {accessToken, refreshToken} = useAuthData();
   const [isClient, setIsClient] = useState(false);
 
   const [query, setQuery] = useState('')
@@ -38,10 +38,10 @@ export default function Index() {
     return await fetch(assetsEndpoint)
       .then(async (response) => {
         const results = await response.json();
-        console.log(results); // Remove later
+        // console.log(results);
         setResultsCount(results.total.count);
         
-        return results.media.map((result: IAsset) => {
+        return results.media.map((result: AssetType) => {
           return {
             name: result.name,
             id: result.id,
@@ -58,14 +58,14 @@ export default function Index() {
     fetchAssets(query, newPage)
       .then(results => {
         setResults(results)
-        console.log(query)
+        // console.log(query)
       })
   }
 
   return (
     <div className="w-screen h-screen flex flex-col gap-4 justify-center items-center">
       <h1>Turo Bynder Figma Plugin</h1>
-      { token ? (
+      { accessToken ? (
         <div className="flex flex-col gap-3 max-w-prose justify-start items-start">
           <form className="flex gap-3" onSubmit={handleSearch}>
             <TextInput id="query" label="Search" showLabel={false} placeholder="Search" onInput={handleInputChange} />
@@ -75,7 +75,7 @@ export default function Index() {
           <p>{resultsCount} results</p>
         </div>
       ) : (
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 items-center">
           <h4>You are not logged in</h4>
           <Link to="/login">
             <span className="hover:opacity-60">Go to login</span>
