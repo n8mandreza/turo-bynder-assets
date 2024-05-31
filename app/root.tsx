@@ -9,8 +9,8 @@ import {
 import type { LinksFunction } from "@remix-run/node";
 import stylesheet from "~/styles/tailwind.css?url";
 import { useContext, useEffect, useState } from "react";
-import { AuthContext, AuthProvider } from 'react-oauth2-code-pkce'
 import { authConfig } from "./authConfig";
+import AuthContext, { useAuthData } from "./AuthContext";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
@@ -35,9 +35,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const { token } = useContext(AuthContext)
+  const { 
+    accessToken, 
+    setAccessToken, 
+    refreshToken, 
+    setRefreshToken 
+  } = useAuthData();
   const [isClient, setIsClient] = useState(false);
   const navigate = useNavigate()
+
+  // Function to ensure type safety between handleAccessToken & setAccessToken
+  const saveAccessToken = (token: string | null) => {
+    setAccessToken(token);
+  };
 
   const handleAccessToken = (event: MessageEvent) => {
     if (event?.data?.pluginMessage?.message === 'GET_EXISTING_ACCESS_TOKEN') {
@@ -45,6 +55,7 @@ export default function App() {
       // Check if that token works
       // and save it to use with network requests
       console.log(accessToken)
+      saveAccessToken(accessToken);
     }
   };
 
@@ -69,9 +80,16 @@ export default function App() {
 
   return (
     isClient ? (
-      <AuthProvider authConfig={authConfig}>
+      <AuthContext.Provider
+        value={{
+          accessToken,
+          refreshToken,
+          setAccessToken: saveAccessToken,
+          setRefreshToken,
+        }}
+      >
         <Outlet />
-      </AuthProvider>
+      </AuthContext.Provider>
     ) : (
       <Outlet />
     )
