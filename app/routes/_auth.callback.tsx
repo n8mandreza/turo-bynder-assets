@@ -49,14 +49,14 @@ export default function CallbackRoute() {
         requestParams.append('scope', authConfig.scope);
       }
 
-      console.log('Request parameters to string:', requestParams.toString())
+      // console.log('Request parameters to string:', requestParams.toString())
 
       fetch(authConfig.tokenEndpoint, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: requestParams.toString(),
+        body: requestParams.toString(),
       })
       .then(response => response.json())
       .then(data => {
@@ -81,14 +81,13 @@ export default function CallbackRoute() {
 
   return (
     <div className="flex flex-col gap-4 bg-subtle rounded-xl p-4">
-      <p className="w-full text-center">
-        You have successfully logged into Bynder.
-      </p>
-
-      {accessToken ? (
+      {accessToken && accessToken !== '' ? (
         <>
           <h4>Access token</h4>
           <code className="break-words max-w-prose">{JSON.stringify(accessToken, null, 2)}</code>
+
+          <h4>Refresh token</h4>
+          <code className="break-words max-w-prose">{refreshToken}</code>
         </>
       ) : (
         <>
@@ -96,15 +95,6 @@ export default function CallbackRoute() {
           <code className="break-words max-w-prose">{authCode}</code>
         </>
       )}
-
-      {refreshToken ? (
-        <>
-          <h4>Refresh token</h4>
-          <code className="break-words max-w-prose">{refreshToken}</code>
-        </>
-      ) : null}
-
-      <p className="w-full text-center">You may now close this browser window and return to Figma.</p>
     </div>
   )
 }
