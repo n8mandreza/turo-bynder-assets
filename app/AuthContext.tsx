@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 
 // Define the type for the authentication context
 interface AuthContextType {
@@ -15,6 +15,17 @@ const AuthContext = createContext<AuthContextType>({
   setAccessToken: () => {},
   setRefreshToken: () => {},
 });
+
+// Update AuthProvider to correctly type its props
+interface AuthProviderProps {
+  children: React.ReactNode;
+  value: AuthContextType;  // The expected structure for `value`
+}
+
+// AuthProvider component
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children, value }) => {
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
 
 export function useAuthData() {
   return useContext(AuthContext);

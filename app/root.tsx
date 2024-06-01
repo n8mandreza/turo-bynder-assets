@@ -9,8 +9,7 @@ import {
 import type { LinksFunction } from "@remix-run/node";
 import stylesheet from "~/styles/tailwind.css?url";
 import { useContext, useEffect, useState } from "react";
-import { authConfig } from "./authConfig";
-import AuthContext, { useAuthData } from "./AuthContext";
+import AuthContext, { AuthProvider, useAuthData } from "./AuthContext";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
@@ -80,7 +79,7 @@ export default function App() {
 
   return (
     isClient ? (
-      <AuthContext.Provider
+      <AuthProvider
         value={{
           accessToken,
           refreshToken,
@@ -89,7 +88,7 @@ export default function App() {
         }}
       >
         <Outlet />
-      </AuthContext.Provider>
+      </AuthProvider>
     ) : (
       <Outlet />
     )
