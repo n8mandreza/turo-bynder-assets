@@ -42,8 +42,6 @@ export default function App() {
   } = useAuthData();
   const navigate = useNavigate()
   const [isClient, setIsClient] = useState(false);
-  // WebSocket as a ref
-  const webSocketRef = useRef<WebSocket | null>(null);
 
   // On load, check if there's an existing access token
   const checkAccessToken = (event: MessageEvent) => {
@@ -56,16 +54,6 @@ export default function App() {
     }
   }
 
-  // Function to save token data to context when received
-  const handleTokenData = (accessTokenData: string | null, refreshTokenData: string | null) => {
-    // Separate the access & refresh tokens here if needed
-    const accessToken = accessTokenData ?? ''
-    const refreshToken = refreshTokenData ?? ''
-    // Save token data to context
-    saveAccessToken(accessToken);
-    saveRefreshToken(refreshToken);
-  };
-
   useEffect(() => {
     window.addEventListener('message', checkAccessToken);
 
@@ -75,38 +63,7 @@ export default function App() {
   }, [])
 
   // Set client status on mount
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
-  // Get data from WebSocket
-  useEffect(() => {
-    // Only set up WebSocket when the client is ready
-    if (!isClient) return;
-
-    // Create a WebSocket connection
-    const webSocket = new WebSocket('wss://turo-bynder-deno-websocket.deno.dev')
-    webSocketRef.current = webSocket
-
-    // Save token data from WebSocket message to app context
-    webSocket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      console.log('Token data via WebSocket', data)
-
-      if (data.message === 'SAVE_ACCESS_TOKEN') {
-        const { accessToken, refreshToken } = data
-
-        console.log('Sending access token to context', accessToken)
-        handleTokenData(accessToken, refreshToken)
-      }
-    }
-
-    // Cleanup function to close WebSocket on component unmount or reconfiguration
-    return () => {
-      console.log("Closing WebSocket connection");
-      webSocket.close();
-    };
-  }, [isClient, saveAccessToken, saveRefreshToken])
+  useEffect(() => {setIsClient(true)}, [])
 
   // Navigate to _auth.login if accessToken is null
   // useEffect(() => {

@@ -5,26 +5,14 @@ import Button from "~/components/Button";
 
 export default function CallbackRoute() {
   // Retrieve data from context and setters to manage authentication data
-  const { 
-    accessToken, 
-    saveAccessToken, 
-    refreshToken,
-    saveRefreshToken 
+  const {
+    accessToken,
+    refreshToken
   } = useAuthData();
   const [authCode, setAuthCode] = useState<string>('')
-  
+
   // Establish WebSocket connection
   const webSocket = new WebSocket('wss://turo-bynder-deno-websocket.deno.dev');
-
-  // Function to save token data to context when received
-  // const handleAccessToken = (accessTokenData: string | null, refreshTokenData: string | null) => {
-  //   // Separate the access & refresh tokens here if needed
-  //   const accessToken = accessTokenData ?? ''
-  //   const refreshToken = refreshTokenData ?? ''
-  //   // Save token data to context
-  //   saveAccessToken(accessToken);
-  //   saveRefreshToken(refreshToken);
-  // };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
@@ -35,7 +23,7 @@ export default function CallbackRoute() {
     if (urlCode && !authCode) {
       setAuthCode(urlCode)
 
-      // Perform POST request to the API token endpoint here
+      // Assemble the API token endpoint URL
       const requestParams = new URLSearchParams();
       requestParams.append('client_id', authConfig.clientId);
       requestParams.append('client_secret', String(authConfig.extraTokenParameters?.client_secret) || '');
@@ -46,31 +34,29 @@ export default function CallbackRoute() {
         requestParams.append('scope', authConfig.scope);
       }
 
+      // Perform POST request to the API token endpoint here
       fetch(authConfig.tokenEndpoint, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-      },
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
         body: requestParams.toString(),
       })
-      .then(response => response.json())
-      .then(data => {
+        .then(response => response.json())
+        .then(data => {
           console.log('Token response from Bynder:', data);
 
-          // Handle the response data (save to AuthContext)
-          // handleAccessToken(data.access_token, data.refresh_token);
-          
           // Send access token to the plugin via WebSocket
           webSocket.send(JSON.stringify({
             message: 'SAVE_ACCESS_TOKEN',
             accessToken: data.access_token,
             refreshToken: data.refresh_token
           }));
-      })
-      .catch(error => {
+        })
+        .catch(error => {
           // Handle any errors
           console.error('Error:', error);
-      });
+        });
     }
   }, [authCode])
 
