@@ -62,7 +62,7 @@ export default function CallbackRoute() {
       .then(response => response.json())
       .then(data => {
           // Handle the response data (save to AuthContext)
-          console.log('Token response:', data);
+          console.log('Token response from Bynder:', data);
           handleAccessToken(data.access_token, data.refresh_token);
           // Send access token to the plugin via WebSocket
           webSocket.send(JSON.stringify({

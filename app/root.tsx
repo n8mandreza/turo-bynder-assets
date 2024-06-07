@@ -49,7 +49,7 @@ export default function App() {
       const accessToken = event.data.pluginMessage.accessToken
       // Check if that token works
       // and save it to use with network requests
-      console.log(accessToken)
+      console.log('Existing access token', accessToken)
       setAccessToken(accessToken)
     }
   }
@@ -80,7 +80,7 @@ export default function App() {
   //   if (!accessToken) {
   //     navigate('/login')
   //   }
-  // }, [])
+  // }, [accessToken])
 
   useEffect(() => {
     window.addEventListener('message', handleAccessToken);

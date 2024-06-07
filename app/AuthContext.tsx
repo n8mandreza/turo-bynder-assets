@@ -24,6 +24,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Function to update access token in context
   const saveAccessToken = (token: string | null) => {
     if (typeof token === 'string' && token) {
+      console.log('Saving access token', token)
       setAccessToken(token);
     } else {
       console.log('Invalid access token:', token);
