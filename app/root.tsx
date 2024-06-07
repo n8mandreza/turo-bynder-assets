@@ -43,15 +43,6 @@ export default function App() {
   const [isClient, setIsClient] = useState(false);
   const navigate = useNavigate()
 
-  // Functions to ensure type safety between handleAccessToken & setAccessToken
-  const saveAccessToken = (token: string | null) => {
-    setAccessToken(token)
-  }
-
-  const saveRefreshToken = (token: string | null) => {
-    setRefreshToken(token)
-  }
-
   // On load, check if there's an existing access token
   const handleAccessToken = (event: MessageEvent) => {
     if (event?.data?.pluginMessage?.message === 'GET_EXISTING_ACCESS_TOKEN') {
@@ -59,12 +50,11 @@ export default function App() {
       // Check if that token works
       // and save it to use with network requests
       console.log(accessToken)
-      saveAccessToken(accessToken)
+      setAccessToken(accessToken)
     }
   }
 
   // Set isClient to true when component mounts
-  // Ensures access to localStorage
   useEffect(() => {
     setIsClient(true)
 
@@ -79,8 +69,8 @@ export default function App() {
         // Handle the SAVE_ACCESS_TOKEN message
         const accessToken = data.accessToken
         const refreshToken = data.refreshToken
-        saveAccessToken(accessToken)
-        saveRefreshToken(refreshToken)
+        setAccessToken(accessToken)
+        setRefreshToken(refreshToken)
       }
     }
   }, [])

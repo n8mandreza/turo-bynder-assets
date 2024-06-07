@@ -46,12 +46,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       parent.postMessage({
         pluginMessage: {
           message: 'SAVE_ACCESS_TOKEN', 
-          accessToken: accessToken,
-          refreshToken: refreshToken
+          accessToken: accessToken
         }
       }, '*');
     }
-  }, [accessToken, refreshToken]);  // Include refreshToken if needed
+  }, [accessToken]);  // Include refreshToken if needed
 
   return (
     <AuthContext.Provider value={{
