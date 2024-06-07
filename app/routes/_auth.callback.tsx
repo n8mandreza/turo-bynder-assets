@@ -17,7 +17,7 @@ export default function CallbackRoute() {
     setRefreshToken 
   } = useAuthData();
 
-  // Function to handle access token when received
+  // Function to save token data to context when received
   const handleAccessToken = (accessTokenData: string | null, refreshTokenData: string | null) => {
     // Separate the access & refresh tokens here if needed
     const accessToken = accessTokenData ?? ''
@@ -41,13 +41,8 @@ export default function CallbackRoute() {
       requestParams.append('client_id', authConfig.clientId);
       requestParams.append('client_secret', String(authConfig.extraTokenParameters?.client_secret) || '');
       requestParams.append('redirect_uri', authConfig.redirectUri);
-      if (refreshToken) {
-        requestParams.append('grant_type', 'refresh_token');
-        requestParams.append('refresh_token', refreshToken)
-      } else {
-        requestParams.append('grant_type', 'authorization_code');
-        requestParams.append('code', urlCode);
-      }
+      requestParams.append('grant_type', 'authorization_code');
+      requestParams.append('code', urlCode);
       if (authConfig.scope) {
         requestParams.append('scope', authConfig.scope);
       }
@@ -61,9 +56,11 @@ export default function CallbackRoute() {
       })
       .then(response => response.json())
       .then(data => {
-          // Handle the response data (save to AuthContext)
           console.log('Token response from Bynder:', data);
+
+          // Handle the response data (save to AuthContext)
           handleAccessToken(data.access_token, data.refresh_token);
+          
           // Send access token to the plugin via WebSocket
           webSocket.send(JSON.stringify({
             message: 'SAVE_ACCESS_TOKEN',

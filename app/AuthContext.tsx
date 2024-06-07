@@ -43,6 +43,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     console.log("Access Token updated in context:", accessToken);
 
+    // If accessToken isn't null, send it to the plugin entrypoint
     if (accessToken) {
       parent.postMessage({
         pluginMessage: {

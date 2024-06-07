@@ -38,7 +38,7 @@ export default function App() {
     accessToken, 
     setAccessToken, 
     refreshToken, 
-    setRefreshToken 
+    setRefreshToken
   } = useAuthData();
   const [isClient, setIsClient] = useState(false);
   const navigate = useNavigate()
@@ -69,6 +69,8 @@ export default function App() {
         // Handle the SAVE_ACCESS_TOKEN message
         const accessToken = data.accessToken
         const refreshToken = data.refreshToken
+
+        console.log('Sending access token to context', accessToken)
         setAccessToken(accessToken)
         setRefreshToken(refreshToken)
       }
