@@ -8,7 +8,7 @@ import {
 } from "@remix-run/react"
 import type { LinksFunction } from "@remix-run/node"
 import stylesheet from "~/styles/tailwind.css?url"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import AuthContext, { AuthProvider, useAuthData } from "./AuthContext"
 
 export const links: LinksFunction = () => [
@@ -40,8 +40,9 @@ export default function App() {
     refreshToken, 
     setRefreshToken
   } = useAuthData();
-  const [isClient, setIsClient] = useState(false);
   const navigate = useNavigate()
+  const [isClient, setIsClient] = useState(false);
+  const webSocketRef = useRef<WebSocket | null>(null);
 
   // On load, check if there's an existing access token
   const handleAccessToken = (event: MessageEvent) => {
@@ -54,36 +55,6 @@ export default function App() {
     }
   }
 
-  // Set isClient to true when component mounts
-  useEffect(() => {
-    setIsClient(true)
-
-    // Create a WebSocket connection
-    const webSocket = new WebSocket('wss://turo-bynder-deno-websocket.deno.dev')
-
-    // Save token data from WebSocket message to app context
-    webSocket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      console.log('Token data via WebSocket', data)
-      if (data.message === 'SAVE_ACCESS_TOKEN') {
-        // Handle the SAVE_ACCESS_TOKEN message
-        const accessToken = data.accessToken
-        const refreshToken = data.refreshToken
-
-        console.log('Sending access token to context', accessToken)
-        setAccessToken(accessToken)
-        setRefreshToken(refreshToken)
-      }
-    }
-  }, [])
-
-  // Navigate to _auth.login if accessToken is null
-  // useEffect(() => {
-  //   if (!accessToken) {
-  //     navigate('/login')
-  //   }
-  // }, [accessToken])
-
   useEffect(() => {
     window.addEventListener('message', handleAccessToken);
 
@@ -91,6 +62,48 @@ export default function App() {
       window.removeEventListener('message', handleAccessToken)
     }
   }, [])
+
+  // Set client status on mount
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  // Set isClient to true when component mounts
+  useEffect(() => {
+    // Only set up WebSocket when the client is ready
+    if (!isClient) return;
+
+    // Create a WebSocket connection
+    const webSocket = new WebSocket('wss://turo-bynder-deno-websocket.deno.dev')
+    webSocketRef.current = webSocket
+
+    // Save token data from WebSocket message to app context
+    webSocket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      console.log('Token data via WebSocket', data)
+
+      if (data.message === 'SAVE_ACCESS_TOKEN') {
+        const { accessToken, refreshToken } = data
+
+        console.log('Sending access token to context', accessToken)
+        setAccessToken(accessToken)
+        setRefreshToken(refreshToken)
+      }
+    }
+
+    // Cleanup function to close WebSocket on component unmount or reconfiguration
+    return () => {
+      console.log("Closing WebSocket connection");
+      webSocket.close();
+    };
+  }, [isClient, setAccessToken, setRefreshToken])
+
+  // Navigate to _auth.login if accessToken is null
+  // useEffect(() => {
+  //   if (!accessToken) {
+  //     navigate('/login')
+  //   }
+  // }, [accessToken])
 
   return (
     isClient ? (
