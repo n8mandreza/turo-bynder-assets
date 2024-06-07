@@ -7,7 +7,7 @@ export default function CallbackRoute() {
   const [authCode, setAuthCode] = useState<string>('')
 
   // Establish WebSocket connection
-  const webSocket = new WebSocket('ws://turo-bynder-deno-websocket.deno.dev');
+  const webSocket = new WebSocket('wss://turo-bynder-deno-websocket.deno.dev');
 
   // Retrieve data from context and setters to manage authentication data
   const { 

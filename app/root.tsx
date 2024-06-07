@@ -69,7 +69,7 @@ export default function App() {
     setIsClient(true)
 
     // Create a WebSocket connection
-    const webSocket = new WebSocket('ws://turo-bynder-deno-websocket.deno.dev')
+    const webSocket = new WebSocket('wss://turo-bynder-deno-websocket.deno.dev')
 
     // Save token data from WebSocket message to app context
     webSocket.onmessage = (event) => {
