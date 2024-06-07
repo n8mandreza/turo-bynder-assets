@@ -6,11 +6,14 @@ import Button from "~/components/Button";
 export default function CallbackRoute() {
   const [authCode, setAuthCode] = useState<string>('')
 
+  // Establish WebSocket connection
+  const webSocket = new WebSocket('ws://turo-bynder-deno-websocket.deno.dev');
+
   // Retrieve data from context and setters to manage authentication data
   const { 
     accessToken, 
     setAccessToken, 
-    refreshToken, 
+    refreshToken,
     setRefreshToken 
   } = useAuthData();
 
@@ -63,14 +66,12 @@ export default function CallbackRoute() {
           // Handle the response data (save to AuthContext)
           console.log('Token response:', data);
           handleAccessToken(data.accessToken, data.refreshToken);
-          // Send access token to the plugin
-          window.parent.postMessage(
-          {
-              pluginMessage: {
-                message: 'SAVE_ACCESS_TOKEN',
-                accessToken: data.accessToken,
-              },
-          }, '*');
+          // Send access token to the plugin via WebSocket
+          webSocket.send(JSON.stringify({
+            message: 'SAVE_ACCESS_TOKEN',
+            accessToken: data.accessToken,
+            refreshToken: data.refreshToken
+          }));
       })
       .catch(error => {
           // Handle any errors

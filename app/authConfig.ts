@@ -1,10 +1,17 @@
+// Function to generate a nonce
+const generateNonce = () => {
+  const array = new Uint32Array(1);
+  window.crypto.getRandomValues(array);
+  return array[0].toString(36); // Convert to base 36 for a shorter string
+};
+
 export const authConfig: any = {
     clientId: 'caf02bf3-e0ce-4370-b9ff-81d538cabb32',
     authorizationEndpoint: 'https://assets.turo.com/v6/authentication/oauth2/auth',
     tokenEndpoint: 'https://assets.turo.com/v6/authentication/oauth2/token',
     redirectUri: 'https://turo-bynder-assets.vercel.app/callback',
     scope: 'offline asset:read collection:read',
-    state: 'state',
+    state: generateNonce(),
     autoLogin: false,
     clearURL: false,
     extraAuthParameters: {

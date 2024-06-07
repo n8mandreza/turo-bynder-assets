@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 // Define the type for the authentication context
 interface AuthContextType {
@@ -8,23 +8,62 @@ interface AuthContextType {
   setRefreshToken: (token: string | null) => void;
 }
 
-// Create a new context to store the authentication data
+// Create a new context with default values
 const AuthContext = createContext<AuthContextType>({
   accessToken: null,
   refreshToken: null,
   setAccessToken: () => {},
-  setRefreshToken: () => {},
+  setRefreshToken: () => {}
 });
 
-// Update AuthProvider to correctly type its props
-interface AuthProviderProps {
-  children: React.ReactNode;
-  value: AuthContextType;  // The expected structure for `value`
-}
+// AuthProvider component that bridges localStorage & Context
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [accessToken, setAccessToken] = useState<string | null>(localStorage.getItem('accessToken'));
+  const [refreshToken, setRefreshToken] = useState<string | null>(localStorage.getItem('refreshToken'));
 
-// AuthProvider component
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children, value }) => {
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === 'accessToken') {
+        setAccessToken(localStorage.getItem('accessToken'));
+      }
+      if (event.key === 'refreshToken') {
+        setRefreshToken(localStorage.getItem('refreshToken'));
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  const saveAccessToken = (token: string | null) => {
+    if (typeof token == 'string' && token) {
+      localStorage.setItem('accessToken', token);
+      setAccessToken(token);
+    } else {
+      console.log('Invalid access token:', token)
+    }
+  };
+
+  const saveRefreshToken = (token: string | null) => {
+    if (typeof token == 'string' && token) {
+      localStorage.setItem('refreshToken', token);
+      setRefreshToken(token);
+    } else {
+      console.log('Invalid refresh token:', token)
+    }
+  };
+
+  return (
+    <AuthContext.Provider value={{
+      accessToken,
+      refreshToken,
+      setAccessToken: saveAccessToken,
+      setRefreshToken: saveRefreshToken
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export function useAuthData() {

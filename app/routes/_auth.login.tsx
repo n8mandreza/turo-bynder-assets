@@ -1,8 +1,8 @@
-import { useNavigate } from "@remix-run/react";
+import { useNavigate } from "@remix-run/react"
 import { useEffect } from "react"
-import { useAuthData } from "~/AuthContext";
+import { useAuthData } from "~/AuthContext"
 import { authConfig } from "~/authConfig"
-import Button from "~/components/Button";
+import Button from "~/components/Button"
 
 export default function LoginRoute() {
     const { accessToken } = useAuthData();
