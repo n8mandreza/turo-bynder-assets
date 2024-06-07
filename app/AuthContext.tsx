@@ -16,43 +16,32 @@ const AuthContext = createContext<AuthContextType>({
   setRefreshToken: () => {}
 });
 
-// AuthProvider component that bridges localStorage & Context
+// AuthProvider component to provide context to children
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [accessToken, setAccessToken] = useState<string | null>(localStorage.getItem('accessToken'));
-  const [refreshToken, setRefreshToken] = useState<string | null>(localStorage.getItem('refreshToken'));
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [refreshToken, setRefreshToken] = useState<string | null>(null);
 
-  useEffect(() => {
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === 'accessToken') {
-        setAccessToken(localStorage.getItem('accessToken'));
-      }
-      if (event.key === 'refreshToken') {
-        setRefreshToken(localStorage.getItem('refreshToken'));
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
-
+  // Function to update access token in context
   const saveAccessToken = (token: string | null) => {
-    if (typeof token == 'string' && token) {
-      localStorage.setItem('accessToken', token);
+    if (typeof token === 'string' && token) {
       setAccessToken(token);
     } else {
-      console.log('Invalid access token:', token)
+      console.log('Invalid access token:', token);
     }
   };
 
+  // Function to update refresh token in context
   const saveRefreshToken = (token: string | null) => {
-    if (typeof token == 'string' && token) {
-      localStorage.setItem('refreshToken', token);
+    if (typeof token === 'string' && token) {
       setRefreshToken(token);
     } else {
-      console.log('Invalid refresh token:', token)
+      console.log('Invalid refresh token:', token);
     }
   };
+
+  useEffect(() => {
+    console.log("Access Token updated in context:", accessToken);
+  }, [accessToken]);
 
   return (
     <AuthContext.Provider value={{
