@@ -52,8 +52,6 @@ export default function CallbackRoute() {
         requestParams.append('scope', authConfig.scope);
       }
 
-      // console.log('Request parameters to string:', requestParams.toString())
-
       fetch(authConfig.tokenEndpoint, {
         method: 'POST',
         headers: {
@@ -65,12 +63,12 @@ export default function CallbackRoute() {
       .then(data => {
           // Handle the response data (save to AuthContext)
           console.log('Token response:', data);
-          handleAccessToken(data.accessToken, data.refreshToken);
+          handleAccessToken(data.access_token, data.refresh_token);
           // Send access token to the plugin via WebSocket
           webSocket.send(JSON.stringify({
             message: 'SAVE_ACCESS_TOKEN',
-            accessToken: data.accessToken,
-            refreshToken: data.refreshToken
+            accessToken: data.access_token,
+            refreshToken: data.refresh_token
           }));
       })
       .catch(error => {
