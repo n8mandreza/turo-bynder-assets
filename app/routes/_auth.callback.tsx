@@ -18,14 +18,14 @@ export default function CallbackRoute() {
   } = useAuthData();
 
   // Function to save token data to context when received
-  const handleAccessToken = (accessTokenData: string | null, refreshTokenData: string | null) => {
-    // Separate the access & refresh tokens here if needed
-    const accessToken = accessTokenData ?? ''
-    const refreshToken = refreshTokenData ?? ''
-    // Save token data to context
-    setAccessToken(accessToken);
-    setRefreshToken(refreshToken);
-  };
+  // const handleAccessToken = (accessTokenData: string | null, refreshTokenData: string | null) => {
+  //   // Separate the access & refresh tokens here if needed
+  //   const accessToken = accessTokenData ?? ''
+  //   const refreshToken = refreshTokenData ?? ''
+  //   // Save token data to context
+  //   setAccessToken(accessToken);
+  //   setRefreshToken(refreshToken);
+  // };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
@@ -59,7 +59,7 @@ export default function CallbackRoute() {
           console.log('Token response from Bynder:', data);
 
           // Handle the response data (save to AuthContext)
-          handleAccessToken(data.access_token, data.refresh_token);
+          // handleAccessToken(data.access_token, data.refresh_token);
           
           // Send access token to the plugin via WebSocket
           webSocket.send(JSON.stringify({
@@ -73,7 +73,7 @@ export default function CallbackRoute() {
           console.error('Error:', error);
       });
     }
-  }, [authCode, refreshToken, setAccessToken, setRefreshToken])
+  }, [authCode])
 
   return (
     <div className="flex flex-col gap-4 bg-subtle rounded-xl p-4">
