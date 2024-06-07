@@ -7,9 +7,9 @@ export default function CallbackRoute() {
   // Retrieve data from context and setters to manage authentication data
   const { 
     accessToken, 
-    setAccessToken, 
+    saveAccessToken, 
     refreshToken,
-    setRefreshToken 
+    saveRefreshToken 
   } = useAuthData();
   const [authCode, setAuthCode] = useState<string>('')
   
@@ -22,8 +22,8 @@ export default function CallbackRoute() {
   //   const accessToken = accessTokenData ?? ''
   //   const refreshToken = refreshTokenData ?? ''
   //   // Save token data to context
-  //   setAccessToken(accessToken);
-  //   setRefreshToken(refreshToken);
+  //   saveAccessToken(accessToken);
+  //   saveRefreshToken(refreshToken);
   // };
 
   useEffect(() => {

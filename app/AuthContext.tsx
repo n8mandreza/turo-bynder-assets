@@ -4,16 +4,16 @@ import { createContext, useContext, useState, useEffect } from "react";
 interface AuthContextType {
   accessToken: string | null;
   refreshToken: string | null;
-  setAccessToken: (token: string | null) => void;
-  setRefreshToken: (token: string | null) => void;
+  saveAccessToken: (token: string | null) => void;
+  saveRefreshToken: (token: string | null) => void;
 }
 
 // Create a new context with default values
 const AuthContext = createContext<AuthContextType>({
   accessToken: null,
   refreshToken: null,
-  setAccessToken: () => {},
-  setRefreshToken: () => {}
+  saveAccessToken: () => {},
+  saveRefreshToken: () => {}
 });
 
 // AuthProvider component to provide context to children
@@ -58,8 +58,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     <AuthContext.Provider value={{
       accessToken,
       refreshToken,
-      setAccessToken: saveAccessToken,
-      setRefreshToken: saveRefreshToken
+      saveAccessToken,
+      saveRefreshToken
     }}>
       {children}
     </AuthContext.Provider>

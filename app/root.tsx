@@ -8,8 +8,8 @@ import {
 } from "@remix-run/react"
 import type { LinksFunction } from "@remix-run/node"
 import stylesheet from "~/styles/tailwind.css?url"
-import { useContext, useEffect, useRef, useState } from "react"
-import AuthContext, { AuthProvider, useAuthData } from "./AuthContext"
+import { useEffect, useRef, useState } from "react"
+import { AuthProvider, useAuthData } from "./AuthContext"
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
@@ -36,12 +36,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   const { 
     accessToken, 
-    setAccessToken, 
+    saveAccessToken, 
     refreshToken, 
-    setRefreshToken
+    saveRefreshToken
   } = useAuthData();
   const navigate = useNavigate()
   const [isClient, setIsClient] = useState(false);
+  // WebSocket as a ref
   const webSocketRef = useRef<WebSocket | null>(null);
 
   // On load, check if there's an existing access token
@@ -51,18 +52,18 @@ export default function App() {
       // Check if that token works
       // and save it to use with network requests
       console.log('Existing access token', accessToken)
-      setAccessToken(accessToken)
+      saveAccessToken(accessToken)
     }
   }
 
   // Function to save token data to context when received
-  const handleAccessToken = (accessTokenData: string | null, refreshTokenData: string | null) => {
+  const handleTokenData = (accessTokenData: string | null, refreshTokenData: string | null) => {
     // Separate the access & refresh tokens here if needed
     const accessToken = accessTokenData ?? ''
     const refreshToken = refreshTokenData ?? ''
     // Save token data to context
-    setAccessToken(accessToken);
-    setRefreshToken(refreshToken);
+    saveAccessToken(accessToken);
+    saveRefreshToken(refreshToken);
   };
 
   useEffect(() => {
@@ -78,7 +79,7 @@ export default function App() {
     setIsClient(true)
   }, [])
 
-  // Set isClient to true when component mounts
+  // Get data from WebSocket
   useEffect(() => {
     // Only set up WebSocket when the client is ready
     if (!isClient) return;
@@ -96,7 +97,7 @@ export default function App() {
         const { accessToken, refreshToken } = data
 
         console.log('Sending access token to context', accessToken)
-        handleAccessToken(accessToken, refreshToken)
+        handleTokenData(accessToken, refreshToken)
       }
     }
 
@@ -105,7 +106,7 @@ export default function App() {
       console.log("Closing WebSocket connection");
       webSocket.close();
     };
-  }, [isClient, setAccessToken, setRefreshToken])
+  }, [isClient, saveAccessToken, saveRefreshToken])
 
   // Navigate to _auth.login if accessToken is null
   // useEffect(() => {
