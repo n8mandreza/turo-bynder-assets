@@ -49,7 +49,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         pluginMessage: {
           message: 'SAVE_ACCESS_TOKEN', 
           accessToken: accessToken
-        }
+        },
+        pluginId: '1381050062397011474'
       }, '*');
     }
   }, [accessToken]);  // Include refreshToken if needed

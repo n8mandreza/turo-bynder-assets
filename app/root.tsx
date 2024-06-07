@@ -34,12 +34,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const { 
-    accessToken, 
-    saveAccessToken, 
-    refreshToken, 
-    saveRefreshToken
-  } = useAuthData();
+  const { saveAccessToken } = useAuthData();
   const navigate = useNavigate()
   const [isClient, setIsClient] = useState(false);
 
