@@ -74,12 +74,11 @@ export default function App() {
     // Save token data from WebSocket message to app context
     webSocket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log(data)
+      console.log('Token data via WebSocket', data)
       if (data.message === 'SAVE_ACCESS_TOKEN') {
         // Handle the SAVE_ACCESS_TOKEN message
         const accessToken = data.accessToken
         const refreshToken = data.refreshToken
-        console.log('Access token via WebSocket', accessToken)
         saveAccessToken(accessToken)
         saveRefreshToken(refreshToken)
       }
