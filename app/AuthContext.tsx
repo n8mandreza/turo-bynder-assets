@@ -41,7 +41,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     console.log("Access Token updated in context:", accessToken);
-  }, [accessToken]);
+
+    if (accessToken) {
+      parent.postMessage({
+        pluginMessage: {
+          message: 'SAVE_ACCESS_TOKEN', 
+          accessToken: accessToken,
+          refreshToken: refreshToken
+        }
+      }, '*');
+    }
+  }, [accessToken, refreshToken]);  // Include refreshToken if needed
 
   return (
     <AuthContext.Provider value={{
