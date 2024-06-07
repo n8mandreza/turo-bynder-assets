@@ -9,7 +9,7 @@ export default function LoginRoute() {
     const navigate = useNavigate();
     const authorizationEndpoint = `${authConfig.authorizationEndpoint}?client_id=${authConfig.clientId}&scope=${authConfig.scope}&redirect_uri=${authConfig.redirectUri}&response_type=code&state=${authConfig.state}`
 
-    // Redirect to the root once accessToken is available
+    // Redirect to the root once accessToken is available via AuthContext
     useEffect(() => {
         if (accessToken) {
             console.log('Login route', accessToken)

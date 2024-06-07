@@ -1,8 +1,13 @@
+const isClient = typeof window !== 'undefined'
+
 // Function to generate a nonce
 const generateNonce = () => {
-  const array = new Uint32Array(1);
-  window.crypto.getRandomValues(array);
-  return array[0].toString(36); // Convert to base 36 for a shorter string
+  if (isClient) {
+    const array = new Uint32Array(1);
+    window.crypto.getRandomValues(array);
+    return array[0].toString(36); // Convert to base 36 for a shorter string
+  }
+  return null
 };
 
 export const authConfig: any = {
