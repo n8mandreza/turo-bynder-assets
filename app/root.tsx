@@ -45,7 +45,7 @@ export default function App() {
   const webSocketRef = useRef<WebSocket | null>(null);
 
   // On load, check if there's an existing access token
-  const handleAccessToken = (event: MessageEvent) => {
+  const checkAccessToken = (event: MessageEvent) => {
     if (event?.data?.pluginMessage?.message === 'GET_EXISTING_ACCESS_TOKEN') {
       const accessToken = event.data.pluginMessage.accessToken
       // Check if that token works
@@ -55,11 +55,21 @@ export default function App() {
     }
   }
 
+  // Function to save token data to context when received
+  const handleAccessToken = (accessTokenData: string | null, refreshTokenData: string | null) => {
+    // Separate the access & refresh tokens here if needed
+    const accessToken = accessTokenData ?? ''
+    const refreshToken = refreshTokenData ?? ''
+    // Save token data to context
+    setAccessToken(accessToken);
+    setRefreshToken(refreshToken);
+  };
+
   useEffect(() => {
-    window.addEventListener('message', handleAccessToken);
+    window.addEventListener('message', checkAccessToken);
 
     return () => {
-      window.removeEventListener('message', handleAccessToken)
+      window.removeEventListener('message', checkAccessToken)
     }
   }, [])
 
@@ -86,8 +96,7 @@ export default function App() {
         const { accessToken, refreshToken } = data
 
         console.log('Sending access token to context', accessToken)
-        setAccessToken(accessToken)
-        setRefreshToken(refreshToken)
+        handleAccessToken(accessToken, refreshToken)
       }
     }
 
