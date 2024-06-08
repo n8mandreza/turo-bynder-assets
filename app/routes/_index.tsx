@@ -78,7 +78,7 @@ export default function Index() {
     fetchAssets(query, newPage)
       .then(results => {
         setResults(results)
-        console.log('Query keyword:', query)
+        console.log('Processed results:', results)
       })
   }
 
