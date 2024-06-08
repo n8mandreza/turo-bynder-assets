@@ -83,16 +83,30 @@ export default function Index() {
   }
 
   return (
-    <div className="w-screen h-screen flex flex-col gap-4">
+    <div className="w-screen h-screen flex flex-col">
       { accessToken ? (
-        <div className="flex flex-col gap-3 max-w-prose justify-start items-start">
-          <form className="flex gap-3" onSubmit={handleSearch}>
-            <TextInput id="query" label="Search" showLabel={false} placeholder="Search" onInput={handleInputChange} />
-            
-            <Button label="Search" size="compact" isFormSubmit={true} />
-          </form>
-          <p>{resultsCount} results</p>
-        </div>
+        <>
+          <div className="flex flex-col gap-3 max-w-prose justify-start items-start p-4 border-b-1 stroke-01">
+            <form className="flex gap-3" onSubmit={handleSearch}>
+              <TextInput id="query" label="Search" showLabel={false} placeholder="Search" onInput={handleInputChange} />
+              
+              <Button label="Search" size="compact" isFormSubmit={true} />
+            </form>
+          </div>
+
+          { results ? (
+            <div className="flex flex-col">
+              <div className="px-4 py-2">
+                <p className="text-02">{resultsCount} results</p>
+              </div>
+
+              <ul className="grid grid-cols-2 gap-4 p-4">
+                <li></li>
+              </ul>
+            </div>
+          ) : null}
+
+        </>
       ) : (
         <div className="flex flex-col gap-3 items-center justify-center w-full h-full">
           <h4>You are not logged in</h4>
