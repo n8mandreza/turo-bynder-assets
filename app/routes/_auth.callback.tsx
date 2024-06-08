@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "@remix-run/react"
 import { useAuthData } from "~/AuthContext";
 import { authConfig } from "~/authConfig"
@@ -7,17 +7,8 @@ export default function CallbackRoute() {
   const navigate = useNavigate()
   const [authCode, setAuthCode] = useState<string>('')
 
-  // Prepare WebSocket connection once on component mount
-  const webSocketRef = useRef<WebSocket | null>(null);
-  useEffect(() => {
-    webSocketRef.current = new WebSocket('wss://turo-bynder-deno-websocket.deno.dev');
-
-    return () => {
-      if (webSocketRef.current) {
-        webSocketRef.current.close(); // Properly close the WebSocket when the component unmounts
-      }
-    };
-  }, []);
+  // Establish WebSocket connection
+  const webSocket = new WebSocket('wss://turo-bynder-deno-websocket.deno.dev');
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
@@ -49,21 +40,16 @@ export default function CallbackRoute() {
       })
         .then(response => response.json())
         .then(data => {
-          const { access_token, refresh_token } = data;
-
           console.log('Token response from Bynder:', data);
 
           // Send access token to the plugin via WebSocket
-          if (webSocketRef.current) {
-            webSocketRef.current.send(JSON.stringify({
-              message: 'SAVE_ACCESS_TOKEN',
-              accessToken: access_token,
-              refreshToken: refresh_token
-            }));
+          webSocket.send(JSON.stringify({
+            message: 'SAVE_ACCESS_TOKEN',
+            accessToken: data.access_token,
+            refreshToken: data.refresh_token
+          }));
 
-            // Navigate to /success after sending token data via WebSocket
-            navigate('/success');
-          }
+          navigate('/success')
         })
         .catch(error => {
           // Handle any errors
