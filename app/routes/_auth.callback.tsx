@@ -1,18 +1,23 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import { useNavigate } from "@remix-run/react"
 import { useAuthData } from "~/AuthContext";
 import { authConfig } from "~/authConfig"
-import Button from "~/components/Button";
 
 export default function CallbackRoute() {
-  // Retrieve data from context and setters to manage authentication data
-  const {
-    accessToken,
-    refreshToken
-  } = useAuthData();
+  const navigate = useNavigate()
   const [authCode, setAuthCode] = useState<string>('')
 
-  // Establish WebSocket connection
-  const webSocket = new WebSocket('wss://turo-bynder-deno-websocket.deno.dev');
+  // Prepare WebSocket connection once on component mount
+  const webSocketRef = useRef<WebSocket | null>(null);
+  useEffect(() => {
+    webSocketRef.current = new WebSocket('wss://turo-bynder-deno-websocket.deno.dev');
+
+    return () => {
+      if (webSocketRef.current) {
+        webSocketRef.current.close(); // Properly close the WebSocket when the component unmounts
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
@@ -44,14 +49,21 @@ export default function CallbackRoute() {
       })
         .then(response => response.json())
         .then(data => {
+          const { access_token, refresh_token } = data;
+
           console.log('Token response from Bynder:', data);
 
           // Send access token to the plugin via WebSocket
-          webSocket.send(JSON.stringify({
-            message: 'SAVE_ACCESS_TOKEN',
-            accessToken: data.access_token,
-            refreshToken: data.refresh_token
-          }));
+          if (webSocketRef.current) {
+            webSocketRef.current.send(JSON.stringify({
+              message: 'SAVE_ACCESS_TOKEN',
+              accessToken: access_token,
+              refreshToken: refresh_token
+            }));
+
+            // Navigate to /success after sending token data via WebSocket
+            navigate('/success');
+          }
         })
         .catch(error => {
           // Handle any errors
@@ -62,20 +74,7 @@ export default function CallbackRoute() {
 
   return (
     <div className="flex flex-col gap-4 bg-subtle rounded-xl p-4">
-      {accessToken && accessToken !== '' ? (
-        <>
-          <h4>Access token</h4>
-          <code className="break-words max-w-prose">{JSON.stringify(accessToken, null, 2)}</code>
-
-          <h4>Refresh token</h4>
-          <code className="break-words max-w-prose">{refreshToken}</code>
-        </>
-      ) : (
-        <>
-          <h4>Authorization code</h4>
-          <code className="break-words max-w-prose">{authCode}</code>
-        </>
-      )}
+      <p>Authenticating...</p>
     </div>
   )
 }

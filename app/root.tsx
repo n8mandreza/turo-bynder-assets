@@ -34,7 +34,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const { saveAccessToken } = useAuthData();
+  const { accessToken, saveAccessToken } = useAuthData();
   const navigate = useNavigate()
   const [isClient, setIsClient] = useState(false);
 
@@ -61,11 +61,11 @@ export default function App() {
   useEffect(() => {setIsClient(true)}, [])
 
   // Navigate to _auth.login if accessToken is null
-  // useEffect(() => {
-  //   if (!accessToken) {
-  //     navigate('/login')
-  //   }
-  // }, [accessToken])
+  useEffect(() => {
+    if (!accessToken) {
+      navigate('/login')
+    }
+  }, [accessToken])
 
   return (
     isClient ? (

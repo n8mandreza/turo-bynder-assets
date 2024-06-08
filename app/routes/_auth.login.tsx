@@ -55,7 +55,8 @@ export default function LoginRoute() {
     // Redirect to the root once accessToken is available via AuthContext
     useEffect(() => {
         if (accessToken) {
-            console.log('Login route', accessToken)
+            // TODO: Add another message to confirm token receipt via WebSocket
+            // to trigger redirect to success page in browser
             navigate("/")
         }
     }, [accessToken, navigate])

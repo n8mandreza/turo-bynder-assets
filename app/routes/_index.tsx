@@ -19,7 +19,7 @@ interface AssetType {
 }
 
 export default function Index() {
-  const {accessToken, refreshToken} = useAuthData();
+  const { accessToken } = useAuthData();
 
   const [query, setQuery] = useState('')
   const [results, setResults] = useState(null)
@@ -84,7 +84,6 @@ export default function Index() {
 
   return (
     <div className="w-screen h-screen flex flex-col gap-4 justify-center items-center">
-      <h1>Turo Bynder Figma Plugin</h1>
       { accessToken ? (
         <div className="flex flex-col gap-3 max-w-prose justify-start items-start">
           <form className="flex gap-3" onSubmit={handleSearch}>
