@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "@remix-run/react"
-import { useAuthData } from "~/AuthContext";
 import { authConfig } from "~/authConfig"
 
 export default function CallbackRoute() {
