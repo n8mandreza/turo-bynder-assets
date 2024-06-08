@@ -13,7 +13,7 @@ export default function TextInput({id, label, showLabel, placeholder, onInput}: 
                 {label}
             </label>
 
-            <input id={id} type="text" placeholder={placeholder} onInput={onInput} className="w-ful px-3 py-2 text-base rounded-lg surface-01 placeholder:text-02 focus:outline-1 focus:interactive-focus focus:outline"/>
+            <input id={id} type="text" placeholder={placeholder} onInput={onInput} className="w-full px-3 py-2 text-base rounded-lg surface-01 border stroke-01 placeholder:text-02 focus:outline-1 focus:interactive-focus focus:outline"/>
         </div>
     )
 }

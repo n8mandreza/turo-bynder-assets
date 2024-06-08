@@ -83,7 +83,7 @@ export default function Index() {
   }
 
   return (
-    <div className="w-screen h-screen flex flex-col gap-4 justify-center items-center">
+    <div className="w-screen h-screen flex flex-col gap-4">
       { accessToken ? (
         <div className="flex flex-col gap-3 max-w-prose justify-start items-start">
           <form className="flex gap-3" onSubmit={handleSearch}>
@@ -94,7 +94,7 @@ export default function Index() {
           <p>{resultsCount} results</p>
         </div>
       ) : (
-        <div className="flex flex-col gap-3 items-center">
+        <div className="flex flex-col gap-3 items-center justify-center w-full h-full">
           <h4>You are not logged in</h4>
           <Link to="/login">
             <Button label="Go to login"/>
