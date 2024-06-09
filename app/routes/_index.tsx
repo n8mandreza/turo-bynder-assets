@@ -3,7 +3,9 @@ import { Link } from "@remix-run/react";
 import { useContext, useEffect, useState } from "react";
 import { useAuthData } from "~/AuthContext";
 import Button from "~/components/Button";
+import AssetGrid from "~/components/AssetGrid";
 import TextInput from "~/components/TextInput";
+import AssetType from "~/types/AssetType";
 
 export const meta: MetaFunction = () => {
   return [
@@ -11,12 +13,6 @@ export const meta: MetaFunction = () => {
     { name: "description", content: "Turo Bynder x Figma integration" },
   ];
 };
-
-interface AssetType {
-  name: string
-  id: string
-  url: string
-}
 
 export default function Index() {
   const { accessToken } = useAuthData();
@@ -87,7 +83,7 @@ export default function Index() {
       { accessToken ? (
         <>
           <div className="flex flex-col gap-3 max-w-prose justify-start items-start p-4 border-b-1 stroke-01">
-            <form className="flex gap-3" onSubmit={handleSearch}>
+            <form className="flex w-full gap-3" onSubmit={handleSearch}>
               <TextInput id="query" label="Search" showLabel={false} placeholder="Search" onInput={handleInputChange} />
               
               <Button label="Search" size="compact" isFormSubmit={true} />
@@ -100,15 +96,7 @@ export default function Index() {
                 <p className="text-02">{resultsCount} results</p>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 p-4">
-                {results.map((result: AssetType) => (
-                  <div>
-                    <img 
-                      src={result.url} className="cursor-pointer hover:opacity-90"
-                    />
-                  </div>
-                ))}
-              </div>
+              <AssetGrid assets={results}/>
             </div>
           ) : null}
 
