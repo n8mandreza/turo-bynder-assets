@@ -15,14 +15,14 @@ export const meta: MetaFunction = () => {
 interface AssetType {
   name: string
   id: string
-  thumbnails: any
+  url: string
 }
 
 export default function Index() {
   const { accessToken } = useAuthData();
 
   const [query, setQuery] = useState('')
-  const [results, setResults] = useState(null)
+  const [results, setResults] = useState<AssetType[] | null>(null)
   const [resultsPage, setResultsPage] = useState(1)
   const [resultsCount, setResultsCount] = useState(0)
 
@@ -60,10 +60,10 @@ export default function Index() {
       setResultsCount(results.total.count);
 
       // Process and return the transformed array of results
-      return results.media.map((result: AssetType) => ({
+      return results.media.map((result: any) => ({
         name: result.name,
         id: result.id,
-        thumbnail: result.thumbnails.webimage
+        url: result.thumbnails.webimage
       }));
     } catch (error) {
       console.error('Error fetching assets:', error);
@@ -100,9 +100,15 @@ export default function Index() {
                 <p className="text-02">{resultsCount} results</p>
               </div>
 
-              <ul className="grid grid-cols-2 gap-4 p-4">
-                <li></li>
-              </ul>
+              <div className="grid grid-cols-2 gap-4 p-4">
+                {results.map((result: AssetType) => (
+                  <div>
+                    <img 
+                      src={result.url} className="cursor-pointer hover:opacity-90"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           ) : null}
 
