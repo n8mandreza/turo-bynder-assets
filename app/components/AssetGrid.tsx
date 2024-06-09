@@ -33,11 +33,8 @@ function AssetGridItem({index, data: { id, url }, width}: RenderComponentProps<A
 
 export default function AssetGrid({assets}: AssetGridProps) {
     return (
-        // <div className="grid grid-cols-2 gap-4 p-4">
-        //     {assets.map((asset: AssetType) => (
-        //         <AssetGridItem asset={asset}/>
-        //     ))}
-        // </div>
-        <Masonry items={assets} render={AssetGridItem}/>
+        <div className="p-4">
+            <Masonry items={assets} render={AssetGridItem} columnGutter={16} />
+        </div>
     )
 }
