@@ -34,7 +34,7 @@ function AssetGridItem({index, data: { id, url }, width}: RenderComponentProps<A
 export default function AssetGrid({assets}: AssetGridProps) {
     return (
         <div className="p-4">
-            <Masonry items={assets} render={AssetGridItem} columnGutter={16} columnWidth={200} />
+            <Masonry items={assets} render={AssetGridItem} columnGutter={16} columnWidth={160} />
         </div>
     )
 }
