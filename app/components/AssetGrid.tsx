@@ -13,7 +13,8 @@ export default function AssetGrid({assets}: AssetGridProps) {
                     pluginMessage: {
                         message: 'IMG_DATA',
                         imgData: new Uint8Array(a)
-                    }
+                    },
+                    pluginId: '1381050062397011474'
                 }, '*')
             )
     }
