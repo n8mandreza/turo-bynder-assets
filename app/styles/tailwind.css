@@ -70,4 +70,8 @@
         @apply text-grey-400 dark:text-grey-400;
         @apply fill-grey-400 dark:fill-grey-400;
     }
+
+    .interactive-focus {
+        @apply outline outline-2 outline-offset-2 outline-blurple-400 dark:outline-blurpleA-300;
+    }
 }
