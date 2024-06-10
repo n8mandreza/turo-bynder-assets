@@ -45,7 +45,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     // If accessToken isn't null, send it to the plugin entrypoint
     if (accessToken) {
-      parent.postMessage({
+      window.parent.postMessage({
         pluginMessage: {
           message: 'SAVE_ACCESS_TOKEN', 
           accessToken: accessToken
