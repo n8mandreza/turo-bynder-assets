@@ -24,6 +24,7 @@ export default function Index() {
   const [results, setResults] = useState<AssetType[] | null>(null)
   const [resultsPage, setResultsPage] = useState(1)
   const [resultsCount, setResultsCount] = useState(0)
+  const totalPages = resultsCount / 50
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault()
@@ -128,7 +129,7 @@ export default function Index() {
 
                 <p className="text-base text-01">{resultsPage}</p>
 
-                <IconButton onClick={handleNext}>
+                <IconButton disabled={resultsPage >= totalPages ? true : false} onClick={handleNext}>
                   <RightChevron />
                 </IconButton>
               </div>
