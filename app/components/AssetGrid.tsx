@@ -1,11 +1,15 @@
 import AssetType from "~/types/AssetType";
-import { Masonry, RenderComponentProps } from "masonic";
+import { Masonry } from "masonic";
 
 interface AssetGridProps {
     assets: AssetType[]
 }
 
-function AssetGridItem({index, data: { id, url }, width}: RenderComponentProps<AssetType>) {
+interface AssetGridItemProps {
+    asset: AssetType;
+}
+
+function AssetGridItem({asset}: AssetGridItemProps) {
     function getImgData(url: string) {
         fetch(url)
             .then(r => r.arrayBuffer())
@@ -21,11 +25,11 @@ function AssetGridItem({index, data: { id, url }, width}: RenderComponentProps<A
     }
 
     return (
-        <div id={index.toString()} className="overflow-hidden rounded-lg">
+        <div className="overflow-hidden rounded-lg">
             <img
-                id={id}
-                src={url} className="cursor-pointer hover:opacity-90"
-                onClick={() => getImgData(url)}
+                id={asset.id}
+                src={asset.url} className="cursor-pointer hover:opacity-90"
+                onClick={() => getImgData(asset.url)}
             />
         </div>
     )
@@ -33,8 +37,10 @@ function AssetGridItem({index, data: { id, url }, width}: RenderComponentProps<A
 
 export default function AssetGrid({assets}: AssetGridProps) {
     return (
-        <div className="p-4">
-            <Masonry items={assets} render={AssetGridItem} columnGutter={16} columnWidth={160} />
+        <div className="grid grid-cols-2 gap-4 p-4">
+            {assets.map((asset: AssetType) => (
+                <AssetGridItem asset={asset}/>
+            ))}
         </div>
     )
 }
