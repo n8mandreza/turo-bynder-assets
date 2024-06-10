@@ -123,8 +123,8 @@ export default function Index() {
           { results ? (
             <>
               <div className="flex flex-col">
-                <div className="px-4 py-2">
-                  <p className="text-02">{resultsCount} results</p>
+                <div className="px-4 py-2 flex justify-end">
+                  <p className="text-02 text-sm">{resultsCount} results</p>
                 </div>
 
                 <AssetGrid assets={results}/>
