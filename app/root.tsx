@@ -34,9 +34,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const { accessToken, saveAccessToken } = useAuthData();
   const navigate = useNavigate()
+  const { accessToken, saveAccessToken } = useAuthData();
   const [isClient, setIsClient] = useState(false);
+  const [tokenChecked, setTokenChecked] = useState(false);  // State to track if initial token check is completed
 
   // On load, check if there's an existing access token
   const checkAccessToken = (event: MessageEvent) => {
@@ -46,6 +47,7 @@ export default function App() {
       // and save it to use with network requests
       console.log('Existing access token', accessToken)
       saveAccessToken(accessToken)
+      setTokenChecked(true)
     }
   }
 
@@ -54,6 +56,7 @@ export default function App() {
 
     return () => {
       window.removeEventListener('message', checkAccessToken)
+      setTokenChecked(true)
     }
   }, [])
 
@@ -62,10 +65,10 @@ export default function App() {
 
   // Navigate to _auth.login if accessToken is null
   useEffect(() => {
-    if (!accessToken) {
+    if (tokenChecked && !accessToken) {
       navigate('/login')
     }
-  }, [accessToken])
+  }, [accessToken, tokenChecked])
 
   return (
     isClient ? (
