@@ -21,7 +21,7 @@ function AssetGridItem({index, data: { id, url }, width}: RenderComponentProps<A
     }
 
     return (
-        <div id={index.toString()}>
+        <div id={index.toString()} className="overflow-hidden rounded-lg">
             <img
                 id={id}
                 src={url} className="cursor-pointer hover:opacity-90"
