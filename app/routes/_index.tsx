@@ -83,7 +83,7 @@ export default function Index() {
       { accessToken ? (
         <>
           <div className="flex flex-col gap-3 sticky z-10 left-0 top-0 right-0 p-4 border-b-1 stroke-01">
-            <form className="flex w-full gap-3 below-m" onSubmit={handleSearch}>
+            <form className="flex w-full gap-3" onSubmit={handleSearch}>
               <SearchInput id="query" label="Search" placeholder="Search" onInput={handleInputChange} />
               
               {/* <Button label="Search" size="compact" isFormSubmit={true} /> */}
