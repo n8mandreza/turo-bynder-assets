@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+import { Link, useNavigate } from "@remix-run/react";
 import { useContext, useEffect, useState } from "react";
 import { useAuthData } from "~/AuthContext";
 import Button from "~/components/Button";
@@ -19,6 +19,7 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   const { accessToken } = useAuthData();
+  const navigate = useNavigate()
 
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<AssetType[] | null>(null)
@@ -99,6 +100,13 @@ export default function Index() {
         console.log('Processed results:', results)
       })
   }
+
+  // Navigate to _auth.login if accessToken is null
+  useEffect(() => {
+    if (!accessToken) {
+      navigate('/login')
+    }
+  }, [accessToken])
 
   return (
     <div className="w-screen h-screen flex flex-col relative overflow-scroll">
