@@ -6,6 +6,9 @@ import Button from "~/components/Button";
 import AssetGrid from "~/components/AssetGrid";
 import AssetType from "~/types/AssetType";
 import SearchInput from "~/components/SearchInput";
+import IconButton from "~/components/IconButton";
+import LeftChevron from "~/icons/LeftChevron";
+import RightChevron from "~/icons/RightChevron";
 
 export const meta: MetaFunction = () => {
   return [
@@ -91,14 +94,32 @@ export default function Index() {
           </div>
 
           { results ? (
-            <div className="flex flex-col">
-              <div className="px-4 py-2">
-                <p className="text-02">{resultsCount} results</p>
+            <>
+              <div className="flex flex-col">
+                <div className="px-4 py-2">
+                  <p className="text-02">{resultsCount} results</p>
+                </div>
+
+                <AssetGrid assets={results}/>
               </div>
 
-              <AssetGrid assets={results}/>
+              <div className="flex justify-between w-full">
+                <IconButton disabled={resultsPage === 1 ? true : false} onClick={() => fetchAssets(query, resultsPage - 1)}>
+                  <LeftChevron />
+                </IconButton>
+
+                <p className="text-base text-01">{resultsPage}</p>
+
+                <IconButton onClick={() => fetchAssets(query, resultsPage + 1)}>
+                  <RightChevron />
+                </IconButton>
+              </div>
+            </>
+          ) : (
+            <div className="items-center justify-center w-full h-full">
+              <p>Nothing yet. Search for something.</p>
             </div>
-          ) : null}
+          )}
 
         </>
       ) : (
