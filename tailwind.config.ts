@@ -164,6 +164,16 @@ export default {
       accent: theme('colors.blurpleA.300'),
       ...theme('colors')
     }),
+    dropShadow: {
+      'md': [
+        '0 4px 8px rgba(18, 18, 20, 0.2)',
+        '0 0 2px rgba(18, 18, 20, 0.1)'
+      ],
+      'md-dark': [
+        '0 4px 8px rgba(0, 0, 0, 0.2)',
+        '0 0 2px rgba(0, 0, 0, 0.1)'
+      ]
+    },
     extend: {},
   },
   plugins: []
