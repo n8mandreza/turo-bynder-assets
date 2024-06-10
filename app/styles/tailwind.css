@@ -42,6 +42,10 @@
         @apply bg-grey-50 dark:bg-grey-800;
     }
 
+    .surface-material {
+        @apply bg-material-25 dark:bg-material-950
+    }
+
     .surface-sticky {
         @apply bg-white dark:bg-grey-900;
     }
@@ -71,7 +75,8 @@
         @apply fill-grey-400 dark:fill-grey-400;
     }
 
-    .interactive-focus {
+    .interactive-focus,
+    :focus-visible {
         @apply outline outline-2 outline-offset-2 outline-blurple-400 dark:outline-blurpleA-300;
     }
 }

@@ -4,8 +4,8 @@ import { useContext, useEffect, useState } from "react";
 import { useAuthData } from "~/AuthContext";
 import Button from "~/components/Button";
 import AssetGrid from "~/components/AssetGrid";
-import TextInput from "~/components/TextInput";
 import AssetType from "~/types/AssetType";
+import SearchInput from "~/components/SearchInput";
 
 export const meta: MetaFunction = () => {
   return [
@@ -79,12 +79,12 @@ export default function Index() {
   }
 
   return (
-    <div className="w-screen h-screen flex flex-col">
+    <div className="w-screen h-screen flex flex-col relative">
       { accessToken ? (
         <>
-          <div className="flex flex-col gap-3 max-w-prose justify-start items-start p-4 border-b-1 stroke-01">
+          <div className="flex flex-col gap-3 absolute left-0 top-0 right-0 p-4 border-b-1 stroke-01">
             <form className="flex w-full gap-3" onSubmit={handleSearch}>
-              <TextInput id="query" label="Search" showLabel={false} placeholder="Search" onInput={handleInputChange} />
+              <SearchInput id="query" label="Search" placeholder="Search" onInput={handleInputChange} />
               
               <Button label="Search" size="compact" isFormSubmit={true} />
             </form>
