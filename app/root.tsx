@@ -33,7 +33,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const { saveAccessToken } = useAuthData();
+  const { accessToken, saveAccessToken } = useAuthData();
   const [isClient, setIsClient] = useState(false);
 
   // On load, check if there's an existing access token
@@ -49,9 +49,11 @@ export default function App() {
 
   useEffect(() => {
     window.addEventListener('message', checkAccessToken);
+    console.log('Access token checked', accessToken)
 
     return () => {
       window.removeEventListener('message', checkAccessToken)
+      console.log('Removed checkAccessToken event listener')
     }
   }, [])
 
