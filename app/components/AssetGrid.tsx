@@ -25,7 +25,7 @@ function AssetGridItem({asset}: AssetGridItemProps) {
     }
 
     return (
-        <div className="overflow-hidden rounded-lg max-h-fit">
+        <div className="overflow-hidden rounded-lg self-start">
             <img
                 id={asset.id}
                 src={asset.url} className="cursor-pointer hover:opacity-90"
