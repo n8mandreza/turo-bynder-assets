@@ -9,10 +9,10 @@ export interface SearchInputProps {
 
 export default function SearchInput({ id, label, placeholder, onInput }: SearchInputProps) {
     return (
-        <div className="flex gap-3 w-full">
+        <div className="flex gap-3 w-full px-3 py-2 rounded-lg backdrop-blur-xl surface-material drop-shadow-xl focus:interactive-focus below-m">
             <MagnifyingGlass />
 
-            <input id={id} type="text" aria-label={label} placeholder={placeholder} onInput={onInput} className="w-full px-3 py-2 text-base rounded-lg backdrop-blur-xl surface-material drop-shadow-xl placeholder:text-02 focus:interactive-focus below-m" />
+            <input id={id} type="text" aria-label={label} placeholder={placeholder} onInput={onInput} className="w-full text-base placeholder:text-02 focus-visible:outline-none" />
         </div>
     )
 }
