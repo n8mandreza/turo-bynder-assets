@@ -51,7 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           accessToken: accessToken
         },
         pluginId: '1381050062397011474'
-      }, '*');
+      }, 'https://www.figma.com');
     }
   }, [accessToken]);  // Include refreshToken if needed
 
