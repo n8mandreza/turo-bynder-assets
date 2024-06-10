@@ -60,9 +60,9 @@ export default {
         950: '#070708',
       },
       material: {
-        25: '#fbfbfbbf',
-        50: '#f4f4f4bf',
-        75: '#edededbf',
+        25: '#fbfbfbd9',
+        50: '#f4f4f4d9',
+        75: '#edededd9',
         100: '#e7e7e8bf',
         200: '#d0d0d0bf',
         300: '#a0a0a0bf',
