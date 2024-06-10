@@ -43,7 +43,7 @@
     }
 
     .surface-material {
-        @apply bg-material-25 dark:bg-material-800
+        @apply bg-material-0 dark:bg-material-800
     }
 
     .surface-sticky {
