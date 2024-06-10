@@ -81,6 +81,24 @@ export default function Index() {
       })
   }
 
+  function handleNext() {
+    setResultsPage(resultsPage + 1)
+    fetchAssets(query, resultsPage + 1)
+      .then(results => {
+        setResults(results)
+        console.log('Processed results:', results)
+      })
+  }
+
+  function handlePrev() {
+    setResultsPage(resultsPage - 1)
+    fetchAssets(query, resultsPage - 1)
+      .then(results => {
+        setResults(results)
+        console.log('Processed results:', results)
+      })
+  }
+
   return (
     <div className="w-screen h-screen flex flex-col relative overflow-scroll">
       { accessToken ? (
@@ -104,13 +122,13 @@ export default function Index() {
               </div>
 
               <div className="flex items-center justify-between w-full p-4 gap-3">
-                <IconButton disabled={resultsPage === 1 ? true : false} onClick={() => fetchAssets(query, resultsPage - 1)}>
+                <IconButton disabled={resultsPage === 1 ? true : false} onClick={handlePrev}>
                   <LeftChevron />
                 </IconButton>
 
                 <p className="text-base text-01">{resultsPage}</p>
 
-                <IconButton onClick={() => fetchAssets(query, resultsPage + 1)}>
+                <IconButton onClick={handleNext}>
                   <RightChevron />
                 </IconButton>
               </div>
