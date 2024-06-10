@@ -103,7 +103,7 @@ export default function Index() {
                 <AssetGrid assets={results}/>
               </div>
 
-              <div className="flex justify-between w-full">
+              <div className="flex items-center justify-between w-full p-4 gap-3">
                 <IconButton disabled={resultsPage === 1 ? true : false} onClick={() => fetchAssets(query, resultsPage - 1)}>
                   <LeftChevron />
                 </IconButton>
@@ -116,7 +116,7 @@ export default function Index() {
               </div>
             </>
           ) : (
-            <div className="items-center justify-center w-full h-full">
+            <div className="flex items-center justify-center w-full h-full">
               <p>Nothing yet. Search for something.</p>
             </div>
           )}
