@@ -33,8 +33,10 @@ export default function SearchInput({ id, label, placeholder, onInput }: SearchI
     };
 
     return (
-        <div className="flex items-center gap-3 w-full px-3 py-2 rounded-lg backdrop-blur-xl surface-material drop-shadow-xl focus:interactive-focus below-m">
-            <MagnifyingGlass />
+        <div className="flex items-center gap-3 w-full px-3 py-1 rounded-lg backdrop-blur-xl surface-material drop-shadow-xl focus:interactive-focus below-m">
+            <div className="w-4 h-4 p-2">
+                <MagnifyingGlass />
+            </div>
 
             <input id={id} type="text" aria-label={label} placeholder={placeholder} value={inputValue} onInput={handleInputChange} className="w-full bg-transparent text-base placeholder:text-02 focus-visible:outline-none" />
 
