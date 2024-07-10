@@ -3,7 +3,7 @@ import IconButton from "./IconButton"
 import CloseCircleFilled from "~/icons/CloseCircleFilled"
 
 interface SearchInputProps {
-    id: string
+    formId: string
     label: string
     placeholder?: string
     value: string
@@ -11,7 +11,7 @@ interface SearchInputProps {
     onClear: () => void
 }
 
-export default function SearchInput({ id, label, placeholder, value, onInput, onClear }: SearchInputProps) {
+export default function SearchInput({ formId, label, placeholder, value, onInput, onClear }: SearchInputProps) {
 
     return (
         <div className="flex items-center gap-1 w-full px-1 py-1 rounded-lg backdrop-blur-xl surface-material drop-shadow-xl focus:interactive-focus below-m">
@@ -20,7 +20,7 @@ export default function SearchInput({ id, label, placeholder, value, onInput, on
             </div>
 
             <input
-                id={id}
+                form={formId}
                 type="text"
                 aria-label={label}
                 placeholder={placeholder}
