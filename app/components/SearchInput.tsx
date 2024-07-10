@@ -34,7 +34,7 @@ export default function SearchInput({ id, label, placeholder, onInput }: SearchI
 
     return (
         <div className="flex items-center gap-3 w-full px-3 py-1 rounded-lg backdrop-blur-xl surface-material drop-shadow-xl focus:interactive-focus below-m">
-            <div className="w-4 h-4 p-2">
+            <div className="w-8 h-8 flex items-center justify-center p-2">
                 <MagnifyingGlass />
             </div>
 
