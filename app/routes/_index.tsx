@@ -178,8 +178,8 @@ export default function Index() {
       ) : (
         <div className="flex flex-col gap-3 items-center justify-center w-full h-full p-4">
           <div className="flex flex-col items-center gap-2">
-            <h4 className="text-lg">Checking for access token...</h4>
-            <p className="text-center text-02">If you aren't automatically redirected after a few seconds, click the button to log in.</p>
+            <h4 className="text-lg">Loading...</h4>
+            <p className="text-center text-sm text-02">If you aren't automatically redirected after a few seconds, click the button to log in.</p>
           </div>
 
           <Link to="/login">
