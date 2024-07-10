@@ -123,7 +123,7 @@ export default function Search() {
                         onClear={handleClearInput}
                     />
 
-                    {/* <Button label="Search" size="compact" isFormSubmit={true} /> */}
+                    <Button label="Search" size="compact" isFormSubmit={true} />
                 </form>
             </div>
 
