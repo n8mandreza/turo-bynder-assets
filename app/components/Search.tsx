@@ -5,6 +5,7 @@ import SearchInput from "./SearchInput";
 import RightChevron from "~/icons/RightChevron";
 import { useState } from "react";
 import AssetType from "~/types/AssetType";
+import { useNavigate } from "@remix-run/react";
 
 interface SearchProps {
     accessToken: string
@@ -16,6 +17,8 @@ export default function Search({accessToken}: SearchProps) {
     const [resultsPage, setResultsPage] = useState(1)
     const [resultsCount, setResultsCount] = useState(0)
     const totalPages = resultsCount / 50
+
+    const navigate = useNavigate()
 
     function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         event.preventDefault()
@@ -42,6 +45,7 @@ export default function Search({accessToken}: SearchProps) {
 
             // Check if the server response is not ok then throw an error
             if (!response.ok) {
+                navigate('/login');
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 

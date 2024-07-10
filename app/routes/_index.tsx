@@ -24,9 +24,10 @@ export default function Index() {
 
     if (event?.data?.pluginMessage?.message === 'GET_EXISTING_ACCESS_TOKEN') {
       const accessToken = event?.data?.pluginMessage?.accessToken
+      console.log('Access token from plugin message', accessToken)
+
       // Check if that token works
       // and save it to use with network requests
-      console.log('Access token from plugin message', accessToken)
       saveAccessToken(accessToken)
     }
 
