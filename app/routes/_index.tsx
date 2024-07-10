@@ -18,7 +18,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const { accessToken } = useAuthData();
+  const { accessToken, saveAccessToken } = useAuthData();
   const navigate = useNavigate()
 
   const [query, setQuery] = useState('')
@@ -101,12 +101,37 @@ export default function Index() {
       })
   }
 
-  // Navigate to _auth.login if accessToken is null
-  useEffect(() => {
-    if (!accessToken) {
+  // On load, check if there's an existing access token
+  const checkAccessToken = (event: MessageEvent) => {
+    console.log("Message received by UI:", event.data)
+
+    if (event?.data?.pluginMessage?.message === 'GET_EXISTING_ACCESS_TOKEN') {
+      const accessToken = event?.data?.pluginMessage?.accessToken
+      // Check if that token works
+      // and save it to use with network requests
+      console.log('Access token from plugin message', accessToken)
+      saveAccessToken(accessToken)
+    } else {
       navigate('/login')
     }
-  }, [accessToken])
+  }
+
+  useEffect(() => {
+    window.addEventListener('message', checkAccessToken);
+    console.log('Added checkAccessToken event listener')
+
+    return () => {
+      window.removeEventListener('message', checkAccessToken)
+      console.log('Removed checkAccessToken event listener')
+    }
+  }, [])
+  
+  // Navigate to _auth.login if accessToken is null
+  // useEffect(() => {
+  //   if (!accessToken) {
+  //     navigate('/login')
+  //   }
+  // }, [accessToken])
 
   return (
     <div className="w-screen h-screen flex flex-col relative overflow-scroll">
