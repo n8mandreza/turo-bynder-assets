@@ -24,6 +24,10 @@ export default function Search() {
         setQuery(event.currentTarget.value)
     }
 
+    function handleClearInput() {
+        setQuery('');
+    }
+
     async function fetchAssets(query: string, page: number) {
         const assetsEndpoint = `https://assets.turo.com/api/v4/media/?keyword=${query}&page=${page}&total=1`
 
@@ -113,8 +117,9 @@ export default function Search() {
                         id="query" 
                         label="Search" 
                         placeholder="Search assets" 
-                        onInput={handleInputChange} 
                         value={query}
+                        onInput={handleInputChange} 
+                        onClear={handleClearInput}
                     />
 
                     {/* <Button label="Search" size="compact" isFormSubmit={true} /> */}
