@@ -138,7 +138,7 @@ export default function Search() {
                     </div>
                 </>
             ) : (
-                <div className="flex flex-col gap-4 items-center justify-center w-full h-full">
+                <div className="flex flex-col gap-4 px-4 w-full h-full">
                     <p>Nothing yet. Search for something.</p>
 
                     <div className="flex gap-3 flex-wrap">
