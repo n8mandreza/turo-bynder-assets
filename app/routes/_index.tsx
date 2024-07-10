@@ -1,6 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Link, useNavigate } from "@remix-run/react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthData } from "~/AuthContext";
 import Button from "~/components/Button";
 import AssetGrid from "~/components/AssetGrid";
@@ -19,7 +19,6 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   const { accessToken, saveAccessToken } = useAuthData();
-  const navigate = useNavigate()
 
   const [hasCheckedToken, setHasCheckedToken] = useState(false);
   const [query, setQuery] = useState('')
@@ -27,6 +26,8 @@ export default function Index() {
   const [resultsPage, setResultsPage] = useState(1)
   const [resultsCount, setResultsCount] = useState(0)
   const totalPages = resultsCount / 50
+
+  const navigate = useNavigate()
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault()
@@ -53,7 +54,6 @@ export default function Index() {
 
       // Check if the server response is not ok then throw an error
       if (!response.ok) {
-        navigate('/login');
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -70,8 +70,6 @@ export default function Index() {
       }));
     } catch (error) {
       console.error('Error fetching assets:', error);
-      navigate('/login');
-      
       throw error;
     }
   }
