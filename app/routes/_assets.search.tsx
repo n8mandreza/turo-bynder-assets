@@ -1,5 +1,4 @@
-import { Link, useNavigate } from "@remix-run/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuthData } from "~/AuthContext";
 import Button from "~/components/Button";
 import AssetGrid from "~/components/AssetGrid";
@@ -67,12 +66,16 @@ export default function Search() {
         setQuery(event.currentTarget.value)
     }
 
+    // Clear input
     function handleClearInput() {
         setQuery('');
+        setResults(null)
     }
 
+    // Handle form submission
     function handleSearch(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
+        console.log("Submitted query:", query)
         setResultsPage(1)
         fetchAssets(query, 1)
             .then(results => {

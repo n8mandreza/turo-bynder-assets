@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react"
 import MagnifyingGlass from "~/icons/MagnifyingGlass"
 import IconButton from "./IconButton"
 import CloseCircleFilled from "~/icons/CloseCircleFilled"
 
-export interface SearchInputProps {
+interface SearchInputProps {
     id: string
     label: string
     placeholder?: string
