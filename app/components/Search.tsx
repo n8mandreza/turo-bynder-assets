@@ -60,8 +60,9 @@ export default function Search({accessToken}: SearchProps) {
                 url: result.thumbnails.webimage
             }));
         } catch (error) {
-            navigate('/login');
             console.error('Error fetching assets:', error);
+            console.log('Navigating to login')
+            navigate('/login');
             throw error;
         }
     }
