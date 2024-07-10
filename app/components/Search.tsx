@@ -61,8 +61,14 @@ export default function Search({accessToken}: SearchProps) {
             }));
         } catch (error) {
             console.error('Error fetching assets:', error);
+
             console.log('Navigating to login')
-            navigate('/login');
+            try {
+                navigate('/login');
+            } catch (navError) {
+                console.error('Navigation error:', navError);
+            }
+            
             throw error;
         }
     }
