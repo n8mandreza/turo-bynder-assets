@@ -19,15 +19,6 @@ export default function Search() {
     const [resultsCount, setResultsCount] = useState(0)
     const totalPages = resultsCount / 50
 
-    function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-        event.preventDefault()
-        setQuery(event.currentTarget.value)
-    }
-
-    function handleClearInput() {
-        setQuery('');
-    }
-
     async function fetchAssets(query: string, page: number) {
         const assetsEndpoint = `https://assets.turo.com/api/v4/media/?keyword=${query}&page=${page}&total=1`
 
@@ -71,6 +62,15 @@ export default function Search() {
         }
     }
 
+    // Update query as user types
+    function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+        setQuery(event.currentTarget.value)
+    }
+
+    function handleClearInput() {
+        setQuery('');
+    }
+
     function handleSearch(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
         setResultsPage(1)
@@ -79,6 +79,7 @@ export default function Search() {
                 setResults(results)
                 console.log('Processed results:', results)
             })
+            .catch(error => console.error('Error in handleSearch:', error))
     }
 
     function handleNext() {
