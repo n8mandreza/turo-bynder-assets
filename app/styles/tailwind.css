@@ -43,7 +43,11 @@
     }
 
     .surface-material {
-        @apply bg-material-0 dark:bg-material-800
+        @apply bg-material-0 dark:bg-material-800;
+    }
+
+    .surface-success {
+        @apply bg-green-75 dark:bg-green-900;
     }
 
     .surface-sticky {
