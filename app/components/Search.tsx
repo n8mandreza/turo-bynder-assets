@@ -18,7 +18,7 @@ export default function Search({accessToken}: SearchProps) {
     const [resultsCount, setResultsCount] = useState(0)
     const totalPages = resultsCount / 50
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         event.preventDefault()
@@ -45,6 +45,10 @@ export default function Search({accessToken}: SearchProps) {
 
             // Check if the server response is not ok then throw an error
             if (!response.ok) {
+                // Check for 401 Unauthorized error
+                if (response.status === 401) {
+                    navigate('/login');
+                }
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
@@ -61,14 +65,6 @@ export default function Search({accessToken}: SearchProps) {
             }));
         } catch (error) {
             console.error('Error fetching assets:', error);
-
-            console.log('Navigating to login')
-            try {
-                navigate('/login');
-            } catch (navError) {
-                console.error('Navigation error:', navError);
-            }
-            
             throw error;
         }
     }
