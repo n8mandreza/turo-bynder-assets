@@ -8,6 +8,7 @@ import SearchInput from "~/components/SearchInput";
 import IconButton from "~/components/IconButton";
 import LeftChevron from "~/icons/LeftChevron";
 import RightChevron from "~/icons/RightChevron";
+import Chip from "~/components/Chip";
 
 export default function Search() {
     const { accessToken, resetAccessToken } = useAuthData();
@@ -68,9 +69,8 @@ export default function Search() {
 
     function handleSearch(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
-        let newPage = 1
-        setResultsPage(newPage)
-        fetchAssets(query, newPage)
+        setResultsPage(1)
+        fetchAssets(query, 1)
             .then(results => {
                 setResults(results)
                 console.log('Processed results:', results)
@@ -92,6 +92,16 @@ export default function Search() {
             .then(results => {
                 setResults(results)
                 console.log('Processed results:', results)
+            })
+    }
+
+    function handleChipClick(label: string) {
+        setQuery(label);
+        setResultsPage(1);
+        fetchAssets(label, 1)
+            .then(results => {
+                setResults(results);
+                console.log('Processed results:', results);
             })
     }
 
@@ -128,8 +138,20 @@ export default function Search() {
                     </div>
                 </>
             ) : (
-                <div className="flex items-center justify-center w-full h-full">
+                <div className="flex flex-col gap-4 items-center justify-center w-full h-full">
                     <p>Nothing yet. Search for something.</p>
+
+                    <div className="flex gap-3 flex-wrap">
+                        <Chip label="abstract" handleClick={() => handleChipClick("abstract")} />
+                        <Chip label="Audi" handleClick={() => handleChipClick("Audi")} />
+                        <Chip label="BMW" handleClick={() => handleChipClick("BMW")} />
+                        <Chip label="convertible" handleClick={() => handleChipClick("convertible")} />
+                        <Chip label="exotic" handleClick={() => handleChipClick("exotic")} />
+                        <Chip label="hero" handleClick={() => handleChipClick("hero")} />
+                        <Chip label="Porsche" handleClick={() => handleChipClick("Porsche")} />
+                        <Chip label="SUV" handleClick={() => handleChipClick("SUV")} />
+                        <Chip label="Toyota" handleClick={() => handleChipClick("Toyota")} />
+                    </div>
                 </div>
             )}
         </div> 
