@@ -63,6 +63,7 @@ export default function Search() {
 
     // Update query as user types
     function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+        console.log('Input changed:', event.currentTarget.value);
         setQuery(event.currentTarget.value)
     }
 
