@@ -21,6 +21,7 @@ export default function Index() {
   const { accessToken, saveAccessToken } = useAuthData();
   const navigate = useNavigate()
 
+  const [hasCheckedToken, setHasCheckedToken] = useState(false);
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<AssetType[] | null>(null)
   const [resultsPage, setResultsPage] = useState(1)
@@ -111,9 +112,9 @@ export default function Index() {
       // and save it to use with network requests
       console.log('Access token from plugin message', accessToken)
       saveAccessToken(accessToken)
-    } else {
-      navigate('/login')
     }
+
+    setHasCheckedToken(true);
   }
 
   useEffect(() => {
@@ -127,11 +128,11 @@ export default function Index() {
   }, [])
   
   // Navigate to _auth.login if accessToken is null
-  // useEffect(() => {
-  //   if (!accessToken) {
-  //     navigate('/login')
-  //   }
-  // }, [accessToken])
+  useEffect(() => {
+    if (!accessToken && hasCheckedToken) {
+      navigate('/login');
+    }
+  }, [accessToken, hasCheckedToken, navigate]);
 
   return (
     <div className="w-screen h-screen flex flex-col relative overflow-scroll">
