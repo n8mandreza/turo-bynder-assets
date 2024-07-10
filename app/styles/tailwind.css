@@ -84,12 +84,12 @@
         @apply bg-green-100 dark:bg-grey-700;
     }
 
-    .progress-indicator-track {
+    .spinner-track {
         @apply border-grey-100 dark:border-grey-750;
         @apply border-4;
     }
 
-    .progress-indicator-fill {
+    .spinner-fill {
         @apply border-l-blurple-400 dark:border-l-blurpleA-300
     }
 
