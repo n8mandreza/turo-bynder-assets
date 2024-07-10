@@ -53,6 +53,7 @@ export default function Index() {
 
       // Check if the server response is not ok then throw an error
       if (!response.ok) {
+        navigate('/login');
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
