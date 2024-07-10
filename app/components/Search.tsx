@@ -45,7 +45,6 @@ export default function Search({accessToken}: SearchProps) {
 
             // Check if the server response is not ok then throw an error
             if (!response.ok) {
-                navigate('/login');
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
@@ -61,6 +60,7 @@ export default function Search({accessToken}: SearchProps) {
                 url: result.thumbnails.webimage
             }));
         } catch (error) {
+            navigate('/login');
             console.error('Error fetching assets:', error);
             throw error;
         }
