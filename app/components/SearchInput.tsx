@@ -11,7 +11,7 @@ export interface SearchInputProps {
     onInput?: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export default function SearchInput({ id, label, placeholder,value, onInput }: SearchInputProps) {
+export default function SearchInput({ id, label, placeholder, value, onInput }: SearchInputProps) {
     const [inputValue, setInputValue] = useState(value);
 
     useEffect(() => {
@@ -32,7 +32,8 @@ export default function SearchInput({ id, label, placeholder,value, onInput }: S
             const syntheticEvent = {
                 target: { value: '' },
                 currentTarget: { value: '' },
-            } as React.ChangeEvent<HTMLInputElement>;
+                preventDefault: () => {}, // Add a dummy preventDefault function
+            } as unknown as React.ChangeEvent<HTMLInputElement>;
             onInput(syntheticEvent);
         }
     };
