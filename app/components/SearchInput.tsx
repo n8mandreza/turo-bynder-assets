@@ -1,4 +1,7 @@
+import { useState } from "react"
 import MagnifyingGlass from "~/icons/MagnifyingGlass"
+import IconButton from "./IconButton"
+import CloseCircleFilled from "~/icons/CloseCircleFilled"
 
 export interface SearchInputProps {
     id: string
@@ -8,11 +11,38 @@ export interface SearchInputProps {
 }
 
 export default function SearchInput({ id, label, placeholder, onInput }: SearchInputProps) {
+    const [inputValue, setInputValue] = useState('');
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(event.target.value);
+        if (onInput) {
+            onInput(event);
+        }
+    };
+
+    const clearInput = () => {
+        setInputValue('');
+        if (onInput) {
+            // Create a synthetic event to pass to the onInput handler
+            const syntheticEvent = {
+                target: { value: '' },
+                currentTarget: { value: '' },
+            } as React.ChangeEvent<HTMLInputElement>;
+            onInput(syntheticEvent);
+        }
+    };
+
     return (
         <div className="flex items-center gap-3 w-full px-3 py-2 rounded-lg backdrop-blur-xl surface-material drop-shadow-xl focus:interactive-focus below-m">
             <MagnifyingGlass />
 
-            <input id={id} type="text" aria-label={label} placeholder={placeholder} onInput={onInput} className="w-full bg-transparent text-base placeholder:text-02 focus-visible:outline-none" />
+            <input id={id} type="text" aria-label={label} placeholder={placeholder} value={inputValue} onInput={handleInputChange} className="w-full bg-transparent text-base placeholder:text-02 focus-visible:outline-none" />
+
+            {inputValue && (
+                <IconButton onClick={clearInput}>
+                    <CloseCircleFilled />
+                </IconButton>
+            )}
         </div>
     )
 }
