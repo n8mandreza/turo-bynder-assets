@@ -16,8 +16,9 @@ type FormValues = {
 
 export default function Search() {
     const { accessToken, resetAccessToken } = useAuthData();
-    const { register, handleSubmit, setValue, getValues } = useForm<FormValues>();
+    const { register, handleSubmit, watch, setValue, getValues } = useForm<FormValues>();
 
+    const query = watch("query"); // Watch the query input value
     // const [query, setQuery] = useState('')
     const [results, setResults] = useState<AssetType[] | null>(null)
     const [resultsPage, setResultsPage] = useState(1)
@@ -119,7 +120,7 @@ export default function Search() {
                         formId="search"
                         label="Search"
                         placeholder="Search assets"
-                        value={getValues("query")}
+                        value={query}
                         register={register("query")}
                         onClear={() => setValue("query", "")}
                     />
