@@ -81,7 +81,7 @@
 
     .interactive-focus,
     :focus-visible {
-        @apply outline outline-2 outline-offset-2 outline-blurple-400 dark:outline-blurpleA-300;
+        @apply outline outline-2 outline-blurple-400 dark:outline-blurpleA-300;
     }
 
     .spot-bg-success {

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { useAuthData } from "~/AuthContext";
 import Button from "~/components/Button";
 import AssetGrid from "~/components/AssetGrid";
@@ -9,10 +10,15 @@ import LeftChevron from "~/icons/LeftChevron";
 import RightChevron from "~/icons/RightChevron";
 import Chip from "~/components/Chip";
 
+type FormValues = {
+    query: string;
+};
+
 export default function Search() {
     const { accessToken, resetAccessToken } = useAuthData();
+    const { register, handleSubmit, setValue, getValues } = useForm<FormValues>();
 
-    const [query, setQuery] = useState('')
+    // const [query, setQuery] = useState('')
     const [results, setResults] = useState<AssetType[] | null>(null)
     const [resultsPage, setResultsPage] = useState(1)
     const [resultsCount, setResultsCount] = useState(0)
@@ -61,70 +67,61 @@ export default function Search() {
         }
     }
 
-    // Update query as user types
-    function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-        console.log('Input changed:', event.currentTarget.value);
-        setQuery(event.currentTarget.value)
-    }
-
-    // Clear input
-    function handleClearInput() {
-        setQuery('');
-        setResults(null)
-    }
-
-    // Handle form submission
-    function handleSearch(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault()
-        console.log("Submitted query:", query)
-        setResultsPage(1)
+    const onSubmit: SubmitHandler<FormValues> = ({ query }) => {
+        console.log("Submitted query:", query);
+        setResultsPage(1);
         fetchAssets(query, 1)
             .then(results => {
-                setResults(results)
-                console.log('Processed results:', results)
+                setResults(results);
+                console.log('Processed results:', results);
             })
-            .catch(error => console.error('Error in handleSearch:', error))
-    }
-
-    function handleNext() {
-        setResultsPage(resultsPage + 1)
-        fetchAssets(query, resultsPage + 1)
-            .then(results => {
-                setResults(results)
-                console.log('Processed results:', results)
-            })
-    }
-
-    function handlePrev() {
-        setResultsPage(resultsPage - 1)
-        fetchAssets(query, resultsPage - 1)
-            .then(results => {
-                setResults(results)
-                console.log('Processed results:', results)
-            })
-    }
+            .catch(error => console.error('Error in handleSubmit:', error));
+    };
 
     function handleChipClick(label: string) {
-        setQuery(label);
+        setValue("query", label);
         setResultsPage(1);
         fetchAssets(label, 1)
             .then(results => {
                 setResults(results);
                 console.log('Processed results:', results);
             })
+            .catch(error => console.error('Error in handleChipClick:', error));
+    }
+
+    function handleNext() {
+        const query = getValues("query");
+        setResultsPage(resultsPage + 1);
+        fetchAssets(query, resultsPage + 1)
+            .then(results => {
+                setResults(results);
+                console.log('Processed results:', results);
+            })
+            .catch(error => console.error('Error in handleNext:', error));
+    }
+
+    function handlePrev() {
+        const query = getValues("query");
+        setResultsPage(resultsPage - 1);
+        fetchAssets(query, resultsPage - 1)
+            .then(results => {
+                setResults(results);
+                console.log('Processed results:', results);
+            })
+            .catch(error => console.error('Error in handlePrev:', error));
     }
 
     return (
         <div className="flex flex-col relative overflow-scroll w-full h-full">
             <div className="flex flex-col gap-3 sticky z-10 left-0 top-0 right-0 p-4 border-b-1 stroke-01">
-                <form id="search" className="flex w-full gap-3" onSubmit={handleSearch}>
+                <form className="flex w-full gap-3" onSubmit={handleSubmit(onSubmit)}>
                     <SearchInput
-                        formId="search" 
-                        label="Search" 
-                        placeholder="Search assets" 
-                        value={query}
-                        onInput={handleInputChange} 
-                        onClear={handleClearInput}
+                        formId="search"
+                        label="Search"
+                        placeholder="Search assets"
+                        value={getValues("query")}
+                        register={register("query")}
+                        onClear={() => setValue("query", "")}
                     />
 
                     <Button label="Search" size="compact" isFormSubmit={true} />
