@@ -176,8 +176,9 @@ export default function Index() {
 
         </>
       ) : (
-        <div className="flex flex-col gap-3 items-center justify-center w-full h-full">
-          <h4>You are not logged in</h4>
+        <div className="flex flex-col gap-3 items-center justify-center w-full h-full p-4">
+          <h4 className="text-lg">Checking for access token...</h4>
+          <p>If you aren't automatically redirected after a few seconds, click the button to log in.</p>
           <Link to="/login">
             <Button label="Go to login"/>
           </Link>
