@@ -80,6 +80,10 @@
         @apply outline outline-2 outline-offset-2 outline-blurple-400 dark:outline-blurpleA-300;
     }
 
+    .spot-bg-success {
+        @apply bg-green-100 dark:bg-grey-700;
+    }
+
     .below-m {
         @apply drop-shadow-md dark:drop-shadow-md-dark
     }
