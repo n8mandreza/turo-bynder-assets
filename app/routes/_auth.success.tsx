@@ -4,7 +4,7 @@ import SpotThumbsUpSuccess from "~/illustrations/SpotThumbsUpSuccess";
 export default function SuccessRoute() {
     return (
         <div className="flex flex-col items-center justify-center w-screen h-screen">
-            <div className="surface-success rounded-2xl flex items-center gap-4 py-3 pl-4 pr-6">
+            <div className="surface-success rounded-2xl flex items-center gap-4 py-3 px-6">
                 <SpotIllustration spotIllustration={<SpotThumbsUpSuccess />} />
 
                 <div className="flex flex-col gap-3">
