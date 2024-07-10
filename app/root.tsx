@@ -38,6 +38,8 @@ export default function App() {
 
   // On load, check if there's an existing access token
   const checkAccessToken = (event: MessageEvent) => {
+    console.log("Checking for message events")
+    
     if (event.data.pluginMessage.message === 'GET_EXISTING_ACCESS_TOKEN') {
       const accessToken = event.data.pluginMessage.accessToken
       // Check if that token works

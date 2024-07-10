@@ -39,7 +39,7 @@ export default function CallbackRoute() {
       })
         .then(response => response.json())
         .then(data => {
-          console.log('Token response from Bynder:', data);
+          // console.log('Token response from Bynder:', data);
 
           // Send access token to the plugin via WebSocket
           webSocket.send(JSON.stringify({
