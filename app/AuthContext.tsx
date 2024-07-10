@@ -45,13 +45,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     // If accessToken isn't null, send it to the plugin entrypoint
     if (accessToken) {
-      window.parent.postMessage({
+      const message = {
         pluginMessage: {
-          message: 'SAVE_ACCESS_TOKEN', 
+          message: 'SAVE_ACCESS_TOKEN',
           accessToken: accessToken
         },
         pluginId: '1381050062397011474'
-      }, 'https://www.figma.com');
+      }
+
+      console.log("Sending postMessage", message)
+
+      window.parent.postMessage(message, 'https://www.figma.com')
+    } else {
+      console.log("accessToken is null or undefined")
     }
   }, [accessToken]);  // Include refreshToken if needed
 
