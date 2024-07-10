@@ -9,6 +9,7 @@ import SearchInput from "~/components/SearchInput";
 import IconButton from "~/components/IconButton";
 import LeftChevron from "~/icons/LeftChevron";
 import RightChevron from "~/icons/RightChevron";
+import ProgressIndicator from "~/components/ProgressIndicator";
 
 export const meta: MetaFunction = () => {
   return [
@@ -182,6 +183,7 @@ export default function Index() {
       ) : (
         <div className="flex flex-col gap-3 items-center justify-center w-full h-full p-4">
           <div className="flex flex-col items-center gap-2">
+            <ProgressIndicator/>
             <h4 className="text-lg">Loading...</h4>
             <p className="text-center text-sm text-02">If you aren't automatically redirected after a few seconds, click the button to log in.</p>
           </div>
