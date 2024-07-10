@@ -18,7 +18,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const { accessToken, saveAccessToken } = useAuthData();
+  const { accessToken, saveAccessToken, resetAccessToken } = useAuthData();
 
   const [hasCheckedToken, setHasCheckedToken] = useState(false);
   const [query, setQuery] = useState('')
@@ -54,6 +54,9 @@ export default function Index() {
 
       // Check if the server response is not ok then throw an error
       if (!response.ok) {
+        if (response.status === 401) {
+          resetAccessToken(); // Reset the access token
+        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
