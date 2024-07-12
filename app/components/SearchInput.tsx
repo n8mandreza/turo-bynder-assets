@@ -1,6 +1,7 @@
 import MagnifyingGlass from "~/icons/MagnifyingGlass"
 import IconButton from "./IconButton"
 import CloseCircleFilled from "~/icons/CloseCircleFilled"
+import { useState } from "react"
 
 interface SearchInputProps {
     formId: string
@@ -12,9 +13,13 @@ interface SearchInputProps {
 }
 
 export default function SearchInput({ formId, label, placeholder, value, onInput, onClear }: SearchInputProps) {
+    const [isFocused, setIsFocused] = useState(false);
+
+    const handleFocus = () => setIsFocused(true);
+    const handleBlur = () => setIsFocused(false);
 
     return (
-        <div className="flex items-center gap-1 w-full px-1 py-1 rounded-lg backdrop-blur-xl surface-material drop-shadow-xl focus:interactive-focus below-m">
+        <div className={`flex items-center gap-1 w-full px-1 py-1 rounded-lg backdrop-blur-xl surface-material drop-shadow-xl below-m ${isFocused ? 'interactive-focus' : ''}`}>
             <div className="w-8 h-8 flex items-center justify-center p-2">
                 <MagnifyingGlass />
             </div>
@@ -26,6 +31,8 @@ export default function SearchInput({ formId, label, placeholder, value, onInput
                 placeholder={placeholder}
                 value={value}
                 onInput={onInput}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
                 className="w-full bg-transparent text-base placeholder:text-02 focus-visible:outline-none"
             />
 
