@@ -136,7 +136,7 @@ export default function Search() {
             {results ? (
                 <>
                     <div className="flex flex-col">
-                        <div className="px-4 py-2 flex justify-end">
+                        <div className="px-4 flex justify-end">
                             <p className="text-02 text-sm">{resultsCount} results</p>
                         </div>
 
