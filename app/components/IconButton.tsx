@@ -13,7 +13,7 @@ export default function IconButton({ children, isSecondary = false, disabled = f
         <button
             disabled={disabled}
             onClick={onClick}
-            className={`${disabled ? 'interactive-fg-disabled' : 'hover:opacity-80 hover:surface-01'} ${isSecondary ? 'text-02' : ''} rounded-lg p-2`}
+            className={`${disabled ? 'interactive-fg-disabled' : 'hover:opacity-80 hover:surface-01'} ${isSecondary ? 'text-03' : ''} rounded-lg p-2`}
         >
             {children}
         </button>
