@@ -44,8 +44,11 @@ export default function AssetsLayout() {
     
     return (
         <div className="flex flex-col items-center justify-center w-screen h-screen pt-10">
-            <div className="flex fixed top-0 left-0 right-0 z-50 gap-3 px-4 py-2 border-b stroke-01">
-                <Link to="/search">Search</Link>
+            <div className="flex fixed surface-sticky top-0 left-0 right-0 z-50 gap-3 px-4 py-2 border-b stroke-01">
+                <Link to="/search">
+                    <p className="text-sm hover:opacity-60">Search</p>
+                </Link>
+                
                 <p className="text-02 pointer-events-none">
                     Collections (WIP)
                 </p>
