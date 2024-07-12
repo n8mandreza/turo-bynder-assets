@@ -37,7 +37,7 @@ export default function SearchInput({ formId, label, placeholder, value, onInput
             />
 
             {value && (
-                <IconButton onClick={onClear}>
+                <IconButton isSecondary={true} onClick={onClear}>
                     <CloseCircleFilled />
                 </IconButton>
             )}

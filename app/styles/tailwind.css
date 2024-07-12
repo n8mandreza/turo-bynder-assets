@@ -11,11 +11,12 @@
 @layer base {
     .text-01 {
         @apply text-grey-900 dark:text-grey-75;
-        @apply fill-grey-900 dark:fill-grey-75
+        @apply fill-grey-900 dark:fill-grey-75;
     }
 
     .text-02 {
         @apply text-grey-600 dark:text-grey-300;
+        @apply fill-grey-600 dark:fill-grey-300;
     }
 
     .interactive-text {
