@@ -8,9 +8,11 @@ import IconButton from "~/components/IconButton";
 import LeftChevron from "~/icons/LeftChevron";
 import RightChevron from "~/icons/RightChevron";
 import Chip from "~/components/Chip";
+import { useNavigate } from "@remix-run/react";
 
 export default function Search() {
     const { accessToken, resetAccessToken } = useAuthData();
+    const navigate = useNavigate()
 
     const [query, setQuery] = useState('')
     const [results, setResults] = useState<AssetType[] | null>(null)
@@ -23,7 +25,7 @@ export default function Search() {
 
         if (!accessToken) {
             console.error('No access token available.')
-            return;
+            navigate('/login')
         }
 
         // Fetch assets with Authorization header
