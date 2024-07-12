@@ -118,11 +118,11 @@ export default function Search() {
 
     return (
         <div className="flex flex-col relative overflow-scroll w-full h-full">
-            <div className="flex flex-col gap-3 sticky z-10 left-0 top-0 right-0 p-4 border-b-1 stroke-01">
+            <div className="flex flex-col gap-3 sticky z-10 left-0 top-0 right-0 p-4 border-b-[1px] surface-sticky stroke-01">
                 <form id="search" className="flex w-full gap-3" onSubmit={handleSearch}>
                     <SearchInput
                         formId="search" 
-                        label="Search" 
+                        label="Search"
                         placeholder="Search assets" 
                         value={query}
                         onInput={handleInputChange} 
