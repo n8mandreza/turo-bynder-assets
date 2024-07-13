@@ -64,6 +64,7 @@ export default function Index() {
       await tryAccessToken(accessToken);
     }
 
+    console.log('Finishing token check')
     setHasCheckedToken(true);
   };
 
