@@ -53,19 +53,19 @@ export default function Index() {
   }
 
   // On load, check if there's an existing access token
-  const checkAccessToken = (event: MessageEvent) => {
-    console.log("Message received by UI:", event.data)
+  const checkAccessToken = async (event: MessageEvent) => {
+    console.log('Message received by UI:', event.data);
 
     if (event?.data?.pluginMessage?.message === 'GET_EXISTING_ACCESS_TOKEN') {
-      const accessToken = event?.data?.pluginMessage?.accessToken
-      console.log('Access token from plugin message', accessToken)
+      const accessToken = event?.data?.pluginMessage?.accessToken;
+      console.log('Access token from plugin message', accessToken);
       // Check if that token works
       // and save it to use with network requests
-      tryAccessToken(accessToken)
+      await tryAccessToken(accessToken);
     }
 
     setHasCheckedToken(true);
-  }
+  };
 
   useEffect(() => {
     window.addEventListener('message', checkAccessToken);
