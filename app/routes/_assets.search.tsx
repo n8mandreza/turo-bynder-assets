@@ -2,13 +2,14 @@ import { useState } from "react";
 import { useAuthData } from "~/AuthContext";
 import Button from "~/components/Button";
 import AssetGrid from "~/components/AssetGrid";
-import AssetType from "~/types/AssetType";
+import { AssetType } from "~/types/AssetTypings";
 import SearchInput from "~/components/SearchInput";
 import IconButton from "~/components/IconButton";
 import LeftChevron from "~/icons/LeftChevron";
 import RightChevron from "~/icons/RightChevron";
 import Chip from "~/components/Chip";
 import { useNavigate } from "@remix-run/react";
+import { searchTerms } from "~/data/searchTerms";
 
 export default function Search() {
     const { accessToken, resetAccessToken } = useAuthData();
@@ -160,15 +161,9 @@ export default function Search() {
                     <p>Nothing yet. Search for something.</p>
 
                     <div className="flex gap-3 flex-wrap">
-                        <Chip label="abstract" handleClick={() => handleChipClick("abstract")} />
-                        <Chip label="Audi" handleClick={() => handleChipClick("Audi")} />
-                        <Chip label="BMW" handleClick={() => handleChipClick("BMW")} />
-                        <Chip label="convertible" handleClick={() => handleChipClick("convertible")} />
-                        <Chip label="exotic" handleClick={() => handleChipClick("exotic")} />
-                        <Chip label="hero" handleClick={() => handleChipClick("hero")} />
-                        <Chip label="Porsche" handleClick={() => handleChipClick("Porsche")} />
-                        <Chip label="SUV" handleClick={() => handleChipClick("SUV")} />
-                        <Chip label="Toyota" handleClick={() => handleChipClick("Toyota")} />
+                        {searchTerms.map((searchTerm: string) => (
+                            <Chip label={searchTerm} handleClick={() => handleChipClick(searchTerm)} />
+                        ))}
                     </div>
                 </div>
             )}

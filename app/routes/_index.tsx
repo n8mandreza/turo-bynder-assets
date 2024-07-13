@@ -3,7 +3,6 @@ import { Link, useNavigate } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { useAuthData } from "~/AuthContext";
 import ProgressIndicator from "~/components/ProgressIndicator";
-import { ICollection } from "./_assets.collections";
 
 export const meta: MetaFunction = () => {
   return [
@@ -99,7 +98,7 @@ export default function Index() {
         <div className="flex flex-col items-center gap-2">
           <ProgressIndicator/>
           <h4 className="text-lg">Loading...</h4>
-          <p className="text-center text-sm text-02">If you aren't automatically redirected after a few seconds, you may need to log in again.</p>
+          <p className="text-center text-sm text-02 px-4">If you aren't automatically redirected after a few seconds, you may need to log in again.</p>
           <Link to="/login">
             <p className="hover:opacity-60 text-sm cursor-pointer">Go to login</p>
           </Link>

@@ -1,15 +1,8 @@
 import { useEffect, useState } from "react"
-
-export interface ICollection {
-  name: string
-  id: string
-  collectionCount: number
-  cover: any
-  thumbnail: string
-}
+import { CollectionType } from "~/types/AssetTypings"
 
 export default function CollectionsRoute() {
-  const [collections, setCollections] = useState<ICollection[]>([])
+  const [collections, setCollections] = useState<CollectionType[]>([])
   const [collectionsCount, setCollectionsCount] = useState(0)
   const [collectionsPage, setCollectionsPage] = useState(1)
 
@@ -22,7 +15,7 @@ export default function CollectionsRoute() {
         console.log(results);
         setCollectionsCount(results.count);
         
-        return results.map((result: ICollection) => {
+        return results.map((result: CollectionType) => {
           return {
             name: result.name,
             id: result.id,
