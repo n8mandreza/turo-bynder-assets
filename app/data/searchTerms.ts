@@ -1,4 +1,4 @@
-const searchTerms = [
+export const searchTerms = [
     "abstract",
     "Audi",
     "BMW",
