@@ -80,8 +80,10 @@ export default function Index() {
   // Navigate to _auth.login if accessToken is null
   useEffect(() => {
     if (hasCheckedToken && !accessToken) {
+      console.log('Redirecting to log in')
       navigate('/login');
     } else if (hasCheckedToken) {
+      console.log('Redirecting to search')
       navigate('/search');
     }
   }, [accessToken, hasCheckedToken, navigate]);
