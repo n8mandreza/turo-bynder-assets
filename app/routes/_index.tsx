@@ -44,6 +44,7 @@ export default function Index() {
         if (response.status === 401) {
           console.log('Resetting access token')
           resetAccessToken(); // Reset the access token
+          setHasCheckedToken(true)
         }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
