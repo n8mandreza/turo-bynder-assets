@@ -1,4 +1,4 @@
-import AssetType from "~/types/AssetType";
+import { AssetType } from "~/types/AssetTypings";
 import { Masonry } from "masonic";
 
 interface AssetGridProps {
