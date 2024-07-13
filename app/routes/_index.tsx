@@ -37,6 +37,8 @@ export default function Index() {
         }
       });
 
+      console.log('Trying access token')
+
       // Check if the server response is not ok then throw an error
       if (!response.ok) {
         if (response.status === 401) {
