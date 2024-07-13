@@ -81,7 +81,7 @@ export default function Index() {
   useEffect(() => {
     if (hasCheckedToken && !accessToken) {
       navigate('/login');
-    } else {
+    } else if (hasCheckedToken) {
       navigate('/search');
     }
   }, [accessToken, hasCheckedToken, navigate]);
