@@ -5,9 +5,9 @@ import NavBar from "~/components/NavBar";
 
 export default function AssetsLayout() {
     const { accessToken, saveAccessToken, resetAccessToken } = useAuthData();
-
-    const [hasCheckedToken, setHasCheckedToken] = useState(false);
     const navigate = useNavigate()
+    
+    const [hasCheckedToken, setHasCheckedToken] = useState(false);
 
     // On load, check if there's an existing access token
     const checkAccessToken = (event: MessageEvent) => {
