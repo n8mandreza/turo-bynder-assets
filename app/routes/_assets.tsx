@@ -44,7 +44,7 @@ export default function AssetsLayout() {
     // }, [accessToken, hasCheckedToken, navigate]);
     
     return (
-        <div className="flex flex-col items-center justify-center w-screen h-screen pt-10">
+        <div className="flex flex-col items-center justify-center w-screen h-screen pt-8">
             <NavBar />
             
             <Outlet />
