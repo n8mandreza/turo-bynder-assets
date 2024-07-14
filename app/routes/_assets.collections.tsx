@@ -95,7 +95,7 @@ export default function CollectionsRoute() {
                       <p className="text-xs">{collection.collectionCount}</p>
                     </div>
 
-                    <img src={collection.thumbnail} />
+                    <img className="aspect-square" src={collection.thumbnail} />
                   </div>
 
                   <p className="text-xs text-02">{collection.name}</p>
