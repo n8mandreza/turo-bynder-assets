@@ -56,7 +56,7 @@ export default function CollectionsRoute() {
     <div className="flex flex-col gap-4 overflow-scroll w-full h-full">
       <h4 className="text-lg">Collections</h4>
       
-      {collections ? (
+      {collections && collectionsCount > 0 ? (
         <>
           <div className="flex flex-col">
             <div className="px-4 flex justify-end">
@@ -81,7 +81,7 @@ export default function CollectionsRoute() {
           />
         </>
       ) : (
-        <div>
+        <div className="flex flex-col gap-3 w-full h-full items-center justify-center">
           <p>No collections yet. Create a collection on <a href="https://assets.turo.com">assets.turo.com</a></p>
         </div>
       )}
