@@ -10,6 +10,7 @@ import RightChevron from "~/icons/RightChevron";
 import Chip from "~/components/Chip";
 import { useNavigate } from "@remix-run/react";
 import { searchTerms } from "~/data/searchTerms";
+import Pagination from "~/components/Pagination";
 
 export default function Search() {
     const { accessToken, resetAccessToken } = useAuthData();
@@ -144,17 +145,12 @@ export default function Search() {
                         <AssetGrid assets={results} />
                     </div>
 
-                    <div className="flex items-center justify-between w-full p-4 gap-3">
-                        <IconButton disabled={resultsPage === 1 ? true : false} onClick={handlePrev}>
-                            <LeftChevron />
-                        </IconButton>
-
-                        <p className="text-base text-01">{resultsPage}</p>
-
-                        <IconButton disabled={resultsPage >= totalPages ? true : false} onClick={handleNext}>
-                            <RightChevron />
-                        </IconButton>
-                    </div>
+                    <Pagination
+                        currentPage={resultsPage}
+                        totalPages={totalPages}
+                        handlePrev={handlePrev}
+                        handleNext={handleNext}
+                    />
                 </>
             ) : (
                 <div className="flex flex-col gap-4 px-4 w-full h-full">
