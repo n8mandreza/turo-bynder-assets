@@ -80,7 +80,7 @@ export default function CollectionsRoute() {
         </>
       ) : (
         <div className="flex flex-col gap-3 w-full h-full items-center justify-center">
-          <p>No collections yet. Create a collection on <a href="https://assets.turo.com">assets.turo.com</a></p>
+            <p className="px-8">No collections yet. Create a collection on <a href="https://assets.turo.com" target="_blank" rel="noopener noreferrer">assets.turo.com</a></p>
         </div>
       )}
     </div>
