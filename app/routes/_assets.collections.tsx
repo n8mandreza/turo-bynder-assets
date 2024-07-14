@@ -79,19 +79,26 @@ export default function CollectionsRoute() {
   }, [])
 
   return (
-    <div className="flex flex-col py-4 gap-4 overflow-scroll w-full h-full">
+    <div className="flex flex-col gap-4 overflow-scroll w-full h-full">
       {collections && collectionsCount > 0 ? (
         <>
-          <div className="flex flex-col">
-            <div className="px-4 flex justify-end">
+          <div className="flex flex-col p-4">
+            <div className="flex justify-end">
               <p className="text-02 text-sm">{collectionsCount} collections</p>
             </div>
 
-            <div className="flex flex-col">
+            <div className="grid grid-cols-2 gap-4">
               {collections.map((collection) => (
-                <div className="flex justify-between gap-2">
-                  <p>{collection.name}</p>
-                  <p>{collection.collectionCount}</p>
+                <div id={collection.id} className="flex flex-col gap-2">
+                  <div className="overflow-hidden rounded-lg relative">
+                    <div className="absolute top-4 left-4 surface-material px-2 py-1">
+                      <p className="text-xs">{collection.collectionCount}</p>
+                    </div>
+
+                    <img src={collection.thumbnail} />
+                  </div>
+
+                  <p className="text-sm text-02">{collection.name}</p>
                 </div>
               ))}
             </div>
