@@ -1,4 +1,4 @@
-import { useNavigate } from "@remix-run/react";
+import { Link, useNavigate } from "@remix-run/react";
 import { useEffect, useState } from "react"
 import { useAuthData } from "~/AuthContext";
 import Pagination from "~/components/Pagination"
@@ -89,17 +89,19 @@ export default function CollectionsRoute() {
 
             <div className="grid grid-cols-2 gap-4">
               {collections.map((collection) => (
-                <div id={collection.id} className="flex flex-col gap-1">
-                  <div className="overflow-hidden rounded-lg relative aspect-square">
-                    <div className="absolute top-1 left-1 surface-material px-2 py-1 rounded-md">
-                      <p className="text-xs">{collection.collectionCount}</p>
+                <Link key={collection.id} to={`/collections/${collection.id}`}>
+                  <div className="flex flex-col gap-1">
+                    <div className="overflow-hidden rounded-lg relative aspect-square">
+                      <div className="absolute top-1 left-1 surface-material px-2 py-1 rounded-md">
+                        <p className="text-xs">{collection.collectionCount}</p>
+                      </div>
+
+                      <img className="w-full h-full object-cover" src={collection.thumbnail} />
                     </div>
 
-                    <img className="w-full object-cover" src={collection.thumbnail} />
+                    <p className="text-xs text-02">{collection.name}</p>
                   </div>
-
-                  <p className="text-xs text-02">{collection.name}</p>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
