@@ -54,8 +54,6 @@ export default function CollectionsRoute() {
 
   return (
     <div className="flex flex-col gap-4 overflow-scroll w-full h-full">
-      <h4 className="text-lg">Collections</h4>
-      
       {collections && collectionsCount > 0 ? (
         <>
           <div className="flex flex-col">
