@@ -1,8 +1,13 @@
+import { useNavigate } from "@remix-run/react";
 import { useEffect, useState } from "react"
+import { useAuthData } from "~/AuthContext";
 import Pagination from "~/components/Pagination"
 import { CollectionType } from "~/types/AssetTypings"
 
 export default function CollectionsRoute() {
+  const { accessToken, resetAccessToken } = useAuthData();
+  const navigate = useNavigate()
+  
   const [collections, setCollections] = useState<CollectionType[]>([])
   const [collectionsCount, setCollectionsCount] = useState(0)
   const [collectionsPage, setCollectionsPage] = useState(1)
@@ -11,21 +16,42 @@ export default function CollectionsRoute() {
   async function fetchCollections(page: number) {
     const collectionsEndpoint = `https://assets.turo.com/api/v4/collections?page=${page}&count=1&minCount=1&orderBy=name%20asc`
 
-    return await fetch(collectionsEndpoint)
-      .then(async (response) => {
-        const results = await response.json();
-        console.log(results);
-        setCollectionsCount(results.count);
-        
-        return results.map((result: CollectionType) => {
-          return {
-            name: result.name,
-            id: result.id,
-            collectionCount: result.collectionCount,
-            thumbnail: result.cover.thumbnail
-          };
-        });
+    if (!accessToken) {
+      console.error('No access token available.')
+      navigate('/login')
+    }
+
+    try {
+      const response = await fetch(collectionsEndpoint, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        }
       })
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          resetAccessToken()
+        }
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const results = await response.json()
+      console.log('Collections fetch response:', results)
+
+      setCollectionsCount(results.count)
+
+      return results.map((result: any) => ({
+        name: result.name,
+        id: result.id,
+        collectionCount: result.collectionCount,
+        thumbnail: result.cover.thumbnail
+      }))
+    } catch (error) {
+      console.error('Error fetching assets:', error)
+      throw error
+    }
   }
 
   function handleNext() {
