@@ -90,12 +90,12 @@ export default function CollectionsRoute() {
             <div className="grid grid-cols-2 gap-4">
               {collections.map((collection) => (
                 <div id={collection.id} className="flex flex-col gap-1">
-                  <div className="overflow-hidden rounded-lg relative">
+                  <div className="overflow-hidden rounded-lg relative aspect-square">
                     <div className="absolute top-1 left-1 surface-material px-2 py-1 rounded-md">
                       <p className="text-xs">{collection.collectionCount}</p>
                     </div>
 
-                    <img className="aspect-square object-cover" src={collection.thumbnail} />
+                    <img className="w-full object-cover" src={collection.thumbnail} />
                   </div>
 
                   <p className="text-xs text-02">{collection.name}</p>
