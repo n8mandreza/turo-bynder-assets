@@ -1,10 +1,11 @@
-import { useNavigate, useParams } from "@remix-run/react";
+import { useLocation, useNavigate, useParams } from "@remix-run/react";
 import { useEffect, useState } from "react"
 import { useAuthData } from "~/AuthContext";
 
 export default function CollectionRoute() {
     const { accessToken, resetAccessToken } = useAuthData();
     const navigate = useNavigate()
+    const location = useLocation()
     const { id } = useParams()
 
     const [assets, setAssets] = useState<any>([])
@@ -46,12 +47,14 @@ export default function CollectionRoute() {
     }
 
     useEffect(() => {
+        console.log(location.pathname)
+        
         if (id) {
             fetchCollectionMedia(id).then((fetchedResults) => {
                 setAssets(fetchedResults)
             })
         }
-    }, [])
+    }, [id])
 
     return (
         <div className="flex flex-col gap-4 overflow-scroll w-full h-full">
