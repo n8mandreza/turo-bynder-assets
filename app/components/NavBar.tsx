@@ -7,9 +7,11 @@ export default function NavBar() {
                 <p className="hover:opacity-60">Search</p>
             </Link>
 
-            <p className="text-02 pointer-events-none">
-                Collections (WIP)
-            </p>
+            <Link to="/collections">
+                <p className="text-02 pointer-events-none">
+                    Collections
+                </p>
+            </Link>
         </div>
     )
 }

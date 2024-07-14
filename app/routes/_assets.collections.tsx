@@ -9,7 +9,7 @@ export default function CollectionsRoute() {
   const totalPages = collectionsCount / 50
 
   async function fetchCollections(page: number) {
-    const collectionsEndpoint = `https://assets.turo.com/api/v4/collections?page=${page}&count=1&minCount=1`
+    const collectionsEndpoint = `https://assets.turo.com/api/v4/collections?page=${page}&count=1&minCount=1&orderBy=name%20asc`
 
     return await fetch(collectionsEndpoint)
       .then(async (response) => {
@@ -53,7 +53,7 @@ export default function CollectionsRoute() {
   }, [])
 
   return (
-    <>
+    <div className="flex flex-col gap-4 overflow-scroll w-full h-full">
       <h4 className="text-lg">Collections</h4>
       
       {collections ? (
@@ -63,7 +63,14 @@ export default function CollectionsRoute() {
               <p className="text-02 text-sm">{collectionsCount} collections</p>
             </div>
 
-            {/* List collections here */}
+            <div className="flex flex-col">
+              {collections.map((collection) => (
+                <div className="flex justify-between gap-2">
+                  <p>{collection.name}</p>
+                  <p>{collection.collectionCount}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
           <Pagination
@@ -74,9 +81,10 @@ export default function CollectionsRoute() {
           />
         </>
       ) : (
-        null
+        <div>
+          <p>No collections yet. Create a collection on <a href="https://assets.turo.com">assets.turo.com</a></p>
+        </div>
       )}
-
-    </>
+    </div>
   )
 }
