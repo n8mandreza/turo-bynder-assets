@@ -13,7 +13,7 @@ export default function NavBar() {
             </Link>
 
             <Link to="/collections">
-                <p className={`hover:opacity-60 ${currentPath === "/search" ? "" : "text-02"}`}>
+                <p className={`hover:opacity-60 ${currentPath === "/collections" ? "" : "text-02"}`}>
                     Collections
                 </p>
             </Link>
