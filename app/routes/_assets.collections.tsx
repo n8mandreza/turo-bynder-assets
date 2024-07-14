@@ -42,7 +42,7 @@ export default function CollectionsRoute() {
 
       setCollectionsCount(results.count)
 
-      return results.map((result: any) => ({
+      return results.collections.map((result: any) => ({
         name: result.name,
         id: result.id,
         collectionCount: result.collectionCount,
@@ -79,7 +79,7 @@ export default function CollectionsRoute() {
   }, [])
 
   return (
-    <div className="flex flex-col gap-4 overflow-scroll w-full h-full">
+    <div className="flex flex-col py-4 gap-4 overflow-scroll w-full h-full">
       {collections && collectionsCount > 0 ? (
         <>
           <div className="flex flex-col">
