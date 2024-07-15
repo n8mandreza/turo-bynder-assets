@@ -6,7 +6,7 @@ import ProgressIndicator from "~/components/ProgressIndicator";
 export default function CollectionRoute() {
     const { accessToken } = useAuthData();
     const navigate = useNavigate();
-    const { $: id } = useParams();
+    const { $: slug } = useParams();
 
     const [assets, setAssets] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -52,10 +52,10 @@ export default function CollectionRoute() {
     }
 
     useEffect(() => {
-        if (id) {
-            fetchCollectionMedia(id);
+        if (slug) {
+            fetchCollectionMedia(slug);
         }
-    }, [id, accessToken, navigate]);
+    }, [slug, accessToken, navigate]);
 
     if (isLoading) {
         return (
