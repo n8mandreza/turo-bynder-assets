@@ -1,11 +1,11 @@
-import { json, LoaderFunction } from "@remix-run/node";
-import { useLoaderData, useNavigate, useParams } from "@remix-run/react";
+import { LoaderFunction } from "@remix-run/node";
+import { useLoaderData, useNavigate } from "@remix-run/react";
 import { useEffect } from "react";
 import { useAuthData } from "~/AuthContext";
 
 export const loader: LoaderFunction = async ({ params, context }) => {
     const { id } = params;
-    const { accessToken } = useAuthData();
+    const { accessToken } = context;
 
     if (!id) {
         throw new Response("Not Found", { status: 404 });
