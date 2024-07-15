@@ -5,7 +5,7 @@ import { useAuthData } from "~/AuthContext";
 
 export const loader: LoaderFunction = async ({ params, context }) => {
     const { id } = params;
-    const { accessToken } = context;
+    const { accessToken } = useAuthData();
 
     if (!id) {
         throw new Response("Not Found", { status: 404 });
@@ -54,7 +54,7 @@ export default function CollectionRoute() {
 
     return (
         <div className="flex flex-col gap-4 overflow-scroll w-full h-full">
-            {assets && assets.length > 0 ? (
+            {assets ? (
                 <div className="flex flex-col p-4 gap-4">
                     {assets.map((asset: any) => (
                         <p key={asset.id}>{asset.id}</p>
