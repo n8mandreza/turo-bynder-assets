@@ -3,32 +3,41 @@ import { useLoaderData, useNavigate, useParams } from "@remix-run/react";
 import { useEffect } from "react";
 import { useAuthData } from "~/AuthContext";
 
-// Define the loader function
-export const loader: LoaderFunction = async ({ params }) => {
-    const { accessToken } = useAuthData()
+export const loader: LoaderFunction = async ({ params, context }) => {
     const { id } = params;
+    const { accessToken } = useAuthData();
 
     if (!id) {
         throw new Response("Not Found", { status: 404 });
     }
 
-    const collectionEndpoint = `https://assets.turo.com/api/v4/collections/${id}/media`;
-
-    const response = await fetch(collectionEndpoint, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-        }
-    });
-
-    if (!response.ok) {
-        throw new Response("Error fetching collection", { status: response.status });
+    if (!accessToken) {
+        throw new Response("Unauthorized", { status: 401 });
     }
 
-    const results = await response.json();
+    const collectionEndpoint = `https://assets.turo.com/api/v4/collections/${id}/media`;
 
-    return results
+    try {
+        const response = await fetch(collectionEndpoint, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            console.error(`Error fetching collection: ${response.statusText}`);
+            throw new Response(`Error fetching collection: ${response.statusText}`, { status: response.status });
+        }
+
+        const results = await response.json();
+
+        return results;
+    } catch (error) {
+        console.error('Error fetching collection:', error);
+        throw new Response('Internal Server Error', { status: 500 });
+    }
 };
 
 export default function CollectionRoute() {
