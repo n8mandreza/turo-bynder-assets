@@ -93,7 +93,7 @@ export default function CollectionsRoute() {
                 title="This area of the plugin is WIP"
                 message="At the moment, the plugin can only view collections. Work is still in progress to enable fetching the assets of each collection."
               />
-              
+
               <div className="flex justify-end">
                 <p className="text-02 text-sm">{collectionsCount} collections</p>
               </div>
@@ -103,7 +103,7 @@ export default function CollectionsRoute() {
                   <Link key={collection.id} to={`/collections/${collection.id}`}>
                     <div className="flex flex-col gap-1">
                       <div className="overflow-hidden rounded-lg relative aspect-square">
-                        <div className="absolute top-1 left-1 surface-material px-2 py-1 rounded-md">
+                        <div className="absolute top-1 left-1 surface-material px-2 py-1 rounded-md backdrop-blur-xl">
                           <p className="text-xs">{collection.collectionCount}</p>
                         </div>
 
