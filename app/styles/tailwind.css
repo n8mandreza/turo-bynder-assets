@@ -24,6 +24,10 @@
         @apply fill-grey-500 dark:fill-grey-400;
     }
 
+    .icon-alert {
+        @apply fill-yellow-400 dark:fill-yellow-400;
+    }
+
     .interactive-text {
         @apply text-blurple-400 dark:text-blurpleA-300;
     }
@@ -54,6 +58,14 @@
 
     .surface-success {
         @apply bg-green-75 dark:bg-green-900;
+    }
+
+    .surface-alert {
+        @apply bg-yellow-75 dark:bg-yellow-900;
+    }
+
+    .surface-error {
+        @apply bg-red-75 dark:bg-red-950;
     }
 
     .surface-sticky {

@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "@remix-run/react";
 import { useEffect, useState } from "react"
 import { useAuthData } from "~/AuthContext";
+import AlertBanner from "~/components/AlertBanner";
 import Pagination from "~/components/Pagination"
 import ProgressIndicator from "~/components/ProgressIndicator";
 import { CollectionType } from "~/types/AssetTypings"
@@ -88,6 +89,11 @@ export default function CollectionsRoute() {
         collections && collectionsCount > 0 ? (
           <>
             <div className="flex flex-col gap-4 p-4">
+              <AlertBanner
+                title="This area of the plugin is WIP"
+                message="At the moment, the plugin can only view collections. Work is still in progress to enable fetching the assets of each collection."
+              />
+              
               <div className="flex justify-end">
                 <p className="text-02 text-sm">{collectionsCount} collections</p>
               </div>
