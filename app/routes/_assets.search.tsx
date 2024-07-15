@@ -116,7 +116,7 @@ export default function Search() {
     }
 
     return (
-        <div className="flex flex-col gap-4 relative overflow-scroll w-full h-full pb-8">
+        <div className="flex flex-col gap-4 overflow-scroll w-full h-full pb-10">
             <div className="flex flex-col gap-3 sticky z-10 left-0 top-0 right-0 p-4 border-b-[1px] surface-sticky stroke-01">
                 <form id="search" className="flex w-full gap-3" onSubmit={handleSearch}>
                     <SearchInput
