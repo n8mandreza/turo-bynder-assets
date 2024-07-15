@@ -1,67 +1,54 @@
-import { useLocation, useNavigate, useParams } from "@remix-run/react";
-import { useEffect, useState } from "react"
+import { json, LoaderFunction } from "@remix-run/node";
+import { useLoaderData, useNavigate, useParams } from "@remix-run/react";
+import { useEffect } from "react";
 import { useAuthData } from "~/AuthContext";
 
-export default function CollectionRoute() {
-    const { accessToken, resetAccessToken } = useAuthData();
-    const navigate = useNavigate()
-    const location = useLocation()
-    const { id } = useParams()
+// Define the loader function
+export const loader: LoaderFunction = async ({ params }) => {
+    const { accessToken } = useAuthData()
+    const { id } = params;
 
-    const [assets, setAssets] = useState<any>([])
-
-    async function fetchCollectionMedia(id: string) {
-        const collectionEndpoint = `https://assets.turo.com/api/v4/collections/${id}/media`
-
-        if (!accessToken) {
-            console.error('No access token available.')
-            navigate('/login')
-        }
-
-        try {
-            const response = await fetch(collectionEndpoint, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
-                }
-            })
-
-            if (!response.ok) {
-                if (response.status === 401) {
-                    resetAccessToken()
-                }
-                throw new Error(`HTTP error! status: ${response.status}`)
-            }
-
-            const results = await response.json()
-            console.log('Collection fetch response:', results)
-
-            return results.collections.map((result: any) => ({
-                id: result.id
-            }))
-        } catch (error) {
-            console.error('Error fetching assets:', error)
-            throw error
-        }
+    if (!id) {
+        throw new Response("Not Found", { status: 404 });
     }
 
-    useEffect(() => {
-        console.log(location.pathname)
-        
-        if (id) {
-            fetchCollectionMedia(id).then((fetchedResults) => {
-                setAssets(fetchedResults)
-            })
+    const collectionEndpoint = `https://assets.turo.com/api/v4/collections/${id}/media`;
+
+    const response = await fetch(collectionEndpoint, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
         }
-    }, [id])
+    });
+
+    if (!response.ok) {
+        throw new Response("Error fetching collection", { status: response.status });
+    }
+
+    const results = await response.json();
+
+    return results
+};
+
+export default function CollectionRoute() {
+    const { accessToken } = useAuthData();
+    const navigate = useNavigate();
+    const assets = useLoaderData(); // Use the loaded data
+
+    useEffect(() => {
+        if (!accessToken) {
+            console.error('No access token available.');
+            navigate('/login');
+        }
+    }, [accessToken, navigate]);
 
     return (
         <div className="flex flex-col gap-4 overflow-scroll w-full h-full">
             {assets && assets.length > 0 ? (
                 <div className="flex flex-col p-4 gap-4">
                     {assets.map((asset: any) => (
-                        <p>{asset.id}</p>
+                        <p key={asset.id}>{asset.id}</p>
                     ))}
                 </div>
             ) : (
@@ -70,5 +57,5 @@ export default function CollectionRoute() {
                 </div>
             )}
         </div>
-    )
+    );
 }

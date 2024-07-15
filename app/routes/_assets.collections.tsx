@@ -73,8 +73,9 @@ export default function CollectionsRoute() {
   }
   
   useEffect(() => {
-    fetchCollections(collectionsPage).then((fetchedResults) => {
-      setCollections(fetchedResults)
+    fetchCollections(collectionsPage).then((results) => {
+      setCollections(results)
+      console.log('Processed results:', results)
     })
   }, [])
 
