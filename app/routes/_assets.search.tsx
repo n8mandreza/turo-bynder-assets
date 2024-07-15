@@ -116,7 +116,7 @@ export default function Search() {
     }
 
     return (
-        <div className="flex flex-col gap-4 relative overflow-scroll w-full h-full">
+        <div className="flex flex-col gap-4 relative overflow-scroll w-full h-full pb-8">
             <div className="flex flex-col gap-3 sticky z-10 left-0 top-0 right-0 p-4 border-b-[1px] surface-sticky stroke-01">
                 <form id="search" className="flex w-full gap-3" onSubmit={handleSearch}>
                     <SearchInput
@@ -142,12 +142,14 @@ export default function Search() {
                         <AssetGrid assets={results} />
                     </div>
 
-                    <Pagination
-                        currentPage={resultsPage}
-                        totalPages={totalPages}
-                        handlePrev={handlePrev}
-                        handleNext={handleNext}
-                    />
+                    <div className="absolute bottom-0 left-0 right-0">
+                        <Pagination
+                            currentPage={resultsPage}
+                            totalPages={totalPages}
+                            handlePrev={handlePrev}
+                            handleNext={handleNext}
+                        />
+                    </div>
                 </>
             ) : (
                 <div className="flex flex-col gap-4 px-4 w-full h-full">
