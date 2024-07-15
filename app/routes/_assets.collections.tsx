@@ -2,12 +2,14 @@ import { Link, useNavigate } from "@remix-run/react";
 import { useEffect, useState } from "react"
 import { useAuthData } from "~/AuthContext";
 import Pagination from "~/components/Pagination"
+import ProgressIndicator from "~/components/ProgressIndicator";
 import { CollectionType } from "~/types/AssetTypings"
 
 export default function CollectionsRoute() {
   const { accessToken, resetAccessToken } = useAuthData();
   const navigate = useNavigate()
   
+  const [hasFetchedCollections, setHasFetchedCollections] = useState(false)
   const [collections, setCollections] = useState<CollectionType[]>([])
   const [collectionsCount, setCollectionsCount] = useState(0)
   const [collectionsPage, setCollectionsPage] = useState(1)
@@ -75,48 +77,55 @@ export default function CollectionsRoute() {
   useEffect(() => {
     fetchCollections(collectionsPage).then((results) => {
       setCollections(results)
+      setHasFetchedCollections(true)
       console.log('Processed results:', results)
     })
   }, [])
 
   return (
     <div className="flex flex-col gap-4 overflow-scroll w-full h-full">
-      {collections && collectionsCount > 0 ? (
-        <>
-          <div className="flex flex-col gap-4 p-4">
-            <div className="flex justify-end">
-              <p className="text-02 text-sm">{collectionsCount} collections</p>
-            </div>
+      {hasFetchedCollections ? (
+        collections && collectionsCount > 0 ? (
+          <>
+            <div className="flex flex-col gap-4 p-4">
+              <div className="flex justify-end">
+                <p className="text-02 text-sm">{collectionsCount} collections</p>
+              </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              {collections.map((collection) => (
-                <Link key={collection.id} to={`/collections/${collection.id}`}>
-                  <div className="flex flex-col gap-1">
-                    <div className="overflow-hidden rounded-lg relative aspect-square">
-                      <div className="absolute top-1 left-1 surface-material px-2 py-1 rounded-md">
-                        <p className="text-xs">{collection.collectionCount}</p>
+              <div className="grid grid-cols-2 gap-4">
+                {collections.map((collection) => (
+                  <Link key={collection.id} to={`/collections/${collection.id}`}>
+                    <div className="flex flex-col gap-1">
+                      <div className="overflow-hidden rounded-lg relative aspect-square">
+                        <div className="absolute top-1 left-1 surface-material px-2 py-1 rounded-md">
+                          <p className="text-xs">{collection.collectionCount}</p>
+                        </div>
+
+                        <img className="w-full h-full object-cover" src={collection.thumbnail} />
                       </div>
 
-                      <img className="w-full h-full object-cover" src={collection.thumbnail} />
+                      <p className="text-xs text-02">{collection.name}</p>
                     </div>
-
-                    <p className="text-xs text-02">{collection.name}</p>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
 
-          <Pagination
-            currentPage={collectionsPage}
-            totalPages={totalPages}
-            handlePrev={handlePrev}
-            handleNext={handleNext}
-          />
-        </>
-      ) : (
-        <div className="flex flex-col gap-3 w-full h-full items-center justify-center">
+            <Pagination
+              currentPage={collectionsPage}
+              totalPages={totalPages}
+              handlePrev={handlePrev}
+              handleNext={handleNext}
+            />
+          </>
+        ) : (
+          <div className="flex flex-col gap-3 w-full h-full items-center justify-center">
             <p className="px-8 text-center">No collections yet. Create a collection on <a className="interactive-text" href="https://assets.turo.com" target="_blank" rel="noopener noreferrer">assets.turo.com</a></p>
+          </div>
+        )
+      ) : (
+        <div className="flex flex-col w-full h-full items-center justify-center">
+          <ProgressIndicator />
         </div>
       )}
     </div>
