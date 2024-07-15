@@ -15,6 +15,7 @@ export default function CollectionsRoute() {
   const [collectionsCount, setCollectionsCount] = useState(0)
   const [collectionsPage, setCollectionsPage] = useState(1)
   const totalPages = collectionsCount / 50
+  const [failedImages, setFailedImages] = useState(new Set());
 
   async function fetchCollections(page: number) {
     const collectionsEndpoint = `https://assets.turo.com/api/v4/collections?page=${page}&count=1&minCount=1&orderBy=name%20asc`
@@ -74,6 +75,10 @@ export default function CollectionsRoute() {
         console.log('Processed results:', results)
       })
   }
+
+  const handleError = (id: string) => {
+    setFailedImages(prev => new Set(prev.add(id)));
+  };
   
   useEffect(() => {
     fetchCollections(collectionsPage).then((results) => {
@@ -107,7 +112,13 @@ export default function CollectionsRoute() {
                           <p className="text-xs">{collection.collectionCount}</p>
                         </div>
 
-                        <img className="w-full h-full object-cover" src={collection.thumbnail} />
+                        {failedImages.has(collection.id) ? (
+                          <div className="w-full h-full surface-02 flex items-center justify-center">
+                            <p className="text-sm text-02">Image failed to load.</p>
+                          </div>
+                        ) : (
+                          <img className="w-full h-full object-cover" src={collection.thumbnail} onError={() => handleError(collection.id)} />
+                        )}
                       </div>
 
                       <p className="text-xs text-02">{collection.name}</p>
