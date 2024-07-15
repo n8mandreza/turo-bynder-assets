@@ -114,7 +114,7 @@ export default function CollectionsRoute() {
 
                         {failedImages.has(collection.id) ? (
                           <div className="w-full h-full surface-02 flex items-center justify-center">
-                            <p className="text-sm text-02">Image failed to load.</p>
+                            <p className="text-sm text-02 text-center">Image failed to load.</p>
                           </div>
                         ) : (
                           <img className="w-full h-full object-cover" src={collection.thumbnail} onError={() => handleError(collection.id)} />
