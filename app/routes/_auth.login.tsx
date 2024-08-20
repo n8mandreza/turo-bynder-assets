@@ -63,10 +63,10 @@ export default function LoginRoute() {
 
     return (
         <div className="login-bg w-screen h-screen p-10 flex items-center justify-center">
-            <div className="flex flex-col gap-4 p-6 surface-material backdrop-blur-xl rounded-2xl items-center">
+            <div className="flex flex-col w-full gap-4 p-6 surface-material backdrop-blur-xl rounded-2xl items-center">
                 <h1 className="text-3xl text-01 font-bold text-center">Turo Assets</h1>
-                <p className="text-base text-01 text-center">You are not logged in</p>
-                <Button label="Log in to Bynder" onClick={() => window.open(authorizationEndpoint, '_blank')}/>
+                <p className="text-base text-01 text-center">Easily access Turo’s extensive library of professional photography and illustrations, directly from Figma.</p>
+                <Button label="Log in to Bynder" fullWidth onClick={() => window.open(authorizationEndpoint, '_blank')}/>
             </div>
         </div>
     )
