@@ -136,6 +136,11 @@
     animation: spin 1s linear infinite;
 }
 
+.login-bg {
+    background-image: url('../assets/login-bg.jpg');
+    object-fit: cover;
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);
