@@ -94,21 +94,16 @@ export default function CollectionsRoute() {
         collections && collectionsCount > 0 ? (
           <>
             <div className="flex flex-col gap-4 p-4">
-              <AlertBanner
-                title="This area of the plugin is WIP"
-                message="The collection browsing feature may not work as expected. Please report any issues to Nate Mandreza."
-              />
-
               <div className="flex justify-end">
                 <p className="text-02 text-sm">{collectionsCount} collections</p>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 {collections.map((collection) => (
-                  <Link key={collection.id} to={`/collections/${collection.id}`}>
+                  <Link key={collection.id} to={`/collections/${collection.id}`} className="hover:opacity-90 transition-opacity duration-150">
                     <div className="flex flex-col gap-1">
                       <div className="overflow-hidden rounded-lg relative aspect-square">
-                        <div className="absolute top-1 left-1 surface-material px-2 py-1 rounded-md backdrop-blur-xl">
+                        <div className="absolute top-1 left-1 surface-material px-2 py-1 rounded-md backdrop-blur-lg">
                           <p className="text-xs">{collection.collectionCount}</p>
                         </div>
 

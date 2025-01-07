@@ -28,7 +28,7 @@ function AssetGridItem({asset}: AssetGridItemProps) {
         <div className="overflow-hidden rounded-lg self-start relative group">
             <img
                 id={asset.id}
-                src={asset.url} className="cursor-pointer hover:opacity-90"
+                src={asset.url} className="cursor-pointer group-hover:opacity-90 transition-opacity duration-150"
                 onClick={() => getImgData(asset.url)}
             />
 
