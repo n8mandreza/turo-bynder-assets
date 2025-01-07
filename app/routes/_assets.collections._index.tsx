@@ -124,22 +124,20 @@ export default function CollectionsRoute() {
   return (
     <div className="flex flex-col overflow-scroll w-full h-full">
       {/* Order and sort controls */}
-      <div className="flex gap-1 justify-between px-2 py-2 sticky top-0 left-0 right-0 z-10 surface-sticky border-b stroke-01">
-        <div className="flex gap-1 p-1 surface-01 rounded-md">
-          <button className={`${orderBy === 'name' ? 'surface-03 text-01' : 'text-02'} text-sm rounded-md px-2 py-1`} onClick={() => handleOrderByChange('name')}>Name</button>
+      <div className="flex gap-2 justify-between px-2 py-2 sticky top-0 left-0 right-0 z-10 surface-sticky border-b stroke-01">
+        <div className="flex gap-1 p-1 flex-grow surface-01 rounded-md">
+          <button className={`${orderBy === 'name' ? 'surface-03 text-01' : 'text-02'} flex-grow text-sm rounded-md px-2 py-1`} onClick={() => handleOrderByChange('name')}>Name</button>
 
-          <button className={`${orderBy === 'dateCreated' ? 'surface-03 text-01' : 'text-02'} text-sm rounded-md px-2 py-1`} onClick={() => handleOrderByChange('dateCreated')}>Date created</button>
+          <button className={`${orderBy === 'dateCreated' ? 'surface-03 text-01' : 'text-02'} flex-grow text-sm rounded-md px-2 py-1`} onClick={() => handleOrderByChange('dateCreated')}>Date created</button>
         </div>
 
-        <div className="flex gap-2">
-          <IconButton icon={
-            <div className={`${orderByDirection === 'asc' ? 'rotate-90' : '-rotate-90'}`}>
-              <BackArrow />
-            </div>
-          } onClick={() => handleOrderByDirectionChange(orderByDirection === 'asc' ? 'desc' : 'asc')} />
+        <IconButton icon={
+          <div className={`${orderByDirection === 'asc' ? 'rotate-90' : '-rotate-90'}`}>
+            <BackArrow />
+          </div>
+        } onClick={() => handleOrderByDirectionChange(orderByDirection === 'asc' ? 'desc' : 'asc')} />
 
-          <IconButton icon={displayMode === 'grid' ? <Grid /> : <List />} onClick={() => setDisplayMode(displayMode === 'grid' ? 'list' : 'grid')} />
-        </div>
+        <IconButton icon={displayMode === 'grid' ? <Grid /> : <List />} onClick={() => setDisplayMode(displayMode === 'grid' ? 'list' : 'grid')} />
       </div>
 
       {/* Collection display */}
