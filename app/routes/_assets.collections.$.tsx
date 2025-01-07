@@ -4,6 +4,7 @@ import { useAuthData } from "~/AuthContext";
 import AssetGrid from "~/components/AssetGrid";
 import Pagination from "~/components/Pagination";
 import ProgressIndicator from "~/components/ProgressIndicator";
+import { CollectionType } from "~/types/AssetTypings";
 
 export default function CollectionRoute() {
     const { accessToken } = useAuthData();
@@ -14,6 +15,7 @@ export default function CollectionRoute() {
     console.log('CollectionRoute params:', params);
     console.log('CollectionRoute collectionId:', collectionId);
 
+    const [collection, setCollection] = useState<CollectionType | null>(null);
     const [assets, setAssets] = useState<any[]>([]);
     const [resultsPage, setResultsPage] = useState(1)
     const [resultsCount, setResultsCount] = useState(0)
@@ -22,7 +24,8 @@ export default function CollectionRoute() {
     const [error, setError] = useState<string | null>(null);
 
     async function fetchCollectionMedia(id: string, page: number) {
-        const collectionEndpoint = `https://assets.turo.com/api/v4/media/?collectionId=${id}&page=${page}&total=1`;
+        const assetsEndpoint = `https://assets.turo.com/api/v4/media/?collectionId=${id}&page=${page}&total=1`;
+        const collectionEndpoint = `https://assets.turo.com/api/v4/collections/${id}`;
 
         // Check for an access token
         if (!accessToken) {
@@ -31,10 +34,11 @@ export default function CollectionRoute() {
             return;
         }
 
+        // Fetch the collection media from the assets endpoint
         try {
-            console.log("Fetching collection media...", collectionEndpoint);
+            console.log("Fetching collection media...", assetsEndpoint);
 
-            const response = await fetch(collectionEndpoint, {
+            const response = await fetch(assetsEndpoint, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
@@ -65,6 +69,38 @@ export default function CollectionRoute() {
             setError('Error fetching collection');
         } finally {
             setIsLoading(false);
+        }
+
+        // Fetch the collection details from the collection endpoint
+        try {
+            console.log("Fetching collection details...", collectionEndpoint);
+
+            const response = await fetch(collectionEndpoint, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                if (response.status === 401) {
+                    navigate('/login');
+                }
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const collection = await response.json();
+            console.log('Collection details fetch response:', collection);
+
+            setCollection({
+                name: collection.name,
+                id: collection.id,
+                user: collection.user
+            })
+        } catch (error) {
+            console.error('Error fetching collection details:', error);
+            setError('Error fetching collection details');
         }
     }
 
@@ -109,8 +145,17 @@ export default function CollectionRoute() {
             {assets && assets.length > 0 ? (
                 <>
                     <div className="flex flex-col pt-4 pb-10">
-                        <div className="px-4 flex justify-end">
-                            <p className="text-02 text-sm">{resultsCount} results</p>
+                        <div className="px-4 flex flex-col gap-1">
+                            { collection && (
+                                <h1 className="text-01 font-medium">{collection.name}</h1>
+                            )}
+
+                            <div className="flex gap-4 justify-between">
+                                {collection && (
+                                    <p className="text-02 text-sm">{collection.user?.name}</p>
+                                )}
+                                <p className="text-02 text-sm text-right whitespace-nowrap">{resultsCount} assets</p>
+                            </div>
                         </div>
 
                         <AssetGrid assets={assets} />

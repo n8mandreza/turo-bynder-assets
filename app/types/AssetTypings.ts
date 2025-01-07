@@ -8,7 +8,7 @@ export interface AssetType {
 export interface CollectionType {
     name: string
     id: string
-    collectionCount: number
-    cover: any
-    thumbnail: string
+    collectionCount?: number
+    thumbnail?: string
+    user?: { id: string, name: string, }
 }
