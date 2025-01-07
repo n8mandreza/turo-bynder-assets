@@ -96,7 +96,7 @@ export default function CollectionsRoute() {
             <div className="flex flex-col gap-4 p-4">
               <AlertBanner
                 title="This area of the plugin is WIP"
-                message="At the moment, the plugin can only view collections. Work is still in progress to enable fetching the assets of each collection."
+                message="The collection browsing feature may not work as expected. Please report any issues to Nate Mandreza."
               />
 
               <div className="flex justify-end">
