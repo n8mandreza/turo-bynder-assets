@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuthData } from "~/AuthContext";
 import Button from "~/components/Button";
 import AssetGrid from "~/components/AssetGrid";
-import { AssetType } from "~/types/AssetTypings";
+import { AssetType } from "~/types/BynderTypings";
 import SearchInput from "~/components/SearchInput";
 import Chip from "~/components/Chip";
 import { useNavigate } from "@remix-run/react";

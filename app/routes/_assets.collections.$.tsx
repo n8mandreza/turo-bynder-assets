@@ -4,7 +4,7 @@ import { useAuthData } from "~/AuthContext";
 import AssetGrid from "~/components/AssetGrid";
 import Pagination from "~/components/Pagination";
 import ProgressIndicator from "~/components/ProgressIndicator";
-import { CollectionType } from "~/types/AssetTypings";
+import { CollectionType } from "~/types/BynderTypings";
 
 export default function CollectionRoute() {
     const { accessToken } = useAuthData();
@@ -12,8 +12,8 @@ export default function CollectionRoute() {
     const params = useParams();
     const collectionId = params['*'];
 
-    console.log('CollectionRoute params:', params);
-    console.log('CollectionRoute collectionId:', collectionId);
+    // console.log('CollectionRoute params:', params);
+    // console.log('CollectionRoute collectionId:', collectionId);
 
     const [collection, setCollection] = useState<CollectionType | null>(null);
     const [assets, setAssets] = useState<any[]>([]);
@@ -145,18 +145,20 @@ export default function CollectionRoute() {
             {assets && assets.length > 0 ? (
                 <>
                     <div className="flex flex-col pt-4 pb-10">
-                        <div className="px-4 flex flex-col gap-1">
-                            { collection && (
-                                <h1 className="text-01 font-medium">{collection.name}</h1>
-                            )}
+                        {collection && (
+                            <div className="px-4 flex flex-col gap-1">
+                                    <h1 className="text-01 font-medium">{collection.name}</h1>
 
-                            <div className="flex gap-4 justify-between">
-                                {collection && (
+                                <div className="flex gap-4 justify-between">
                                     <p className="text-02 text-sm">{collection.user?.name}</p>
+                                    <p className="text-02 text-sm text-right whitespace-nowrap">{resultsCount} assets</p>
+                                </div>
+
+                                {collection.description && collection.description.length > 0 && (
+                                    <p className="text-02 text-sm">{collection.description}</p>
                                 )}
-                                <p className="text-02 text-sm text-right whitespace-nowrap">{resultsCount} assets</p>
                             </div>
-                        </div>
+                        )}
 
                         <AssetGrid assets={assets} />
                     </div>

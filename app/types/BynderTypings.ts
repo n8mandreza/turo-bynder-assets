@@ -1,3 +1,5 @@
+// Type definitions for the Bynder API
+
 export interface AssetType {
     name: string
     id: string
@@ -10,5 +12,6 @@ export interface CollectionType {
     id: string
     collectionCount?: number
     thumbnail?: string
+    description?: string
     user?: { id: string, name: string, }
 }

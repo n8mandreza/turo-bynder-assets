@@ -4,7 +4,7 @@ import { useAuthData } from "~/AuthContext";
 import AlertBanner from "~/components/AlertBanner";
 import Pagination from "~/components/Pagination"
 import ProgressIndicator from "~/components/ProgressIndicator";
-import { CollectionType } from "~/types/AssetTypings"
+import { CollectionType } from "~/types/BynderTypings"
 
 export default function CollectionsRoute() {
   const { accessToken, resetAccessToken } = useAuthData();

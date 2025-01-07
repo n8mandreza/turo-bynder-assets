@@ -1,4 +1,4 @@
-import { AssetType } from "~/types/AssetTypings";
+import { AssetType } from "~/types/BynderTypings";
 import { Masonry } from "masonic";
 
 interface AssetGridProps {
@@ -25,12 +25,18 @@ function AssetGridItem({asset}: AssetGridItemProps) {
     }
 
     return (
-        <div className="overflow-hidden rounded-lg self-start">
+        <div className="overflow-hidden rounded-lg self-start relative group">
             <img
                 id={asset.id}
                 src={asset.url} className="cursor-pointer hover:opacity-90"
                 onClick={() => getImgData(asset.url)}
             />
+
+            {asset.description && (
+                <div className="absolute right-1 bottom-1 left-1 surface-material rounded-md px-2 py-1 pointer-events-none backdrop-blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                    <p className="text-01 text-sm">{asset.description}</p>
+                </div>
+            )}
         </div>
     )
 }
