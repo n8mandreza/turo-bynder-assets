@@ -4,6 +4,7 @@ import { useAuthData } from "~/AuthContext";
 import IconButton from "~/components/IconButton";
 import Pagination from "~/components/Pagination"
 import ProgressIndicator from "~/components/ProgressIndicator";
+import SegmentedControl from "~/components/SegmentedControl";
 import BackArrow from "~/icons/BackArrow";
 import Grid from "~/icons/Grid";
 import List from "~/icons/List";
@@ -24,7 +25,7 @@ export default function CollectionsRoute() {
   const [displayMode, setDisplayMode] = useState('grid')
 
   async function fetchCollections(page: number, orderBy: string, orderByDirection: string) {
-    const collectionsEndpoint = `https://assets.turo.com/api/v4/collections?page=${page}&count=1&minCount=1&orderBy=${orderBy + ' ' + orderByDirection}`
+    const collectionsEndpoint = `https://assets.turo.com/api/v4/collections?page=${page}&count=1&minCount=2&orderBy=${orderBy + ' ' + orderByDirection}`
 
     if (!accessToken) {
       console.error('No access token available.')
@@ -121,11 +122,17 @@ export default function CollectionsRoute() {
     <div className="flex flex-col overflow-scroll w-full h-full">
       {/* Order and sort controls */}
       <div className="flex gap-2 justify-between px-2 py-2 sticky top-0 left-0 right-0 z-10 surface-sticky border-b stroke-01">
-        <div className="flex gap-1 p-1 flex-grow surface-01 rounded-md">
-          <button className={`${orderBy === 'name' ? 'surface-03 text-01 font-medium' : 'text-02'} flex-grow text-xs rounded-md px-2 py-1`} onClick={() => handleOrderByChange('name')}>Name</button>
-
-          <button className={`${orderBy === 'dateCreated' ? 'surface-03 text-01 font-medium' : 'text-02'} flex-grow text-xs rounded-md px-2 py-1`} onClick={() => handleOrderByChange('dateCreated')}>Date created</button>
-        </div>
+        <SegmentedControl 
+          options={[
+            {
+              label: 'Name', value: 'name', onClick: () => handleOrderByChange('name')
+            },
+            {
+              label: 'Date created', value: 'dateCreated', onClick: () => handleOrderByChange('dateCreated'),
+            }
+          ]}
+          activeValue={orderBy}
+        />
 
         <div className="flex">
           <IconButton icon={
@@ -181,7 +188,7 @@ export default function CollectionsRoute() {
                   {collections.map((collection) => (
                     <Link key={collection.id} to={`/collections/${collection.id}`} className="group">
                       <div className="flex gap-3 items-center">
-                        <div className="overflow-hidden rounded-lg aspect-square w-16 opacity-80 group-hover:opacity-100 transition-opacity duration-150">
+                        <div className="overflow-hidden rounded-lg aspect-square w-16 flex-shrink-0 opacity-80 group-hover:opacity-100 transition-opacity duration-150">
                           {failedImages.has(collection.id) ? (
                             <div className="w-full h-full surface-02 flex items-center justify-center">
                               <p className="text-xs text-02 text-center p-1">Image failed to load.</p>
