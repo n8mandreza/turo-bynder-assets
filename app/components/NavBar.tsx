@@ -25,10 +25,9 @@ function NavBarItem({ to, title , icon}: NavBarItemProps) {
 
 export default function NavBar() {
     return (
-        <div className="flex sticky surface-sticky w-full z-50 gap-3 px-2 py-2 border-b stroke-01 text-sm">
-            <NavBarItem to="/search" title="Search" icon={<MagnifyingGlass />} />
-
+        <div className="flex sticky surface-sticky w-full z-50 gap-2 px-2 py-2 border-b stroke-01 text-sm">
             <NavBarItem to="/collections" title="Collections" icon={<Grid />} />
+            <NavBarItem to="/search" title="Search" icon={<MagnifyingGlass />} />
         </div>
     )
 }
