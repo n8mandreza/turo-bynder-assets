@@ -88,7 +88,7 @@ export default function Index() {
       navigate('/login');
     } else if (hasCheckedToken) {
       console.log('Redirecting to search')
-      navigate('/search');
+      navigate('/collections');
     }
   }, [accessToken, hasCheckedToken, navigate]);
 
