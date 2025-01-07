@@ -34,7 +34,7 @@ function AssetGridItem({asset}: AssetGridItemProps) {
 
             {asset.description && (
                 <div className="absolute right-1 bottom-1 left-1 surface-material rounded-md px-2 py-1 pointer-events-none backdrop-blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                    <p className="text-01 text-sm">{asset.description}</p>
+                    <p className="text-01 text-sm line-clamp-2">{asset.description}</p>
                 </div>
             )}
         </div>

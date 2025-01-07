@@ -1,9 +1,10 @@
-import { useNavigate, useParams } from "@remix-run/react";
+import { Link, useNavigate, useParams } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { useAuthData } from "~/AuthContext";
 import AssetGrid from "~/components/AssetGrid";
 import Pagination from "~/components/Pagination";
 import ProgressIndicator from "~/components/ProgressIndicator";
+import BackArrow from "~/icons/BackArrow";
 import { CollectionType } from "~/types/BynderTypings";
 
 export default function CollectionRoute() {
@@ -32,6 +33,38 @@ export default function CollectionRoute() {
             console.error('No access token available.');
             navigate('/login');
             return;
+        }
+
+        // Fetch the collection details from the collection endpoint
+        try {
+            console.log("Fetching collection details...", collectionEndpoint);
+
+            const response = await fetch(collectionEndpoint, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                if (response.status === 401) {
+                    navigate('/login');
+                }
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const collection = await response.json();
+            console.log('Collection details fetch response:', collection);
+
+            setCollection({
+                name: collection.name,
+                id: collection.id,
+                user: collection.user
+            })
+        } catch (error) {
+            console.error('Error fetching collection details:', error);
+            setError('Error fetching collection details');
         }
 
         // Fetch the collection media from the assets endpoint
@@ -69,38 +102,6 @@ export default function CollectionRoute() {
             setError('Error fetching collection');
         } finally {
             setIsLoading(false);
-        }
-
-        // Fetch the collection details from the collection endpoint
-        try {
-            console.log("Fetching collection details...", collectionEndpoint);
-
-            const response = await fetch(collectionEndpoint, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                if (response.status === 401) {
-                    navigate('/login');
-                }
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const collection = await response.json();
-            console.log('Collection details fetch response:', collection);
-
-            setCollection({
-                name: collection.name,
-                id: collection.id,
-                user: collection.user
-            })
-        } catch (error) {
-            console.error('Error fetching collection details:', error);
-            setError('Error fetching collection details');
         }
     }
 
@@ -146,8 +147,14 @@ export default function CollectionRoute() {
                 <>
                     <div className="flex flex-col pt-4 pb-10">
                         {collection && (
-                            <div className="px-4 flex flex-col gap-1">
-                                    <h1 className="text-01 font-medium">{collection.name}</h1>
+                            <div className="px-4 flex flex-col gap-2">
+                                <Link className="text-01 hover:opacity-80 flex items-center gap-1" to="/collections">
+                                    <BackArrow />
+
+                                    <p className="text-sm">Back to collections</p>
+                                </Link>
+
+                                <h1 className="mt-1 text-01 font-medium text-2xl">{collection.name}</h1>
 
                                 <div className="flex gap-4 justify-between">
                                     <p className="text-02 text-sm">{collection.user?.name}</p>
