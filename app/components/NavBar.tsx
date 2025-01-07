@@ -1,22 +1,34 @@
 import { Link, useLocation } from "@remix-run/react";
+import Grid from "~/icons/Grid";
+import MagnifyingGlass from "~/icons/MagnifyingGlass";
 
-export default function NavBar() {
+interface NavBarItemProps {
+    to: string;
+    title: string;
+    icon?: React.ReactNode;
+}
+
+function NavBarItem({ to, title , icon}: NavBarItemProps) {
     const location = useLocation();
     const currentPath = location.pathname;
     
     return (
-        <div className="flex sticky surface-sticky w-full z-50 gap-3 px-4 py-2 border-b stroke-01 text-sm">
-            <Link to="/search">
-                <p className={`hover:opacity-60 ${currentPath === "/search" ? "" : "text-02"}`}>
-                    Search
-                </p>
-            </Link>
+        <Link to={to} className={`flex items-center gap-1 py-1 px-2 ${currentPath === to ? "surface-02 text-01" : "surface-transparent text-02"} hover:surface-02 rounded-md transition-colors duration-150`}>
+            {icon && icon}
 
-            <Link to="/collections">
-                <p className={`hover:opacity-60 ${currentPath === "/collections" ? "" : "text-02"}`}>
-                    Collections
-                </p>
-            </Link>
+            <p className={`${currentPath === to ? "" : "text-02"}`}>
+                {title}
+            </p>
+        </Link>
+    )
+}
+
+export default function NavBar() {
+    return (
+        <div className="flex sticky surface-sticky w-full z-50 gap-3 px-2 py-2 border-b stroke-01 text-sm">
+            <NavBarItem to="/search" title="Search" icon={<MagnifyingGlass />} />
+
+            <NavBarItem to="/collections" title="Collections" icon={<Grid />} />
         </div>
     )
 }

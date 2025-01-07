@@ -72,6 +72,10 @@
         @apply bg-white dark:bg-grey-900;
     }
 
+    .surface-transparent {
+        @apply bg-transparent;
+    }
+
     .stroke-01 {
         @apply border-grey-100 dark:border-grey-750;
     }

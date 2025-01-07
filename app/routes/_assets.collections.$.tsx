@@ -148,10 +148,12 @@ export default function CollectionRoute() {
                     <div className="flex flex-col pt-4 pb-10">
                         {collection && (
                             <div className="px-4 flex flex-col gap-2">
-                                <Link className="text-01 hover:opacity-80 flex items-center gap-1" to="/collections">
-                                    <BackArrow />
+                                <Link className="self-start group text-01 hover:opacity-80 transition-opacity duration-150 flex items-center gap-1" to="/collections">
+                                    <div className="group-hover:-translate-x-1 transition-transform duration-150">
+                                        <BackArrow />
+                                    </div>
 
-                                    <p className="text-sm">Back to collections</p>
+                                    <p className="text-sm">Back</p>
                                 </Link>
 
                                 <h1 className="mt-1 text-01 font-medium text-2xl">{collection.name}</h1>
