@@ -13,7 +13,7 @@ export default function CollectionsRoute() {
   const { accessToken, resetAccessToken } = useAuthData();
   const navigate = useNavigate()
   
-  const [hasFetchedCollections, setHasFetchedCollections] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [collections, setCollections] = useState<CollectionType[]>([])
   const [collectionsCount, setCollectionsCount] = useState(0)
   const [collectionsPage, setCollectionsPage] = useState(1)
@@ -61,50 +61,48 @@ export default function CollectionsRoute() {
     } catch (error) {
       console.error('Error fetching assets:', error)
       throw error
+    } finally {
+      setIsLoading(false);
     }
   }
 
   function handleNext() {
-    setHasFetchedCollections(false)
+    setIsLoading(true)
     setCollectionsPage(collectionsPage + 1)
     fetchCollections(collectionsPage + 1, orderBy, orderByDirection)
       .then(results => {
         setCollections(results)
         console.log('Processed results:', results)
-        setHasFetchedCollections(true)
       })
   }
 
   function handlePrev() {
-    setHasFetchedCollections(false)
+    setIsLoading(true)
     setCollectionsPage(collectionsPage - 1)
     fetchCollections(collectionsPage - 1, orderBy, orderByDirection)
       .then(results => {
         setCollections(results)
         console.log('Processed results:', results)
-        setHasFetchedCollections(true)
       })
   }
 
   function handleOrderByChange(orderBy: string) {
-    setHasFetchedCollections(false)
+    setIsLoading(true)
     setOrderBy(orderBy)
     fetchCollections(collectionsPage, orderBy, orderByDirection)
       .then(results => {
         setCollections(results)
         console.log('Processed results:', results)
-        setHasFetchedCollections(true)
       })
   }
 
   function handleOrderByDirectionChange(orderByDirection: string) {
-    setHasFetchedCollections(false)
+    setIsLoading(true)
     setOrderByDirection(orderByDirection)
     fetchCollections(collectionsPage, orderBy, orderByDirection)
       .then(results => {
         setCollections(results)
         console.log('Processed results:', results)
-        setHasFetchedCollections(true)
       })
   }
 
@@ -115,7 +113,6 @@ export default function CollectionsRoute() {
   useEffect(() => {
     fetchCollections(collectionsPage, orderBy, orderByDirection).then((results) => {
       setCollections(results)
-      setHasFetchedCollections(true)
       console.log('Processed results:', results)
     })
   }, [])
@@ -130,17 +127,23 @@ export default function CollectionsRoute() {
           <button className={`${orderBy === 'dateCreated' ? 'surface-03 text-01 font-medium' : 'text-02'} flex-grow text-xs rounded-md px-2 py-1`} onClick={() => handleOrderByChange('dateCreated')}>Date created</button>
         </div>
 
-        <IconButton icon={
-          <div className={`${orderByDirection === 'asc' ? 'rotate-90' : '-rotate-90'}`}>
-            <BackArrow />
-          </div>
-        } onClick={() => handleOrderByDirectionChange(orderByDirection === 'asc' ? 'desc' : 'asc')} />
+        <div className="flex">
+          <IconButton icon={
+            <div className={`${orderByDirection === 'asc' ? 'rotate-90' : '-rotate-90'}`}>
+              <BackArrow />
+            </div>
+          } onClick={() => handleOrderByDirectionChange(orderByDirection === 'asc' ? 'desc' : 'asc')} />
 
-        <IconButton icon={displayMode === 'grid' ? <Grid /> : <List />} onClick={() => setDisplayMode(displayMode === 'grid' ? 'list' : 'grid')} />
+          <IconButton icon={displayMode === 'grid' ? <Grid /> : <List />} onClick={() => setDisplayMode(displayMode === 'grid' ? 'list' : 'grid')} />
+        </div>
       </div>
 
       {/* Collection display */}
-      {hasFetchedCollections ? (
+      { isLoading ? (
+          <div className="flex flex-col w-full h-full items-center justify-center">
+              <ProgressIndicator />
+          </div>
+      ) : (
         collections && collectionsCount > 0 ? (
           <>
             <div className="flex flex-col gap-4 p-4 relative pb-14">
@@ -214,10 +217,6 @@ export default function CollectionsRoute() {
             <p className="px-8 text-center">No collections yet. Create a collection on <a className="interactive-text" href="https://assets.turo.com" target="_blank" rel="noopener noreferrer">assets.turo.com</a></p>
           </div>
         )
-      ) : (
-        <div className="flex flex-col w-full h-full items-center justify-center">
-          <ProgressIndicator />
-        </div>
       )}
     </div>
   )

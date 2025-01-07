@@ -8,11 +8,13 @@ import Chip from "~/components/Chip";
 import { useNavigate } from "@remix-run/react";
 import { searchTerms } from "~/data/searchTerms";
 import Pagination from "~/components/Pagination";
+import ProgressIndicator from "~/components/ProgressIndicator";
 
 export default function Search() {
     const { accessToken, resetAccessToken } = useAuthData();
     const navigate = useNavigate()
 
+    const [isLoading, setIsLoading] = useState(false);
     const [query, setQuery] = useState('')
     const [results, setResults] = useState<AssetType[] | null>(null)
     const [resultsPage, setResultsPage] = useState(1)
@@ -21,6 +23,8 @@ export default function Search() {
 
     async function fetchAssets(query: string, page: number) {
         const assetsEndpoint = `https://assets.turo.com/api/v4/media/?keyword=${query}&page=${page}&total=1`
+
+        setIsLoading(true);
 
         if (!accessToken) {
             console.error('No access token available.')
@@ -59,6 +63,8 @@ export default function Search() {
         } catch (error) {
             console.error('Error fetching assets:', error);
             throw error;
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -117,7 +123,7 @@ export default function Search() {
 
     return (
         <div className="flex flex-col gap-4 overflow-scroll w-full h-full pb-10">
-            <div className="flex flex-col gap-3 sticky z-10 left-0 top-0 right-0 p-4 border-b-[1px] surface-sticky stroke-01">
+            <div className="flex flex-col gap-3 sticky z-10 left-0 top-0 right-0 px-4 py-3 border-b-[1px] surface-sticky stroke-01">
                 <form id="search" className="flex w-full gap-3" onSubmit={handleSearch}>
                     <SearchInput
                         formId="search" 
@@ -132,35 +138,41 @@ export default function Search() {
                 </form>
             </div>
 
-            {results ? (
-                <>
-                    <div className="flex flex-col">
-                        <div className="px-4 flex justify-end">
-                            <p className="text-02 text-sm">{resultsCount} results</p>
+            { isLoading ? (
+                <div className="flex flex-col w-full h-full items-center justify-center">
+                    <ProgressIndicator />
+                </div>
+            ) : (
+                results ? (
+                    <>
+                        <div className="flex flex-col">
+                            <div className="px-4 flex justify-end">
+                                <p className="text-02 text-sm">{resultsCount} results</p>
+                            </div>
+
+                            <AssetGrid assets={results} />
                         </div>
 
-                        <AssetGrid assets={results} />
-                    </div>
+                        <div className="absolute bottom-0 left-0 right-0">
+                            <Pagination
+                                currentPage={resultsPage}
+                                totalPages={totalPages}
+                                handlePrev={handlePrev}
+                                handleNext={handleNext}
+                            />
+                        </div>
+                    </>
+                ) : (
+                    <div className="flex flex-col gap-4 px-4 w-full h-full">
+                        <p>Nothing yet. Search for something.</p>
 
-                    <div className="absolute bottom-0 left-0 right-0">
-                        <Pagination
-                            currentPage={resultsPage}
-                            totalPages={totalPages}
-                            handlePrev={handlePrev}
-                            handleNext={handleNext}
-                        />
+                        <div className="flex gap-3 flex-wrap">
+                            {searchTerms.map((searchTerm: string) => (
+                                <Chip label={searchTerm} handleClick={() => handleChipClick(searchTerm)} />
+                            ))}
+                        </div>
                     </div>
-                </>
-            ) : (
-                <div className="flex flex-col gap-4 px-4 w-full h-full">
-                    <p>Nothing yet. Search for something.</p>
-
-                    <div className="flex gap-3 flex-wrap">
-                        {searchTerms.map((searchTerm: string) => (
-                            <Chip label={searchTerm} handleClick={() => handleChipClick(searchTerm)} />
-                        ))}
-                    </div>
-                </div>
+                )
             )}
         </div> 
     );

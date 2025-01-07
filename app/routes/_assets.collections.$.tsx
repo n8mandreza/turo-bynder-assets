@@ -28,6 +28,8 @@ export default function CollectionRoute() {
         const assetsEndpoint = `https://assets.turo.com/api/v4/media/?collectionId=${id}&page=${page}&total=1`;
         const collectionEndpoint = `https://assets.turo.com/api/v4/collections/${id}`;
 
+        setIsLoading(true);
+
         // Check for an access token
         if (!accessToken) {
             console.error('No access token available.');
@@ -125,14 +127,6 @@ export default function CollectionRoute() {
         }
     }, [collectionId, accessToken, navigate]);
 
-    if (isLoading) {
-        return (
-            <div className="flex flex-col w-full h-full items-center justify-center">
-                <ProgressIndicator />
-            </div>
-        );
-    }
-
     if (error) {
         return (
             <div className="flex flex-col w-full h-full items-center justify-center">
@@ -143,49 +137,53 @@ export default function CollectionRoute() {
 
     return (
         <div className="flex flex-col gap-4 overflow-scroll w-full h-full">
-            {assets && assets.length > 0 ? (
-                <>
-                    <div className="flex flex-col pt-4 pb-10">
-                        {collection && (
-                            <div className="px-4 flex flex-col gap-2">
-                                <Link className="self-start group text-01 hover:opacity-80 transition-opacity duration-150 flex items-center gap-1" to="/collections">
-                                    <div className="group-hover:-translate-x-1 transition-transform duration-150">
-                                        <BackArrow />
-                                    </div>
-
-                                    <p className="text-sm">Back</p>
-                                </Link>
-
-                                <h1 className="mt-1 text-01 font-medium text-2xl">{collection.name}</h1>
-
-                                <div className="flex gap-4 justify-between">
-                                    <p className="text-02 text-sm">{collection.user?.name}</p>
-                                    <p className="text-02 text-sm text-right whitespace-nowrap">{resultsCount} assets</p>
-                                </div>
-
-                                {collection.description && collection.description.length > 0 && (
-                                    <p className="text-02 text-sm">{collection.description}</p>
-                                )}
+            <div className="flex flex-col pt-4 pb-10 h-full">
+                {collection && (
+                    <div className="px-4 flex flex-col gap-2">
+                        <Link className="self-start group text-01 hover:opacity-80 transition-opacity duration-150 flex items-center gap-1" to="/collections">
+                            <div className="group-hover:-translate-x-1 transition-transform duration-150">
+                                <BackArrow />
                             </div>
+
+                            <p className="text-sm">Back</p>
+                        </Link>
+
+                        <h1 className="mt-1 text-01 font-medium text-2xl">{collection.name}</h1>
+
+                        <div className="flex gap-4 justify-between">
+                            <p className="text-02 text-sm">{collection.user?.name}</p>
+                            <p className="text-02 text-sm text-right whitespace-nowrap">{resultsCount} assets</p>
+                        </div>
+
+                        {collection.description && collection.description.length > 0 && (
+                            <p className="text-02 text-sm">{collection.description}</p>
                         )}
+                    </div>
+                )}
 
+                {isLoading ? (
+                    <div className="flex flex-col w-full h-full items-center justify-center">
+                        <ProgressIndicator />
+                    </div>
+                ) : (
+                    assets && assets.length > 0 ? (
                         <AssetGrid assets={assets} />
-                    </div>
+                    ) : (
+                        <div className="flex flex-col gap-3 w-full h-full items-center justify-center">
+                            <p className="px-8 text-center">Unable to retrieve assets or no image assets in collection.</p>
+                        </div>
+                    )
+                )}
+            </div>
 
-                    <div className="absolute bottom-0 left-0 right-0">
-                        <Pagination
-                            currentPage={resultsPage}
-                            totalPages={totalPages}
-                            handlePrev={handlePrev}
-                            handleNext={handleNext}
-                        />
-                    </div>
-                </>
-            ) : (
-                <div className="flex flex-col gap-3 w-full h-full items-center justify-center">
-                    <p className="px-8 text-center">Unable to retrieve assets or no image assets in collection.</p>
-                </div>
-            )}
+            <div className="absolute bottom-0 left-0 right-0">
+                <Pagination
+                    currentPage={resultsPage}
+                    totalPages={totalPages}
+                    handlePrev={handlePrev}
+                    handleNext={handleNext}
+                />
+            </div>
         </div>
     );
 }

@@ -20,7 +20,7 @@ export default function SearchInput({ formId, label, placeholder, value, icon = 
     const handleBlur = () => setIsFocused(false);
 
     return (
-        <div className={`flex items-center gap-2 w-full px-3 py-2 rounded-lg backdrop-blur-xl surface-02 transition-colors duration-150 ${isFocused ? 'interactive-focus' : ''}`}>
+        <div className={`flex items-center gap-2 w-full pl-3 pr-1 py-1 rounded-lg backdrop-blur-xl surface-02 transition-colors duration-150 ${isFocused ? 'interactive-focus' : ''}`}>
             {icon ? (
                 <div className={`${isFocused ? 'text-01' : 'text-02'}`}>
                     <MagnifyingGlass />
