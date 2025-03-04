@@ -1,6 +1,10 @@
-# Welcome to Remix + Vite!
+# Turo Assets (Hosted Figma Plugin UI)
 
-📖 See the [Remix docs](https://remix.run/docs) and the [Remix Vite docs](https://remix.run/docs/en/main/future/vite) for details on supported features.
+## About
+
+This application serves as the UI for the Turo Assets plugin. It's hosted on the internet and rendered in the plugin's UI iframe in order to satisfy CORS requirements.
+
+It's built with Remix, which utilizes Vite. See the [Remix docs](https://remix.run/docs) and the [Remix Vite docs](https://remix.run/docs/en/main/future/vite) for details on supported features.
 
 ## Development
 
